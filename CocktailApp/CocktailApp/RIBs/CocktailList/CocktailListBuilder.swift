@@ -32,7 +32,7 @@ final class CocktailListBuilder: Builder<CocktailListDependency>, CocktailListBu
     func build(withListener listener: CocktailListListener) -> CocktailListRouting {
         let component = CocktailListComponent(dependency: dependency)
         let viewController = CocktailListViewController()
-        let interactor = CocktailListInteractor(presenter: viewController)
+        let interactor = CocktailListInteractor(presenter: viewController, repository: CocktailRepository())
         interactor.listener = listener
         return CocktailListRouter(interactor: interactor, viewController: viewController)
     }
