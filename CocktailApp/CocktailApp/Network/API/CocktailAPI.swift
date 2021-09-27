@@ -37,10 +37,7 @@ extension CocktailAPI: TargetType {
     // MARK: - Method
     
     var method: Moya.Method {
-        switch self {
-        case .cocktailsList:
-            return .get
-        }
+        return .get
     }
     
     // MARK: - Task

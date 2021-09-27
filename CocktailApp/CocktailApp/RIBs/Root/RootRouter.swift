@@ -15,10 +15,10 @@ protocol RootInteractable: Interactable, CocktailListListener {
 protocol RootViewControllable: ViewControllable {
     // TODO: Declare methods the router invokes to manipulate the view hierarchy.
     func addViewController(_ viewControllable: ViewControllable, type: TabItemType)
-    func moveToViewController(type: TabItemType)
+    func selectTabItem(type: TabItemType)
 }
 
-final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, RootRouting {
+final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
     private let cocktailListBuilder: CocktailListBuildable
     private var cocktailListRouting: CocktailListRouting?
 
@@ -39,16 +39,19 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
     }
     
     private func buildCocktailList() {
-        let cocktailList = cocktailListBuilder.build(withListener: interactor)
-        cocktailListRouting = cocktailList
-        viewController.addViewController(cocktailList.viewControllable, type: .list)
+        let repository = CocktailRepository()
+        let cocktailListRouter = cocktailListBuilder.build(withListener: interactor, repository: repository)
+        cocktailListRouting = cocktailListRouter
+        viewController.addViewController(cocktailListRouter.viewControllable, type: .list)
     }
     
     func routeToCocktailList() {
         if let routing = cocktailListRouting {
             attachChild(routing)
-            viewController.moveToViewController(type: .list)
+            viewController.selectTabItem(type: .list)
         }
     }
-    
+}
+
+extension RootRouter: RootRouting {
 }

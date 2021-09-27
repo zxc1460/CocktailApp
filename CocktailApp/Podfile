@@ -13,6 +13,8 @@ target 'CocktailApp' do
   pod 'SnapKit', '~> 5.0.0'
   pod 'Moya/RxSwift'
   pod 'Kingfisher'
+  pod 'Then'
+  pod 'TagListView'
 
   target 'CocktailAppTests' do
     inherit! :search_paths

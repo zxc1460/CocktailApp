@@ -10,6 +10,7 @@ import RIBs
 import RxSwift
 import RxCocoa
 import SnapKit
+import Then
 
 protocol CocktailListPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
@@ -18,55 +19,61 @@ protocol CocktailListPresentableListener: AnyObject {
     var typeInput: PublishRelay<ListType> { get }
     var cocktails: BehaviorRelay<[Cocktail]> { get }
     
+    func selectCocktail(index: Int)
 }
 
 final class CocktailListViewController: UIViewController, CocktailListPresentable, CocktailListViewControllable {
 
     weak var listener: CocktailListPresentableListener?
     
-    var disposeBag = DisposeBag()
+    let disposeBag = DisposeBag()
     
-    private lazy var segmentedControl: UISegmentedControl = {
-        let control = UISegmentedControl()
-        control.insertSegment(withTitle: "인기순", at: 0, animated: true)
-        control.insertSegment(withTitle: "최근순", at: 1, animated: true)
-        control.selectedSegmentIndex = 0
-        return control
-    }()
+    // MARK: - View Properties
     
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.register(CocktailTableViewCell.self, forCellReuseIdentifier: CocktailTableViewCell.reuseIdentifier)
-        tableView.tableFooterView = UIView(frame: CGRect.zero)
-        return tableView
-    }()
+    private lazy var segmentedControl = UISegmentedControl().then {
+        $0.insertSegment(withTitle: "인기순", at: 0, animated: true)
+        $0.insertSegment(withTitle: "최근순", at: 1, animated: true)
+        $0.selectedSegmentIndex = 0
+    }
+    
+    private lazy var tableView = UITableView().then {
+        $0.register(CocktailTableViewCell.self, forCellReuseIdentifier: CocktailTableViewCell.reuseIdentifier)
+        $0.tableFooterView = UIView(frame: .zero)
+    }
+    
+    // MARK: - Override Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpViews()
-        bind()
+        setUI()
+        bindUI()
     }
     
-    private func setUpViews() {
+    private func setUI() {
         self.navigationItem.title = "칵테일 리스트"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         view.addSubview(segmentedControl)
+        view.addSubview(tableView)
+        
+        setConstraints()
+    }
+    
+    private func setConstraints() {
         segmentedControl.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(30)
         }
         
-        view.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.top.equalTo(segmentedControl.snp.bottom).offset(10)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
     
-    func bind() {
+    private func bindUI() {
         guard let listener = listener else {
             return
         }
@@ -82,18 +89,28 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
         listener.cocktails
             .asDriver(onErrorJustReturn: [])
             .drive(tableView.rx.items(cellIdentifier: CocktailTableViewCell.reuseIdentifier,
-                                      cellType: CocktailTableViewCell.self)) {
-                (index, cocktail, cell) in
+                                      cellType: CocktailTableViewCell.self)) { _, cocktail, cell in
                 cell.configure(cocktail)
             }
             .disposed(by: disposeBag)
         
+        // 칵테일 리스트 리로드 시 최상단으로 이동
         listener.cocktails
+            .delay(.milliseconds(50), scheduler: MainScheduler.instance)
             .map { $0.count > 0 }
             .subscribe(onNext: { [weak self] flag in
                 if flag {
                     self?.tableView.scrollToRow(at: IndexPath.zero, at: .top, animated: true)
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        // 칵테일 클릭 시 디테일 뷰로 이동
+        tableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                self?.tableView.deselectRow(at: indexPath, animated: true)
+                
+                self?.listener?.selectCocktail(index: indexPath.row)
             })
             .disposed(by: disposeBag)
     }

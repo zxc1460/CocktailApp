@@ -15,14 +15,22 @@ protocol RootPresentableListener: AnyObject {
     // interactor class.
 }
 
-final class RootViewController: UITabBarController, RootPresentable, RootViewControllable {
+final class RootViewController: UITabBarController, RootPresentable {
 
     weak var listener: RootPresentableListener?
+    
+    // MARK: - Override Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+    }
+}
+
+extension RootViewController: RootViewControllable {
+    func selectTabItem(type: TabItemType) {
+        self.selectedIndex = type.rawValue
     }
     
     func addViewController(_ viewControllable: ViewControllable, type: TabItemType) {
@@ -45,10 +53,6 @@ final class RootViewController: UITabBarController, RootPresentable, RootViewCon
         } else {
             viewControllers?.append(navigationController)
         }
-    }
-    
-    func moveToViewController(type: TabItemType) {
-        self.selectedIndex = type.rawValue
     }
 }
 

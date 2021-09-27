@@ -11,7 +11,7 @@ extension UIColor {
     convenience init(hex: String, alpha: CGFloat = 1.0) {
         var hexString: String = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             
-        if (hexString.hasPrefix("#")) {
+        if hexString.hasPrefix("#") {
             hexString = String(hexString.dropFirst())
         }
         assert(hexString.count == 6, "Invalid hex code used.")

@@ -9,7 +9,7 @@ import Foundation
 import Moya
 import RxSwift
 
-class CocktailRepository {
+final class CocktailRepository {
     let service = MoyaProvider<CocktailAPI>()
     
     func fetchCocktails(type: ListType) -> Observable<[Cocktail]> {
