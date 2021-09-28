@@ -3,13 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		288ABCFA34132E52BC1D5BE0 /* Pods_CocktailApp_CocktailAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37ED82988BA160113097F0D3 /* Pods_CocktailApp_CocktailAppUITests.framework */; };
-		A196F98752056F0996DA123A /* Pods_CocktailApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A9FDE2B9134F635F54C2226 /* Pods_CocktailApp.framework */; };
-		CA4B0706425C1752529ABFAA /* Pods_CocktailAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23920D91C330DBA1BB9C032A /* Pods_CocktailAppTests.framework */; };
 		FD2C80B426FC02910030C275 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2C80B326FC02910030C275 /* AppDelegate.swift */; };
 		FD2C80B626FC02910030C275 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2C80B526FC02910030C275 /* SceneDelegate.swift */; };
 		FD2C80BD26FC02930030C275 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD2C80BC26FC02930030C275 /* Assets.xcassets */; };
@@ -20,6 +17,17 @@
 		FD58A9B826FC09B9001E6D4C /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD58A9B426FC09B9001E6D4C /* RootViewController.swift */; };
 		FD58A9B926FC09B9001E6D4C /* RootBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD58A9B526FC09B9001E6D4C /* RootBuilder.swift */; };
 		FD58A9BA26FC09B9001E6D4C /* RootInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD58A9B626FC09B9001E6D4C /* RootInteractor.swift */; };
+		FD611B062702C08000B04164 /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD611B052702C08000B04164 /* UITableView.swift */; };
+		FD611B092702F5F400B04164 /* RIBs in Frameworks */ = {isa = PBXBuildFile; productRef = FD611B082702F5F400B04164 /* RIBs */; };
+		FD611B0C2702F65800B04164 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FD611B0B2702F65800B04164 /* RxSwift */; };
+		FD611B0E2702F65800B04164 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = FD611B0D2702F65800B04164 /* RxCocoa */; };
+		FD611B102702F65800B04164 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = FD611B0F2702F65800B04164 /* RxRelay */; };
+		FD611B132702F69600B04164 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FD611B122702F69600B04164 /* SnapKit */; };
+		FD611B1D2702F75000B04164 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FD611B1C2702F75000B04164 /* Kingfisher */; };
+		FD611B202702F76A00B04164 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = FD611B1F2702F76A00B04164 /* Then */; };
+		FD611B232702F77C00B04164 /* TagListView in Frameworks */ = {isa = PBXBuildFile; productRef = FD611B222702F77C00B04164 /* TagListView */; };
+		FD611B292702F86F00B04164 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = FD611B282702F86F00B04164 /* Moya */; };
+		FD611B2B2702F86F00B04164 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = FD611B2A2702F86F00B04164 /* RxMoya */; };
 		FD8BC21C26FD500500C35BE8 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8BC21B26FD500500C35BE8 /* Constant.swift */; };
 		FD8BC21F26FD508C00C35BE8 /* CocktailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8BC21E26FD508C00C35BE8 /* CocktailAPI.swift */; };
 		FD8BC22426FD5A3000C35BE8 /* CocktailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8BC22326FD5A3000C35BE8 /* CocktailRepository.swift */; };
@@ -62,15 +70,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		23920D91C330DBA1BB9C032A /* Pods_CocktailAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CocktailAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		37ED82988BA160113097F0D3 /* Pods_CocktailApp_CocktailAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CocktailApp_CocktailAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3A9FDE2B9134F635F54C2226 /* Pods_CocktailApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CocktailApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		42E0365BB9DEBC4BD84C1C18 /* Pods-CocktailApp-CocktailAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocktailApp-CocktailAppUITests.release.xcconfig"; path = "Target Support Files/Pods-CocktailApp-CocktailAppUITests/Pods-CocktailApp-CocktailAppUITests.release.xcconfig"; sourceTree = "<group>"; };
-		577046ABDCDCD56D99141485 /* Pods-CocktailApp-CocktailAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocktailApp-CocktailAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-CocktailApp-CocktailAppUITests/Pods-CocktailApp-CocktailAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		82E1A7BE6F2D6F397C474152 /* Pods-CocktailAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocktailAppTests.release.xcconfig"; path = "Target Support Files/Pods-CocktailAppTests/Pods-CocktailAppTests.release.xcconfig"; sourceTree = "<group>"; };
-		84AB16870297F21D6E5AE27B /* Pods-CocktailAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocktailAppTests.debug.xcconfig"; path = "Target Support Files/Pods-CocktailAppTests/Pods-CocktailAppTests.debug.xcconfig"; sourceTree = "<group>"; };
-		9B2D94C3B7DFD5D8BBF0BB3F /* Pods-CocktailApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocktailApp.debug.xcconfig"; path = "Target Support Files/Pods-CocktailApp/Pods-CocktailApp.debug.xcconfig"; sourceTree = "<group>"; };
-		B08DBE7906921B82B5DC8D38 /* Pods-CocktailApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CocktailApp.release.xcconfig"; path = "Target Support Files/Pods-CocktailApp/Pods-CocktailApp.release.xcconfig"; sourceTree = "<group>"; };
 		FD2C80B026FC02910030C275 /* CocktailApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocktailApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD2C80B326FC02910030C275 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FD2C80B526FC02910030C275 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +86,7 @@
 		FD58A9B426FC09B9001E6D4C /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		FD58A9B526FC09B9001E6D4C /* RootBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootBuilder.swift; sourceTree = "<group>"; };
 		FD58A9B626FC09B9001E6D4C /* RootInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootInteractor.swift; sourceTree = "<group>"; };
+		FD611B052702C08000B04164 /* UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
 		FD8BC21B26FD500500C35BE8 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		FD8BC21E26FD508C00C35BE8 /* CocktailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailAPI.swift; sourceTree = "<group>"; };
 		FD8BC22326FD5A3000C35BE8 /* CocktailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailRepository.swift; sourceTree = "<group>"; };
@@ -116,7 +116,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A196F98752056F0996DA123A /* Pods_CocktailApp.framework in Frameworks */,
+				FD611B2B2702F86F00B04164 /* RxMoya in Frameworks */,
+				FD611B0E2702F65800B04164 /* RxCocoa in Frameworks */,
+				FD611B0C2702F65800B04164 /* RxSwift in Frameworks */,
+				FD611B292702F86F00B04164 /* Moya in Frameworks */,
+				FD611B1D2702F75000B04164 /* Kingfisher in Frameworks */,
+				FD611B232702F77C00B04164 /* TagListView in Frameworks */,
+				FD611B102702F65800B04164 /* RxRelay in Frameworks */,
+				FD611B202702F76A00B04164 /* Then in Frameworks */,
+				FD611B092702F5F400B04164 /* RIBs in Frameworks */,
+				FD611B132702F69600B04164 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,7 +133,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA4B0706425C1752529ABFAA /* Pods_CocktailAppTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,36 +140,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				288ABCFA34132E52BC1D5BE0 /* Pods_CocktailApp_CocktailAppUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1B25AC409A06D5C2A9C4D8C3 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				3A9FDE2B9134F635F54C2226 /* Pods_CocktailApp.framework */,
-				37ED82988BA160113097F0D3 /* Pods_CocktailApp_CocktailAppUITests.framework */,
-				23920D91C330DBA1BB9C032A /* Pods_CocktailAppTests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		A98594D836418A007733AC76 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				9B2D94C3B7DFD5D8BBF0BB3F /* Pods-CocktailApp.debug.xcconfig */,
-				B08DBE7906921B82B5DC8D38 /* Pods-CocktailApp.release.xcconfig */,
-				577046ABDCDCD56D99141485 /* Pods-CocktailApp-CocktailAppUITests.debug.xcconfig */,
-				42E0365BB9DEBC4BD84C1C18 /* Pods-CocktailApp-CocktailAppUITests.release.xcconfig */,
-				84AB16870297F21D6E5AE27B /* Pods-CocktailAppTests.debug.xcconfig */,
-				82E1A7BE6F2D6F397C474152 /* Pods-CocktailAppTests.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		FD2C80A726FC02910030C275 = {
 			isa = PBXGroup;
 			children = (
@@ -169,8 +153,6 @@
 				FD2C80C926FC02930030C275 /* CocktailAppTests */,
 				FD2C80D426FC02930030C275 /* CocktailAppUITests */,
 				FD2C80B126FC02910030C275 /* Products */,
-				A98594D836418A007733AC76 /* Pods */,
-				1B25AC409A06D5C2A9C4D8C3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -322,8 +304,9 @@
 			children = (
 				FD8BC22F26FD9EC300C35BE8 /* IndexPath.swift */,
 				FD8BC23726FDBBCE00C35BE8 /* UIColor.swift */,
-				FD9787DF270186C50078244F /* ViewControllable.swift */,
 				FD9787E12701A2860078244F /* UIImageView.swift */,
+				FD611B052702C08000B04164 /* UITableView.swift */,
+				FD9787DF270186C50078244F /* ViewControllable.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -367,17 +350,27 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FD2C80DA26FC02930030C275 /* Build configuration list for PBXNativeTarget "CocktailApp" */;
 			buildPhases = (
-				9EE9D9E558603C6A485C713E /* [CP] Check Pods Manifest.lock */,
 				FD2C80AC26FC02910030C275 /* Sources */,
 				FD2C80AD26FC02910030C275 /* Frameworks */,
 				FD2C80AE26FC02910030C275 /* Resources */,
-				F3DE44C10C49235D959B54A5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = CocktailApp;
+			packageProductDependencies = (
+				FD611B082702F5F400B04164 /* RIBs */,
+				FD611B0B2702F65800B04164 /* RxSwift */,
+				FD611B0D2702F65800B04164 /* RxCocoa */,
+				FD611B0F2702F65800B04164 /* RxRelay */,
+				FD611B122702F69600B04164 /* SnapKit */,
+				FD611B1C2702F75000B04164 /* Kingfisher */,
+				FD611B1F2702F76A00B04164 /* Then */,
+				FD611B222702F77C00B04164 /* TagListView */,
+				FD611B282702F86F00B04164 /* Moya */,
+				FD611B2A2702F86F00B04164 /* RxMoya */,
+			);
 			productName = CocktailApp;
 			productReference = FD2C80B026FC02910030C275 /* CocktailApp.app */;
 			productType = "com.apple.product-type.application";
@@ -386,7 +379,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FD2C80DD26FC02930030C275 /* Build configuration list for PBXNativeTarget "CocktailAppTests" */;
 			buildPhases = (
-				7242A66D967831EC9206DF60 /* [CP] Check Pods Manifest.lock */,
 				FD2C80C226FC02930030C275 /* Sources */,
 				FD2C80C326FC02930030C275 /* Frameworks */,
 				FD2C80C426FC02930030C275 /* Resources */,
@@ -405,11 +397,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FD2C80E026FC02930030C275 /* Build configuration list for PBXNativeTarget "CocktailAppUITests" */;
 			buildPhases = (
-				313624B9D4B3F70658901E82 /* [CP] Check Pods Manifest.lock */,
 				FD2C80CD26FC02930030C275 /* Sources */,
 				FD2C80CE26FC02930030C275 /* Frameworks */,
 				FD2C80CF26FC02930030C275 /* Resources */,
-				BDD49E39D215AFC28CFE4396 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -452,6 +442,15 @@
 				Base,
 			);
 			mainGroup = FD2C80A726FC02910030C275;
+			packageReferences = (
+				FD611B072702F5F400B04164 /* XCRemoteSwiftPackageReference "RIBs" */,
+				FD611B0A2702F65800B04164 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				FD611B112702F69600B04164 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				FD611B1B2702F75000B04164 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				FD611B1E2702F76A00B04164 /* XCRemoteSwiftPackageReference "Then" */,
+				FD611B212702F77C00B04164 /* XCRemoteSwiftPackageReference "TagListView" */,
+				FD611B272702F86F00B04164 /* XCRemoteSwiftPackageReference "Moya" */,
+			);
 			productRefGroup = FD2C80B126FC02910030C275 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -489,109 +488,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		313624B9D4B3F70658901E82 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CocktailApp-CocktailAppUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7242A66D967831EC9206DF60 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CocktailAppTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9EE9D9E558603C6A485C713E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CocktailApp-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BDD49E39D215AFC28CFE4396 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CocktailApp-CocktailAppUITests/Pods-CocktailApp-CocktailAppUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CocktailApp-CocktailAppUITests/Pods-CocktailApp-CocktailAppUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CocktailApp-CocktailAppUITests/Pods-CocktailApp-CocktailAppUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F3DE44C10C49235D959B54A5 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CocktailApp/Pods-CocktailApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CocktailApp/Pods-CocktailApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CocktailApp/Pods-CocktailApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		FD2C80AC26FC02910030C275 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -605,6 +501,7 @@
 				FD9787DB270153DF0078244F /* CocktailDetailBuilder.swift in Sources */,
 				FDACFB6E26FC3BE800D8C683 /* CocktailListBuilder.swift in Sources */,
 				FD58A9B726FC09B9001E6D4C /* RootRouter.swift in Sources */,
+				FD611B062702C08000B04164 /* UITableView.swift in Sources */,
 				FDACFB6D26FC3BE800D8C683 /* CocktailListViewController.swift in Sources */,
 				FD8BC22626FD5BD100C35BE8 /* CocktailResponse.swift in Sources */,
 				FDACFB6C26FC3BE800D8C683 /* CocktailListRouter.swift in Sources */,
@@ -789,7 +686,6 @@
 		};
 		FD2C80DB26FC02930030C275 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B2D94C3B7DFD5D8BBF0BB3F /* Pods-CocktailApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -809,7 +705,6 @@
 		};
 		FD2C80DC26FC02930030C275 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B08DBE7906921B82B5DC8D38 /* Pods-CocktailApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -829,7 +724,6 @@
 		};
 		FD2C80DE26FC02930030C275 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 84AB16870297F21D6E5AE27B /* Pods-CocktailAppTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -852,7 +746,6 @@
 		};
 		FD2C80DF26FC02930030C275 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 82E1A7BE6F2D6F397C474152 /* Pods-CocktailAppTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -875,7 +768,6 @@
 		};
 		FD2C80E126FC02930030C275 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 577046ABDCDCD56D99141485 /* Pods-CocktailApp-CocktailAppUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -896,7 +788,6 @@
 		};
 		FD2C80E226FC02930030C275 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 42E0365BB9DEBC4BD84C1C18 /* Pods-CocktailApp-CocktailAppUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -955,6 +846,118 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FD611B072702F5F400B04164 /* XCRemoteSwiftPackageReference "RIBs" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/uber/RIBs.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.11.3;
+			};
+		};
+		FD611B0A2702F65800B04164 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.2.0;
+			};
+		};
+		FD611B112702F69600B04164 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
+		FD611B1B2702F75000B04164 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+		FD611B1E2702F76A00B04164 /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.0;
+			};
+		};
+		FD611B212702F77C00B04164 /* XCRemoteSwiftPackageReference "TagListView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ElaWorkshop/TagListView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.1;
+			};
+		};
+		FD611B272702F86F00B04164 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FD611B082702F5F400B04164 /* RIBs */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD611B072702F5F400B04164 /* XCRemoteSwiftPackageReference "RIBs" */;
+			productName = RIBs;
+		};
+		FD611B0B2702F65800B04164 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD611B0A2702F65800B04164 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		FD611B0D2702F65800B04164 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD611B0A2702F65800B04164 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		FD611B0F2702F65800B04164 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD611B0A2702F65800B04164 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		FD611B122702F69600B04164 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD611B112702F69600B04164 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		FD611B1C2702F75000B04164 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD611B1B2702F75000B04164 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		FD611B1F2702F76A00B04164 /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD611B1E2702F76A00B04164 /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+		FD611B222702F77C00B04164 /* TagListView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD611B212702F77C00B04164 /* XCRemoteSwiftPackageReference "TagListView" */;
+			productName = TagListView;
+		};
+		FD611B282702F86F00B04164 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD611B272702F86F00B04164 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		FD611B2A2702F86F00B04164 /* RxMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD611B272702F86F00B04164 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = RxMoya;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FD2C80A826FC02910030C275 /* Project object */;
 }

@@ -7,7 +7,12 @@
 
 import Foundation
 
+typealias Ingredient = (name: String, measure: String)
+
 struct Cocktail: Codable {
+    
+    // MARK: - Properties
+    
     let id: String
     let name: String
     let category: String?
@@ -47,6 +52,8 @@ struct Cocktail: Codable {
     let measure14: String?
     let measure15: String?
     
+    // MARK: - Computed Properties
+    
     var isAlcohol: Bool {
         alcoholic ?? "" == "Alcoholic"
     }
@@ -59,14 +66,14 @@ struct Cocktail: Codable {
         return strTags.components(separatedBy: ",")
     }
     
-    var ingredients: [(ingredient: String, measure: String)] {
+    var ingredients: [Ingredient] {
         return [(ingredient1, measure1), (ingredient2, measure2), (ingredient3, measure3),
                 (ingredient4, measure4), (ingredient5, measure5), (ingredient6, measure6),
                 (ingredient7, measure7), (ingredient8, measure8), (ingredient9, measure9),
                 (ingredient10, measure10), (ingredient11, measure11), (ingredient12, measure12),
                 (ingredient13, measure13), (ingredient14, measure14), (ingredient15, measure15)]
-            .filter { $0.0 != nil && $0.1 != nil }
-            .compactMap { (ingredient: $0.0!, measure: $0.1!) }
+            .filter { $0.0 != nil && $0.1 != nil && $0.0!.count > 0 && $0.1!.count > 0 }
+            .compactMap { (name: $0.0!, measure: $0.1!) }
     }
     
     enum CodingKeys: String, CodingKey {

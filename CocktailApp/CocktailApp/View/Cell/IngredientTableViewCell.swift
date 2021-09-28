@@ -25,7 +25,8 @@ class IngredientTableViewCell: UITableViewCell {
     }
     
     private lazy var measureLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 23, weight: .bold)
+        $0.font = .systemFont(ofSize: 20, weight: .medium)
+        $0.textColor = .darkGray
         $0.adjustsFontSizeToFitWidth = true
     }
     
@@ -66,7 +67,8 @@ class IngredientTableViewCell: UITableViewCell {
     
     private func setConstraints() {
         stackView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.bottom.equalToSuperview().inset(5)
+            $0.leading.trailing.equalToSuperview()
         }
     }
     

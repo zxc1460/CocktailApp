@@ -15,6 +15,7 @@ enum ListType: String {
 
 enum CocktailAPI {
     case cocktailsList(type: ListType)
+    case detail(id: String)
 }
 
 extension CocktailAPI: TargetType {
@@ -31,6 +32,8 @@ extension CocktailAPI: TargetType {
         switch self {
         case .cocktailsList(let type):
             return "/\(type.rawValue).php"
+        case .detail:
+            return "lookup.php"
         }
     }
     
@@ -46,6 +49,8 @@ extension CocktailAPI: TargetType {
         switch self {
         case .cocktailsList:
             return .requestPlain
+        case .detail(let id):
+            return .requestParameters(parameters: ["i": id], encoding: URLEncoding.queryString)
         }
     }
     

@@ -29,13 +29,16 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
     weak var listener: CocktailDetailListener?
     
     private let cocktail: Cocktail
+    private let repository: CocktailRepository
+    let disposeBag = DisposeBag()
+    
     lazy var cocktailDetail: BehaviorRelay<Cocktail> = BehaviorRelay<Cocktail>(value: cocktail)
 
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
     init(presenter: CocktailDetailPresentable, repository: CocktailRepository, cocktail: Cocktail) {
         self.cocktail = cocktail
-        
+        self.repository = repository
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -52,6 +55,13 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
 }
 
 extension CocktailDetailInteractor: CocktailDetailPresentableListener {
+    func refreshCocktail() {
+        repository.fetchDetail(id: cocktail.id)
+            .compactMap { $0 }
+            .bind(to: cocktailDetail)
+            .disposed(by: disposeBag)
+    }
+    
     func backButtonDidTap() {
         listener?.popCocktailDetailRIB()
     }

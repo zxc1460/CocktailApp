@@ -79,7 +79,7 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
         }
         
         segmentedControl.rx.selectedSegmentIndex
-            .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
+            .debounce(.milliseconds(200), scheduler: MainScheduler.instance)
             .map { index -> ListType in
                 return index == 0 ? .popular : .latest
             }

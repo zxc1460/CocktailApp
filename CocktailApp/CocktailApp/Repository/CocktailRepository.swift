@@ -7,10 +7,15 @@
 
 import Foundation
 import Moya
+import RxMoya
 import RxSwift
 
 final class CocktailRepository {
-    let service = MoyaProvider<CocktailAPI>()
+    let service: MoyaProvider<CocktailAPI>
+    
+    init() {
+        self.service = MoyaProvider<CocktailAPI>()
+    }
     
     func fetchCocktails(type: ListType) -> Observable<[Cocktail]> {
         return service.rx.request(.cocktailsList(type: type))
@@ -26,6 +31,21 @@ final class CocktailRepository {
                 }
                 
                 return cocktails
+            }
+    }
+    
+    func fetchDetail(id: String) -> Observable<Cocktail?> {
+        return service.rx.request(.detail(id: id))
+            .asObservable()
+            .map { response -> Cocktail? in
+                do {
+                    let cocktailResponse = try JSONDecoder().decode(CocktailResponse.self, from: response.data)
+                    return cocktailResponse.data.first
+                } catch {
+                    print("cannot decode response data : \(error.localizedDescription)")
+                }
+    
+                return nil
             }
     }
 }

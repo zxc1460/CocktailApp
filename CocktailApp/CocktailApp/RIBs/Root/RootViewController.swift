@@ -7,6 +7,7 @@
 
 import UIKit
 import RIBs
+import RxCocoa
 import RxSwift
 
 protocol RootPresentableListener: AnyObject {
@@ -25,6 +26,7 @@ final class RootViewController: UITabBarController, RootPresentable {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        
     }
 }
 

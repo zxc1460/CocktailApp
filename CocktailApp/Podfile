@@ -7,10 +7,10 @@ target 'CocktailApp' do
 
   # Pods for CocktailApp
 
-  pod 'RIBs', :git=> 'https://github.com/uber/RIBs', :tag => '0.9.2'
-  pod 'RxSwift', '~> 5.0'
-  pod 'RxCocoa', '~> 5.0'
-  pod 'SnapKit', '~> 5.0.0'
+  pod 'RIBs'
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'SnapKit'
   pod 'Moya/RxSwift'
   pod 'Kingfisher'
   pod 'Then'
