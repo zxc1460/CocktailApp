@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/cocoapods,xcode,swift,macos
-# Edit at https://www.toptal.com/developers/gitignore?templates=cocoapods,xcode,swift,macos
+# Created by https://www.toptal.com/developers/gitignore/api/cocoapods,xcode,swift,swiftpackagemanager,macos
+# Edit at https://www.toptal.com/developers/gitignore?templates=cocoapods,xcode,swift,swiftpackagemanager,macos
 
 ### CocoaPods ###
 ## CocoaPods GitIgnore Template
@@ -122,11 +122,15 @@ fastlane/test_output
 
 iOSInjectionProject/
 
+### SwiftPackageManager ###
+Packages
+xcuserdata
+*.xcodeproj
+
+
 ### Xcode ###
 # Xcode
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
-
-
 
 
 ## Gcc Patch
@@ -139,4 +143,7 @@ iOSInjectionProject/
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 
-# End of https://www.toptal.com/developers/gitignore/api/cocoapods,xcode,swift,macos
+## files
+keys.plist
+
+# End of https://www.toptal.com/developers/gitignore/api/cocoapods,xcode,swift,swiftpackagemanager,macos
