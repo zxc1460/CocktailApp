@@ -16,10 +16,10 @@ protocol CocktailListPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
-    var typeInput: PublishRelay<ListType> { get }
-    var cocktails: BehaviorRelay<[Cocktail]> { get }
+    var listTypeRelay: PublishRelay<ListType> { get }
+    var cocktailListRelay: BehaviorRelay<[Cocktail]> { get }
     
-    func selectCocktail(index: Int)
+    func didSelectCocktail(of index: Int)
 }
 
 final class CocktailListViewController: UIViewController, CocktailListPresentable, CocktailListViewControllable {
@@ -83,10 +83,10 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
             .map { index -> ListType in
                 return index == 0 ? .popular : .latest
             }
-            .bind(to: listener.typeInput)
+            .bind(to: listener.listTypeRelay)
             .disposed(by: disposeBag)
         
-        listener.cocktails
+        listener.cocktailListRelay
             .asDriver(onErrorJustReturn: [])
             .drive(tableView.rx.items(cellIdentifier: CocktailTableViewCell.reuseIdentifier,
                                       cellType: CocktailTableViewCell.self)) { _, cocktail, cell in
@@ -95,22 +95,24 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
             .disposed(by: disposeBag)
         
         // 칵테일 리스트 리로드 시 최상단으로 이동
-        listener.cocktails
+        listener.cocktailListRelay
             .delay(.milliseconds(50), scheduler: MainScheduler.instance)
             .map { $0.count > 0 }
-            .subscribe(onNext: { [weak self] flag in
+            .withUnretained(self)
+            .subscribe(onNext: { obj, flag in
                 if flag {
-                    self?.tableView.scrollToRow(at: IndexPath.zero, at: .top, animated: true)
+                    obj.tableView.scrollToRow(at: IndexPath.zero, at: .top, animated: true)
                 }
             })
             .disposed(by: disposeBag)
         
         // 칵테일 클릭 시 디테일 뷰로 이동
         tableView.rx.itemSelected
-            .subscribe(onNext: { [weak self] indexPath in
-                self?.tableView.deselectRow(at: indexPath, animated: true)
+            .withUnretained(self)
+            .subscribe(onNext: { obj, indexPath in
+                obj.tableView.deselectRow(at: indexPath, animated: true)
                 
-                self?.listener?.selectCocktail(index: indexPath.row)
+                obj.listener?.didSelectCocktail(of: indexPath.row)
             })
             .disposed(by: disposeBag)
     }

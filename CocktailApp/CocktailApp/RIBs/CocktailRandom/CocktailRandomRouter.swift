@@ -1,29 +1,29 @@
 //
-//  CocktailListRouter.swift
+//  CocktailRandomRouter.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/09/23.
+//  Created by DoHyeong on 2021/09/28.
 //
 
 import RIBs
 
-protocol CocktailListInteractable: Interactable, CocktailDetailListener {
-    var router: CocktailListRouting? { get set }
-    var listener: CocktailListListener? { get set }
+protocol CocktailRandomInteractable: Interactable, CocktailDetailListener {
+    var router: CocktailRandomRouting? { get set }
+    var listener: CocktailRandomListener? { get set }
 }
 
-protocol CocktailListViewControllable: ViewControllable {
+protocol CocktailRandomViewControllable: ViewControllable {
     // TODO: Declare methods the router invokes to manipulate the view hierarchy.
 }
 
-final class CocktailListRouter: ViewableRouter<CocktailListInteractable, CocktailListViewControllable> {
+final class CocktailRandomRouter: ViewableRouter<CocktailRandomInteractable, CocktailRandomViewControllable> {
     private let cocktailDetailBuilder: CocktailDetailBuildable
     private var cocktailDetailRouting: CocktailDetailRouting?
 
     // TODO: Constructor inject child builder protocols to allow building children.
-    init(interactor: CocktailListInteractable,
-         viewController: CocktailListViewControllable,
-         cocktailDetailBuilder: CocktailDetailBuildable) {
+    init(interactor: CocktailRandomInteractable,
+                  viewController: CocktailRandomViewControllable,
+                  cocktailDetailBuilder: CocktailDetailBuildable) {
         self.cocktailDetailBuilder = cocktailDetailBuilder
         
         super.init(interactor: interactor, viewController: viewController)
@@ -31,7 +31,7 @@ final class CocktailListRouter: ViewableRouter<CocktailListInteractable, Cocktai
     }
 }
 
-extension CocktailListRouter: CocktailListRouting {
+extension CocktailRandomRouter: CocktailRandomRouting {
     func routeToDetail(cocktail: Cocktail) {
         let cocktailDetailRouting = cocktailDetailBuilder.build(withListener: interactor, cocktail: cocktail)
         

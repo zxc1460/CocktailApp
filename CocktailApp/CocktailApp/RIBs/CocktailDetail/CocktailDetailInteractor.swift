@@ -6,7 +6,7 @@
 //
 
 import RIBs
-import RxCocoa
+import RxRelay
 import RxSwift
 
 protocol CocktailDetailRouting: ViewableRouting {
@@ -20,7 +20,7 @@ protocol CocktailDetailPresentable: Presentable {
 
 protocol CocktailDetailListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
-    func popCocktailDetailRIB()
+    func detachCocktailDetailRIB()
 }
 
 final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresentable>, CocktailDetailInteractable {
@@ -30,9 +30,8 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
     
     private let cocktail: Cocktail
     private let repository: CocktailRepository
-    let disposeBag = DisposeBag()
     
-    lazy var cocktailDetail: BehaviorRelay<Cocktail> = BehaviorRelay<Cocktail>(value: cocktail)
+    lazy var cocktailRelay: BehaviorRelay<Cocktail> = BehaviorRelay<Cocktail>(value: cocktail)
 
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
@@ -56,13 +55,13 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
 
 extension CocktailDetailInteractor: CocktailDetailPresentableListener {
     func refreshCocktail() {
-        repository.fetchDetail(id: cocktail.id)
+        repository.fetchCocktailDetail(from: cocktail.id)
             .compactMap { $0 }
-            .bind(to: cocktailDetail)
-            .disposed(by: disposeBag)
+            .bind(to: cocktailRelay)
+            .disposeOnDeactivate(interactor: self)
     }
     
-    func backButtonDidTap() {
-        listener?.popCocktailDetailRIB()
+    func didPopViewController() {
+        listener?.detachCocktailDetailRIB()
     }
 }

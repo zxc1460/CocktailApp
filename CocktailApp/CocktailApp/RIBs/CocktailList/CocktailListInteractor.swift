@@ -6,13 +6,13 @@
 //
 
 import RIBs
+import RxRelay
 import RxSwift
-import RxCocoa
 
 protocol CocktailListRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
     func routeToDetail(cocktail: Cocktail)
-    func popFromChild()
+    func detachChildRIB()
     
 }
 
@@ -31,9 +31,8 @@ final class CocktailListInteractor: PresentableInteractor<CocktailListPresentabl
     
     private let repostiory: CocktailRepository
     
-    var typeInput: PublishRelay<ListType> = PublishRelay<ListType>()
-    var cocktails: BehaviorRelay<[Cocktail]> = BehaviorRelay<[Cocktail]>(value: [])
-    let disposeBag = DisposeBag()
+    var listTypeRelay: PublishRelay<ListType> = PublishRelay<ListType>()
+    var cocktailListRelay: BehaviorRelay<[Cocktail]> = BehaviorRelay<[Cocktail]>(value: [])
 
     // TODO: Add additional dependencies to constructor. Do not perform any logic
     // in constructor.
@@ -41,17 +40,18 @@ final class CocktailListInteractor: PresentableInteractor<CocktailListPresentabl
         self.repostiory = repository
         super.init(presenter: presenter)
         presenter.listener = self
-        
-        typeInput
-            .subscribe(onNext: { [weak self] type in
-                self?.fetchCocktails(type: type)
-            })
-            .disposed(by: disposeBag)
     }
 
     override func didBecomeActive() {
         super.didBecomeActive()
         // TODO: Implement business logic here.
+        
+        listTypeRelay
+            .withUnretained(self)
+            .subscribe(onNext: { obj, type in
+                obj.requestCocktailList(type: type)
+            })
+            .disposeOnDeactivate(interactor: self)
     }
 
     override func willResignActive() {
@@ -59,23 +59,23 @@ final class CocktailListInteractor: PresentableInteractor<CocktailListPresentabl
         // TODO: Pause any business logic.
     }
     
-    private func fetchCocktails(type: ListType) {
-        repostiory.fetchCocktails(type: type)
-            .bind(to: cocktails)
-            .disposed(by: disposeBag)
+    private func requestCocktailList(type: ListType) {
+        repostiory.fetchCocktailList(of: type)
+            .bind(to: cocktailListRelay)
+            .disposeOnDeactivate(interactor: self)
     }
 }
 
 extension CocktailListInteractor: CocktailListPresentableListener {
-    func selectCocktail(index: Int) {
-        print("cocktail is selected: \(cocktails.value[index].name)")
+    func didSelectCocktail(of index: Int) {
+        print("cocktail is selected: \(cocktailListRelay.value[index].name)")
         
-        router?.routeToDetail(cocktail: cocktails.value[index])
+        router?.routeToDetail(cocktail: cocktailListRelay.value[index])
     }
 }
 
 extension CocktailListInteractor: CocktailDetailListener {
-    func popCocktailDetailRIB() {
-        router?.popFromChild()
+    func detachCocktailDetailRIB() {
+        router?.detachChildRIB()
     }
 }

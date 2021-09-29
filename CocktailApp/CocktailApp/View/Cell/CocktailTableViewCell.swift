@@ -37,7 +37,7 @@ class CocktailTableViewCell: UITableViewCell {
         $0.adjustsFontSizeToFitWidth = true
     }
     
-    private lazy var alcoholLabel = UILabel().then {
+    private lazy var isAlcoholLabel = UILabel().then {
         $0.text = "Alcohol"
         $0.font = .systemFont(ofSize: 15, weight: .bold)
         $0.backgroundColor = UIColor.init(hex: "#8AB7F8")
@@ -77,7 +77,7 @@ class CocktailTableViewCell: UITableViewCell {
         contentView.addSubview(thumbnailView)
         contentView.addSubview(nameLabel)
         contentView.addSubview(categoryLabel)
-        contentView.addSubview(alcoholLabel)
+        contentView.addSubview(isAlcoholLabel)
         
         setConstraints()
     }
@@ -98,7 +98,7 @@ class CocktailTableViewCell: UITableViewCell {
             $0.centerY.equalToSuperview()
         }
         
-        alcoholLabel.snp.makeConstraints {
+        isAlcoholLabel.snp.makeConstraints {
             $0.bottom.equalTo(thumbnailView)
             $0.leading.equalTo(nameLabel)
             $0.width.equalTo(70)
@@ -110,6 +110,6 @@ class CocktailTableViewCell: UITableViewCell {
         thumbnailView.setCocktailImage(cocktail.thumbnail)
         nameLabel.text = cocktail.name
         categoryLabel.text = cocktail.category
-        alcoholLabel.isHidden = !cocktail.isAlcohol
+        isAlcoholLabel.isHidden = !cocktail.isAlcohol
     }
 }

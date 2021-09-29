@@ -11,16 +11,17 @@ import Moya
 enum ListType: String {
     case popular
     case latest
+    case random = "randomselection"
 }
 
 enum CocktailAPI {
-    case cocktailsList(type: ListType)
+    case cocktailList(type: ListType)
     case detail(id: String)
 }
 
 extension CocktailAPI: TargetType {
     var baseURL: URL {
-        guard let url = URL(string: Constant.baseURL) else {
+        guard let url = URL(string: Constant.shared.baseURL) else {
             fatalError()
         }
         return url
@@ -30,7 +31,7 @@ extension CocktailAPI: TargetType {
     
     var path: String {
         switch self {
-        case .cocktailsList(let type):
+        case .cocktailList(let type):
             return "/\(type.rawValue).php"
         case .detail:
             return "lookup.php"
@@ -47,7 +48,7 @@ extension CocktailAPI: TargetType {
     
     var task: Task {
         switch self {
-        case .cocktailsList:
+        case .cocktailList:
             return .requestPlain
         case .detail(let id):
             return .requestParameters(parameters: ["i": id], encoding: URLEncoding.queryString)
@@ -63,7 +64,7 @@ extension CocktailAPI: TargetType {
     // MARK: - Headers
     
     var headers: [String: String]? {
-        return ["x-rapidapi-host": Constant.host,
-                "x-rapidapi-key": Constant.key]
+        return ["x-rapidapi-host": Constant.shared.host,
+                "x-rapidapi-key": Constant.shared.key]
     }
 }

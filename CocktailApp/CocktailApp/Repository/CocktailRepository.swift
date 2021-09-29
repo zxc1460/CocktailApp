@@ -11,41 +11,23 @@ import RxMoya
 import RxSwift
 
 final class CocktailRepository {
-    let service: MoyaProvider<CocktailAPI>
+    private let cocktailService: MoyaProvider<CocktailAPI>
     
     init() {
-        self.service = MoyaProvider<CocktailAPI>()
+        self.cocktailService = MoyaProvider<CocktailAPI>()
     }
     
-    func fetchCocktails(type: ListType) -> Observable<[Cocktail]> {
-        return service.rx.request(.cocktailsList(type: type))
+    func fetchCocktailList(of type: ListType) -> Observable<[Cocktail]> {
+        return cocktailService.rx.request(.cocktailList(type: type))
             .asObservable()
-            .map { response -> [Cocktail] in
-                var cocktails = [Cocktail]()
-                
-                do {
-                    let cocktailResponse = try JSONDecoder().decode(CocktailResponse.self, from: response.data)
-                    cocktails = cocktailResponse.data
-                } catch {
-                    print("cannot decode response data : \(error.localizedDescription)")
-                }
-                
-                return cocktails
-            }
+            .map(CocktailResponse.self)
+            .map { $0.data }
     }
     
-    func fetchDetail(id: String) -> Observable<Cocktail?> {
-        return service.rx.request(.detail(id: id))
+    func fetchCocktailDetail(from id: String) -> Observable<Cocktail?> {
+        return cocktailService.rx.request(.detail(id: id))
             .asObservable()
-            .map { response -> Cocktail? in
-                do {
-                    let cocktailResponse = try JSONDecoder().decode(CocktailResponse.self, from: response.data)
-                    return cocktailResponse.data.first
-                } catch {
-                    print("cannot decode response data : \(error.localizedDescription)")
-                }
-    
-                return nil
-            }
+            .map(CocktailResponse.self)
+            .map { $0.data.first }
     }
 }

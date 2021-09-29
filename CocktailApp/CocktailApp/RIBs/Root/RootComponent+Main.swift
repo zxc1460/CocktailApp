@@ -7,4 +7,4 @@
 
 import RIBs
 
-extension RootComponent: CocktailListDependency {}
+extension RootComponent: MainDependency {}

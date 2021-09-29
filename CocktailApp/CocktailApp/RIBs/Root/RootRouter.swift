@@ -7,26 +7,24 @@
 
 import RIBs
 
-protocol RootInteractable: Interactable, CocktailListListener {
+protocol RootInteractable: Interactable, MainListener {
     var router: RootRouting? { get set }
     var listener: RootListener? { get set }
 }
 
 protocol RootViewControllable: ViewControllable {
     // TODO: Declare methods the router invokes to manipulate the view hierarchy.
-    func addViewController(_ viewControllable: ViewControllable, type: TabItemType)
-    func selectTabItem(type: TabItemType)
 }
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
-    private let cocktailListBuilder: CocktailListBuildable
-    private var cocktailListRouting: CocktailListRouting?
+    private let mainBuilder: MainBuildable
+    private var mainRouting: MainRouting?
 
     // TODO: Constructor inject child builder protocols to allow building children.
     init(interactor: RootInteractable,
         viewController: RootViewControllable,
-        cocktailListBuilder: CocktailListBuildable) {
-        self.cocktailListBuilder = cocktailListBuilder
+        mainBuilder: MainBuildable) {
+        self.mainBuilder = mainBuilder
         
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
@@ -34,23 +32,21 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
     
     override func didLoad() {
         super.didLoad()
-        buildCocktailList()
-        routeToCocktailList()
+        
+        routeToMain()
     }
     
-    private func buildCocktailList() {
-        let repository = CocktailRepository()
-        let cocktailListRouter = cocktailListBuilder.build(withListener: interactor, repository: repository)
-        cocktailListRouting = cocktailListRouter
-        viewController.addViewController(cocktailListRouter.viewControllable, type: .list)
+    func routeToMain() {
+        let mainRouting = mainBuilder.build(withListener: interactor)
+        
+        self.mainRouting = mainRouting
+        
+        attachChild(mainRouting)
+        
+        viewController.presentViewController(viewController: mainRouting.viewControllable,
+                                             modalPresentationStyle: .fullScreen)
     }
-    
-    func routeToCocktailList() {
-        if let routing = cocktailListRouting {
-            attachChild(routing)
-            viewController.selectTabItem(type: .list)
-        }
-    }
+   
 }
 
 extension RootRouter: RootRouting {

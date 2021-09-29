@@ -18,10 +18,10 @@ protocol CocktailDetailPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
-    var cocktailDetail: BehaviorRelay<Cocktail> { get }
+    var cocktailRelay: BehaviorRelay<Cocktail> { get }
     
     func refreshCocktail()
-    func backButtonDidTap()
+    func didPopViewController()
 }
 
 final class CocktailDetailViewController: UIViewController, CocktailDetailPresentable, CocktailDetailViewControllable {
@@ -45,7 +45,7 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         $0.contentMode = .scaleAspectFill
     }
     
-    private lazy var titleLabel = UILabel().then {
+    private lazy var nameLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 38, weight: .bold)
         $0.adjustsFontSizeToFitWidth = true
     }
@@ -55,7 +55,7 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         $0.adjustsFontSizeToFitWidth = true
     }
     
-    private lazy var alcoholLabel = UILabel().then {
+    private lazy var isAlcoholLabel = UILabel().then {
         $0.text = "Alcohol"
         $0.font = .systemFont(ofSize: 18, weight: .bold)
         $0.backgroundColor = UIColor.init(hex: "#8AB7F8")
@@ -65,41 +65,39 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         $0.layer.cornerRadius = 10
     }
     
-    private lazy var tagView = TagListView().then {
+    private lazy var tagListView = TagListView().then {
         $0.textFont = .systemFont(ofSize: 18, weight: .bold)
         $0.textColor = .white
         $0.alignment = .leading
-        $0.paddingY = 5
         $0.paddingX = 10
-        $0.marginY = 5
+        $0.paddingY = 5
         $0.marginX = 5
+        $0.marginY = 5
         $0.cornerRadius = 10
         $0.tagBackgroundColor = .systemOrange
     }
     
-    private lazy var ingredientLabel = UILabel().then {
+    private lazy var ingredientTitleLabel = UILabel().then {
         $0.text = "재료"
         $0.font = .systemFont(ofSize: 30, weight: .bold)
     }
     
-    private lazy var tableView = UITableView().then {
+    private lazy var ingredientTableView = UITableView().then {
         $0.register(IngredientTableViewCell.self, forCellReuseIdentifier: IngredientTableViewCell.reuseIdentifier)
         $0.isScrollEnabled = false
         $0.allowsSelection = false
         $0.tableFooterView = UIView(frame: .zero)
     }
     
-    private lazy var instructionTextLabel = UILabel().then {
+    private lazy var instructionTitleLabel = UILabel().then {
         $0.text = "제조법"
         $0.font = .systemFont(ofSize: 30, weight: .bold)
     }
     
-    private lazy var instructionLabel = UILabel().then {
+    private lazy var instructionDetailLabel = UILabel().then {
         $0.numberOfLines = 0
         $0.font = .systemFont(ofSize: 18)
     }
-    
-    private var tableViewHeight: Constraint?
     
     // MARK: - Override Methods
     
@@ -120,7 +118,7 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         super.viewDidDisappear(animated)
         
         if isMovingFromParent {
-            listener?.backButtonDidTap()
+            listener?.didPopViewController()
         }
     }
     
@@ -129,20 +127,22 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
     private func setUI() {
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.tabBarController?.tabBar.isHidden = true
+        
+        view.backgroundColor = .white
 
         view.addSubview(scrollView)
         
         scrollView.addSubview(contentView)
         
         contentView.addSubview(thumbnailImageView)
-        contentView.addSubview(titleLabel)
+        contentView.addSubview(nameLabel)
         contentView.addSubview(categoryLabel)
-        contentView.addSubview(alcoholLabel)
-        contentView.addSubview(tagView)
-        contentView.addSubview(ingredientLabel)
-        contentView.addSubview(tableView)
-        contentView.addSubview(instructionTextLabel)
-        contentView.addSubview(instructionLabel)
+        contentView.addSubview(isAlcoholLabel)
+        contentView.addSubview(tagListView)
+        contentView.addSubview(ingredientTitleLabel)
+        contentView.addSubview(ingredientTableView)
+        contentView.addSubview(instructionTitleLabel)
+        contentView.addSubview(instructionDetailLabel)
         
         setConstraints()
     }
@@ -162,48 +162,48 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
             $0.height.equalTo(400)
         }
         
-        titleLabel.snp.makeConstraints {
+        nameLabel.snp.makeConstraints {
             $0.top.equalTo(thumbnailImageView.snp.bottom).offset(10)
             $0.leading.trailing.equalTo(contentView).inset(20)
         }
         
         categoryLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(5)
-            $0.leading.trailing.equalTo(titleLabel)
+            $0.top.equalTo(nameLabel.snp.bottom).offset(5)
+            $0.leading.trailing.equalTo(nameLabel)
         }
         
-        alcoholLabel.snp.makeConstraints {
+        isAlcoholLabel.snp.makeConstraints {
             $0.top.equalTo(categoryLabel.snp.bottom).offset(5)
-            $0.leading.equalTo(titleLabel)
+            $0.leading.equalTo(nameLabel)
             $0.height.equalTo(30)
             $0.width.equalTo(85)
         }
         
-        tagView.snp.makeConstraints {
-            $0.top.equalTo(alcoholLabel.snp.bottom)
+        tagListView.snp.makeConstraints {
+            $0.top.equalTo(isAlcoholLabel.snp.bottom)
                 .offset(15)
-            $0.leading.trailing.equalTo(titleLabel)
+            $0.leading.trailing.equalTo(nameLabel)
         }
         
-        ingredientLabel.snp.makeConstraints {
-            $0.top.equalTo(tagView.snp.bottom).offset(20)
-            $0.leading.trailing.equalTo(titleLabel)
+        ingredientTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(tagListView.snp.bottom).offset(20)
+            $0.leading.trailing.equalTo(nameLabel)
         }
         
-        tableView.snp.makeConstraints {
+        ingredientTableView.snp.makeConstraints {
             $0.height.equalTo(100)
-            $0.top.equalTo(ingredientLabel.snp.bottom).offset(5)
-            $0.leading.trailing.equalTo(titleLabel)
+            $0.top.equalTo(ingredientTitleLabel.snp.bottom).offset(5)
+            $0.leading.trailing.equalTo(nameLabel)
         }
         
-        instructionTextLabel.snp.makeConstraints {
-            $0.top.equalTo(tableView.snp.bottom).offset(10)
-            $0.leading.trailing.equalTo(titleLabel)
+        instructionTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(ingredientTableView.snp.bottom).offset(10)
+            $0.leading.trailing.equalTo(nameLabel)
         }
         
-        instructionLabel.snp.makeConstraints {
-            $0.top.equalTo(instructionTextLabel.snp.bottom).offset(10)
-            $0.leading.trailing.equalTo(titleLabel)
+        instructionDetailLabel.snp.makeConstraints {
+            $0.top.equalTo(instructionTitleLabel.snp.bottom).offset(10)
+            $0.leading.trailing.equalTo(nameLabel)
             $0.bottom.equalToSuperview().inset(20)
         }
     }
@@ -213,48 +213,50 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
             return
         }
         
-        listener.cocktailDetail
+        listener.cocktailRelay
             .map { $0.ingredients }
             .asDriver(onErrorJustReturn: [])
-            .drive(tableView.rx.items(cellIdentifier: IngredientTableViewCell.reuseIdentifier,
+            .drive(ingredientTableView.rx.items(cellIdentifier: IngredientTableViewCell.reuseIdentifier,
                                       cellType: IngredientTableViewCell.self)) { _, data, cell in
                 cell.configure(ingredient: data.name, measure: data.measure)
             }
             .disposed(by: disposeBag)
         
-        listener.cocktailDetail
-            .subscribe(onNext: { [weak self] cocktail in
-                self?.configureUI(cocktail)
+        listener.cocktailRelay
+            .withUnretained(self)
+            .subscribe(onNext: { obj, cocktail in
+                obj.drawUI(by: cocktail)
             })
             .disposed(by: disposeBag)
         
         refreshControl.rx.controlEvent(.valueChanged)
-            .subscribe(onNext: { [weak self] in
-                self?.listener?.refreshCocktail()
-                self?.refreshControl.endRefreshing()
+            .withUnretained(self)
+            .subscribe(onNext: { obj, _ in
+                obj.listener?.refreshCocktail()
+                obj.refreshControl.endRefreshing()
             })
             .disposed(by: disposeBag)
         
         
         // table view height Observable
-        tableView.rx.observe(CGSize.self, #keyPath(UITableView.contentSize))
-            .compactMap { $0 }
-            .map { $0.height }
+        ingredientTableView.rx.observe(CGSize.self, #keyPath(UITableView.contentSize))
+            .compactMap { $0?.height }
+            .withUnretained(self)
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] height in
-                self?.tableView.height = height
+            .subscribe(onNext: { obj, height in
+                obj.ingredientTableView.height = height
             })
             .disposed(by: disposeBag)
     }
     
-    private func configureUI(_ cocktail: Cocktail) {
+    private func drawUI(by cocktail: Cocktail) {
         thumbnailImageView.setCocktailImage(cocktail.thumbnail)
         
-        titleLabel.text = cocktail.name
+        nameLabel.text = cocktail.name
         categoryLabel.text = cocktail.category
-        ingredientLabel.text = cocktail.ingredients.count > 0 ? "재료" : "재료 알 수 없음"
-        instructionLabel.text = cocktail.instruction
-        tagView.removeAllTags()
-        tagView.addTags(cocktail.tags)
+        ingredientTitleLabel.text = cocktail.ingredients.count > 0 ? "재료" : "재료 알 수 없음"
+        instructionDetailLabel.text = cocktail.instruction
+        tagListView.removeAllTags()
+        tagListView.addTags(cocktail.tags)
     }
 }
