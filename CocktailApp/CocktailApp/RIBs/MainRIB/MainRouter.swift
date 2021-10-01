@@ -7,7 +7,7 @@
 
 import RIBs
 
-protocol MainInteractable: Interactable, CocktailListListener, CocktailRandomListener {
+protocol MainInteractable: Interactable, CocktailListListener, SearchPageListener {
     var router: MainRouting? { get set }
     var listener: MainListener? { get set }
 }
@@ -22,17 +22,17 @@ final class MainRouter: ViewableRouter<MainInteractable, MainViewControllable> {
     // TODO: Constructor inject child builder protocols to allow building children.
     private let cocktailListBuilder: CocktailListBuildable
     private var cocktailListRouting: CocktailListRouting?
-
-    private let cocktailRandomBuilder: CocktailRandomBuildable
-    private var cocktailRandomRouting: CocktailRandomRouting?
+    
+    private let searchPageBuilder: SearchPageBuildable
+    private var searchPageRouting: SearchPageRouting?
     
     // TODO: Constructor inject child builder protocols to allow building children.
     init(interactor: MainInteractable,
         viewController: MainViewControllable,
         cocktailListBuilder: CocktailListBuildable,
-        cocktailRandomBuilder: CocktailRandomBuildable) {
+        searchPageBuilder: SearchPageBuildable) {
         self.cocktailListBuilder = cocktailListBuilder
-        self.cocktailRandomBuilder = cocktailRandomBuilder
+        self.searchPageBuilder = searchPageBuilder
         
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
@@ -47,23 +47,21 @@ final class MainRouter: ViewableRouter<MainInteractable, MainViewControllable> {
     private func buildChildRIBs() {
         let repository = CocktailRepository()
         
-        let cocktailListRouter = cocktailListBuilder.build(withListener: interactor, repository: repository)
-        cocktailListRouting = cocktailListRouter
-        viewController.addViewController(cocktailListRouter.viewControllable, type: .list)
+        let cocktailListRouting = cocktailListBuilder.build(withListener: interactor, repository: repository)
+        self.cocktailListRouting = cocktailListRouting
+        viewController.addViewController(cocktailListRouting.viewControllable, type: .list)
         
-        let cocktailRandomRouter = cocktailRandomBuilder.build(withListener: interactor, repository: repository)
-        cocktailRandomRouting = cocktailRandomRouter
-        viewController.addViewController(cocktailRandomRouter.viewControllable, type: .random)
+        let searchPageRouting = searchPageBuilder.build(withListener: interactor, repository: repository)
+        self.searchPageRouting = searchPageRouting
+        viewController.addViewController(searchPageRouting.viewControllable, type: .search)
     }
 }
 
 extension MainRouter: MainRouting {
     func routeToChild(type: TabItemType) {
-        children.forEach {
-            detachChild($0)
-        }
+        detachChildren()
         
-        let routings = [cocktailListRouting, cocktailRandomRouting]
+        let routings = [cocktailListRouting, searchPageRouting]
         
         if let routing = routings[type.rawValue] {
             attachChild(routing)

@@ -34,13 +34,13 @@ final class MainBuilder: Builder<MainDependency>, MainBuildable {
         let viewController = MainViewController()
         let interactor = MainInteractor(presenter: viewController)
         let cocktailListBuilder = CocktailListBuilder(dependency: component)
-        let cocktailRandomBuilder = CocktailRandomBuilder(dependency: component)
+        let searchPageBuilder = SearchPageBuilder(dependency: component)
         
         interactor.listener = listener
         
         return MainRouter(interactor: interactor,
                           viewController: viewController,
                           cocktailListBuilder: cocktailListBuilder,
-                          cocktailRandomBuilder: cocktailRandomBuilder)
+                          searchPageBuilder: searchPageBuilder)
     }
 }

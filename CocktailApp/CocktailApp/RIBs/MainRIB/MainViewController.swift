@@ -13,7 +13,7 @@ protocol MainPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
-    func selectTab(type: TabItemType)
+    func didSelectTab(type: TabItemType)
 }
 
 final class MainViewController: UITabBarController, MainPresentable {
@@ -44,7 +44,7 @@ final class MainViewController: UITabBarController, MainPresentable {
             .compactMap { TabItemType(rawValue: $0.tabBarItem.tag) }
             .drive { [weak self] type in
                 self?.currentTag = type.rawValue
-                self?.listener?.selectTab(type: type)
+                self?.listener?.didSelectTab(type: type)
             }
             .disposed(by: disposeBag)
     }
@@ -58,9 +58,9 @@ extension MainViewController: MainViewControllable {
         case .list:
             item.title = "리스트"
             item.image = UIImage(systemName: "list.bullet.rectangle")
-        case .random:
-            item.title = "랜덤"
-            item.image = UIImage(systemName: "questionmark.circle")
+        case .search:
+            item.title = "검색"
+            item.image = UIImage(systemName: "magnifyingglass")
         }
         
         item.tag = type.rawValue
@@ -79,5 +79,5 @@ extension MainViewController: MainViewControllable {
 
 enum TabItemType: Int {
     case list
-    case random
+    case search
 }

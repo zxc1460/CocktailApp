@@ -46,7 +46,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
 }
 
 extension MainInteractor: MainPresentableListener {
-    func selectTab(type: TabItemType) {
+    func didSelectTab(type: TabItemType) {
         router?.routeToChild(type: type)
     }
 }

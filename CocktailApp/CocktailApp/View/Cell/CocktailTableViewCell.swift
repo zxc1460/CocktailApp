@@ -1,45 +1,55 @@
 //
-    //  CocktailTableViewCell.swift
+//  RandomCocktailTableViewCell.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/09/24.
+//  Created by DoHyeong on 2021/09/29.
 //
 
 import UIKit
-import Kingfisher
-import RxCocoa
-import RxSwift
 import SnapKit
 import Then
-
-
 
 class CocktailTableViewCell: UITableViewCell {
     static let reuseIdentifier = "CocktailTableViewCell"
     
-    // MARK: - View Properties
+    // MARK: - View Properites
     
-    private lazy var thumbnailView = UIImageView().then {
-        $0.layer.cornerRadius = 50
+    private lazy var baseView = UIView().then {
+        $0.backgroundColor = .white
         $0.clipsToBounds = true
-        $0.contentMode = .scaleAspectFill
+        $0.layer.cornerRadius = 15
+        $0.layer.borderColor = UIColor.darkGray.cgColor
+        $0.layer.borderWidth = 0.1
+        
     }
     
-    private lazy var nameLabel = UILabel().then {
-        $0.text = "Name"
+    private let thumbnailImageView = UIImageView()
+    
+    private let stackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.alignment = .leading
+        $0.spacing = 10
+        $0.distribution = .fill
+    }
+    
+    private let nameLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 25, weight: .bold)
         $0.adjustsFontSizeToFitWidth = true
     }
     
-    private lazy var categoryLabel = UILabel().then {
-        $0.text = "Category"
-        $0.font = .systemFont(ofSize: 18, weight: .medium)
+    private let categoryLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 22, weight: .medium)
         $0.adjustsFontSizeToFitWidth = true
     }
     
-    private lazy var isAlcoholLabel = UILabel().then {
+    private let glassLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 22, weight: .medium)
+        $0.adjustsFontSizeToFitWidth = true
+    }
+    
+    private let isAlcoholLabel = UILabel().then {
         $0.text = "Alcohol"
-        $0.font = .systemFont(ofSize: 15, weight: .bold)
+        $0.font = .systemFont(ofSize: 18, weight: .bold)
         $0.backgroundColor = UIColor.init(hex: "#8AB7F8")
         $0.textColor = .white
         $0.textAlignment = .center
@@ -48,7 +58,7 @@ class CocktailTableViewCell: UITableViewCell {
     }
     
     // MARK: - init
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -58,9 +68,9 @@ class CocktailTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Override Methods
 
+    // MARK: - Override Methods
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -71,45 +81,53 @@ class CocktailTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
-    
+
     private func setUI() {
-        contentView.addSubview(thumbnailView)
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(categoryLabel)
-        contentView.addSubview(isAlcoholLabel)
+        contentView.addSubview(baseView)
+        
+        baseView.addSubview(thumbnailImageView)
+        baseView.addSubview(stackView)
+        
+        stackView.addArrangedSubview(nameLabel)
+        stackView.addArrangedSubview(categoryLabel)
+        stackView.addArrangedSubview(glassLabel)
+        stackView.addArrangedSubview(isAlcoholLabel)
+//        baseView.addSubview(nameLabel)
+//        baseView.addSubview(categoryLabel)
+//        baseView.addSubview(glassLabel)
+//        baseView.addSubview(isAlcoholLabel)
         
         setConstraints()
     }
     
     private func setConstraints() {
-        thumbnailView.snp.makeConstraints {
-            $0.top.leading.bottom.equalToSuperview().inset(20)
-            $0.width.height.equalTo(100)
+        baseView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(10)
+            $0.leading.trailing.equalToSuperview().inset(20)
         }
         
-        nameLabel.snp.makeConstraints {
-            $0.leading.equalTo(thumbnailView.snp.trailing).offset(10)
-            $0.top.trailing.equalToSuperview().inset(20)
+        thumbnailImageView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(300)
         }
         
-        categoryLabel.snp.makeConstraints {
-            $0.leading.trailing.equalTo(nameLabel)
-            $0.centerY.equalToSuperview()
+        stackView.snp.makeConstraints {
+            $0.top.equalTo(thumbnailImageView.snp.bottom).offset(10)
+            $0.leading.trailing.equalToSuperview().inset(10)
+            $0.bottom.equalToSuperview().inset(10)
         }
         
         isAlcoholLabel.snp.makeConstraints {
-            $0.bottom.equalTo(thumbnailView)
-            $0.leading.equalTo(nameLabel)
-            $0.width.equalTo(70)
-            $0.height.equalTo(22)
+            $0.height.equalTo(30)
+            $0.width.equalTo(85)
         }
     }
     
     func configure(_ cocktail: Cocktail) {
-        thumbnailView.setCocktailImage(cocktail.thumbnail)
+        thumbnailImageView.setCocktailImage(cocktail.thumbnail)
         nameLabel.text = cocktail.name
         categoryLabel.text = cocktail.category
+        glassLabel.text = cocktail.glass
         isAlcoholLabel.isHidden = !cocktail.isAlcohol
     }
 }

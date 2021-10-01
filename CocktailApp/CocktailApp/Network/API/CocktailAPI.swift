@@ -8,7 +8,7 @@
 import Foundation
 import Moya
 
-enum ListType: String {
+enum ListType: String, CaseIterable {
     case popular
     case latest
     case random = "randomselection"

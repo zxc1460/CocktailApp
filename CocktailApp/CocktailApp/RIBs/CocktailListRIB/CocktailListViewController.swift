@@ -16,10 +16,10 @@ protocol CocktailListPresentableListener: AnyObject {
     // TODO: Declare properties and methods that the view controller can invoke to perform
     // business logic, such as signIn(). This protocol is implemented by the corresponding
     // interactor class.
-    var listTypeRelay: PublishRelay<ListType> { get }
     var cocktailListRelay: BehaviorRelay<[Cocktail]> { get }
     
     func didSelectCocktail(of index: Int)
+    func requestCocktailList(type: ListType)
 }
 
 final class CocktailListViewController: UIViewController, CocktailListPresentable, CocktailListViewControllable {
@@ -30,15 +30,14 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
     
     // MARK: - View Properties
     
-    private lazy var segmentedControl = UISegmentedControl().then {
-        $0.insertSegment(withTitle: "인기순", at: 0, animated: true)
-        $0.insertSegment(withTitle: "최근순", at: 1, animated: true)
-        $0.selectedSegmentIndex = 0
-    }
+    private let refreshControl = UIRefreshControl()
+    
+    private let segmentedControl = UnderlineSegmentedControl(buttonTitles: ["인기순", "최근순", "랜덤"])
     
     private lazy var tableView = UITableView().then {
         $0.register(CocktailTableViewCell.self, forCellReuseIdentifier: CocktailTableViewCell.reuseIdentifier)
         $0.tableFooterView = UIView(frame: .zero)
+        $0.refreshControl = refreshControl
     }
     
     // MARK: - Override Methods
@@ -62,8 +61,8 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
     
     private func setConstraints() {
         segmentedControl.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(30)
         }
         
@@ -78,12 +77,15 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
             return
         }
         
-        segmentedControl.rx.selectedSegmentIndex
+        segmentedControl.selectedButtonIndex
             .debounce(.milliseconds(200), scheduler: MainScheduler.instance)
             .map { index -> ListType in
-                return index == 0 ? .popular : .latest
+                return ListType.allCases[index]
             }
-            .bind(to: listener.listTypeRelay)
+            .withUnretained(self)
+            .subscribe(onNext: { owner, type in
+                owner.listener?.requestCocktailList(type: type)
+            })
             .disposed(by: disposeBag)
         
         listener.cocktailListRelay
@@ -99,9 +101,9 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
             .delay(.milliseconds(50), scheduler: MainScheduler.instance)
             .map { $0.count > 0 }
             .withUnretained(self)
-            .subscribe(onNext: { obj, flag in
+            .subscribe(onNext: { owner, flag in
                 if flag {
-                    obj.tableView.scrollToRow(at: IndexPath.zero, at: .top, animated: true)
+                    owner.tableView.scrollToRow(at: IndexPath.zero, at: .top, animated: true)
                 }
             })
             .disposed(by: disposeBag)
@@ -109,10 +111,19 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
         // 칵테일 클릭 시 디테일 뷰로 이동
         tableView.rx.itemSelected
             .withUnretained(self)
-            .subscribe(onNext: { obj, indexPath in
-                obj.tableView.deselectRow(at: indexPath, animated: true)
+            .subscribe(onNext: { owner, indexPath in
+                owner.tableView.deselectRow(at: indexPath, animated: true)
                 
-                obj.listener?.didSelectCocktail(of: indexPath.row)
+                owner.listener?.didSelectCocktail(of: indexPath.row)
+            })
+            .disposed(by: disposeBag)
+        
+        refreshControl.rx.controlEvent(.valueChanged)
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                let type = ListType.allCases[owner.segmentedControl.selectedIndex]
+                owner.listener?.requestCocktailList(type: type)
+                owner.refreshControl.endRefreshing()
             })
             .disposed(by: disposeBag)
     }

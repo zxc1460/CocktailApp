@@ -31,7 +31,6 @@ final class CocktailListInteractor: PresentableInteractor<CocktailListPresentabl
     
     private let repostiory: CocktailRepository
     
-    var listTypeRelay: PublishRelay<ListType> = PublishRelay<ListType>()
     var cocktailListRelay: BehaviorRelay<[Cocktail]> = BehaviorRelay<[Cocktail]>(value: [])
 
     // TODO: Add additional dependencies to constructor. Do not perform any logic
@@ -45,24 +44,11 @@ final class CocktailListInteractor: PresentableInteractor<CocktailListPresentabl
     override func didBecomeActive() {
         super.didBecomeActive()
         // TODO: Implement business logic here.
-        
-        listTypeRelay
-            .withUnretained(self)
-            .subscribe(onNext: { obj, type in
-                obj.requestCocktailList(type: type)
-            })
-            .disposeOnDeactivate(interactor: self)
     }
 
     override func willResignActive() {
         super.willResignActive()
         // TODO: Pause any business logic.
-    }
-    
-    private func requestCocktailList(type: ListType) {
-        repostiory.fetchCocktailList(of: type)
-            .bind(to: cocktailListRelay)
-            .disposeOnDeactivate(interactor: self)
     }
 }
 
@@ -72,6 +58,13 @@ extension CocktailListInteractor: CocktailListPresentableListener {
         
         router?.routeToDetail(cocktail: cocktailListRelay.value[index])
     }
+    
+    func requestCocktailList(type: ListType) {
+        repostiory.fetchCocktailList(of: type)
+            .bind(to: cocktailListRelay)
+            .disposeOnDeactivate(interactor: self)
+    }
+    
 }
 
 extension CocktailListInteractor: CocktailDetailListener {

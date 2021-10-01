@@ -34,28 +34,28 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
     
     // MARK: - View Properties
     
-    private lazy var refreshControl = UIRefreshControl()
-    private lazy var contentView = UIView()
+    private let refreshControl = UIRefreshControl()
+    private let contentView = UIView()
     
     private lazy var scrollView = UIScrollView().then {
         $0.refreshControl = refreshControl
     }
 
-    private lazy var thumbnailImageView = UIImageView().then {
+    private let thumbnailImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
     }
     
-    private lazy var nameLabel = UILabel().then {
+    private let nameLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 38, weight: .bold)
         $0.adjustsFontSizeToFitWidth = true
     }
     
-    private lazy var categoryLabel = UILabel().then {
+    private let categoryLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 23, weight: .semibold)
         $0.adjustsFontSizeToFitWidth = true
     }
     
-    private lazy var isAlcoholLabel = UILabel().then {
+    private let isAlcoholLabel = UILabel().then {
         $0.text = "Alcohol"
         $0.font = .systemFont(ofSize: 18, weight: .bold)
         $0.backgroundColor = UIColor.init(hex: "#8AB7F8")
@@ -65,7 +65,7 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         $0.layer.cornerRadius = 10
     }
     
-    private lazy var tagListView = TagListView().then {
+    private let tagListView = TagListView().then {
         $0.textFont = .systemFont(ofSize: 18, weight: .bold)
         $0.textColor = .white
         $0.alignment = .leading
@@ -77,24 +77,24 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         $0.tagBackgroundColor = .systemOrange
     }
     
-    private lazy var ingredientTitleLabel = UILabel().then {
+    private let ingredientTitleLabel = UILabel().then {
         $0.text = "재료"
         $0.font = .systemFont(ofSize: 30, weight: .bold)
     }
     
-    private lazy var ingredientTableView = UITableView().then {
+    private let ingredientTableView = UITableView().then {
         $0.register(IngredientTableViewCell.self, forCellReuseIdentifier: IngredientTableViewCell.reuseIdentifier)
         $0.isScrollEnabled = false
         $0.allowsSelection = false
         $0.tableFooterView = UIView(frame: .zero)
     }
     
-    private lazy var instructionTitleLabel = UILabel().then {
+    private let instructionTitleLabel = UILabel().then {
         $0.text = "제조법"
         $0.font = .systemFont(ofSize: 30, weight: .bold)
     }
     
-    private lazy var instructionDetailLabel = UILabel().then {
+    private let instructionDetailLabel = UILabel().then {
         $0.numberOfLines = 0
         $0.font = .systemFont(ofSize: 18)
     }
@@ -112,6 +112,7 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         super.viewWillDisappear(animated)
         
         self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -224,16 +225,16 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         
         listener.cocktailRelay
             .withUnretained(self)
-            .subscribe(onNext: { obj, cocktail in
-                obj.drawUI(by: cocktail)
+            .subscribe(onNext: { owner, cocktail in
+                owner.drawUI(by: cocktail)
             })
             .disposed(by: disposeBag)
         
         refreshControl.rx.controlEvent(.valueChanged)
             .withUnretained(self)
-            .subscribe(onNext: { obj, _ in
-                obj.listener?.refreshCocktail()
-                obj.refreshControl.endRefreshing()
+            .subscribe(onNext: { owner, _ in
+                owner.listener?.refreshCocktail()
+                owner.refreshControl.endRefreshing()
             })
             .disposed(by: disposeBag)
         
@@ -243,8 +244,8 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
             .compactMap { $0?.height }
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { obj, height in
-                obj.ingredientTableView.height = height
+            .subscribe(onNext: { owner, height in
+                owner.ingredientTableView.height = height
             })
             .disposed(by: disposeBag)
     }

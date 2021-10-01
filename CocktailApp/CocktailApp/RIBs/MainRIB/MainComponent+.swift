@@ -8,4 +8,4 @@
 import RIBs
 
 extension MainComponent: CocktailListDependency {}
-extension MainComponent: CocktailRandomDependency {}
+extension MainComponent: SearchPageDependency {}
