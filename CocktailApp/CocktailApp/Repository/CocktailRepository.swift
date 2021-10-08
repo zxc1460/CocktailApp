@@ -2,8 +2,7 @@
 //  CocktailRepository.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/09/24.
-//
+// 
 
 import Foundation
 import Moya
@@ -21,13 +20,26 @@ final class CocktailRepository {
         return cocktailService.rx.request(.cocktailList(type: type))
             .asObservable()
             .map(CocktailResponse.self)
-            .map { $0.data }
+            .compactMap { $0.data }
     }
     
     func fetchCocktailDetail(from id: String) -> Observable<Cocktail?> {
         return cocktailService.rx.request(.detail(id: id))
             .asObservable()
             .map(CocktailResponse.self)
-            .map { $0.data.first }
+            .compactMap { $0.data }
+            .map { $0.first }
+    }
+    
+    func searchCocktail(name: String) -> Observable<[Cocktail]> {
+        guard name.count > 0 else {
+            return Observable.just([])
+                .asObservable()
+        }
+        
+        return cocktailService.rx.request(.search(name: name))
+            .asObservable()
+            .map(CocktailResponse.self)
+            .compactMap { $0.data }
     }
 }

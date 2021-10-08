@@ -2,7 +2,6 @@
 //  AppDelegate.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/09/23.
 //
 
 import UIKit

@@ -2,8 +2,7 @@
 //  RandomCocktailTableViewCell.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/09/29.
-//
+//  
 
 import UIKit
 import SnapKit
@@ -92,10 +91,6 @@ class CocktailTableViewCell: UITableViewCell {
         stackView.addArrangedSubview(categoryLabel)
         stackView.addArrangedSubview(glassLabel)
         stackView.addArrangedSubview(isAlcoholLabel)
-//        baseView.addSubview(nameLabel)
-//        baseView.addSubview(categoryLabel)
-//        baseView.addSubview(glassLabel)
-//        baseView.addSubview(isAlcoholLabel)
         
         setConstraints()
     }

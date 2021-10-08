@@ -2,7 +2,6 @@
 //  UnderlineSegmentedControl.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/09/30.
 //
 
 import UIKit
@@ -12,6 +11,9 @@ import SnapKit
 import Then
 
 class UnderlineSegmentedControl: UIView {
+    
+    // MARK: - Properties
+    
     private var buttonTitles = [String]()
     private var buttons = [UIButton]()
     private var selectorView: UIView!
@@ -19,56 +21,50 @@ class UnderlineSegmentedControl: UIView {
     var textColor = UIColor.black
     var selectorViewColor = UIColor.systemBlue
     var selectorTextColor = UIColor.systemBlue
+        
+    var selectedButtonIndex = BehaviorRelay<Int>(value: 0)
     
-    public private(set) var selectedIndex = 0
+    let disposeBag = DisposeBag()
     
-    var selectedButtonIndex = PublishRelay<Int>()
+    // MARK: - init Method
     
     convenience init(buttonTitles: [String]) {
         self.init(frame: .zero)
         self.buttonTitles = buttonTitles
+        
+        updateView()
+        
+        selectedButtonIndex
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { owner, index in
+                owner.selectSegment(of: index)
+            })
+            .disposed(by: disposeBag)
     }
-    
+
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         self.backgroundColor = .white
+        
         updateView()
     }
     
-    func setButtonTitles(_ buttonTitles: [String]) {
-        self.buttonTitles = buttonTitles
-        updateView()
-    }
+    // MARK: - Private Methods
     
-    func setIndex(index: Int) {
+    private func selectSegment(of index: Int) {
         buttons.forEach {
             $0.setTitleColor(textColor, for: .normal)
         }
+        
         let button = buttons[index]
-        selectedIndex = index
+            
         button.setTitleColor(selectorTextColor, for: .normal)
+        
         let selectorPosition = frame.width / CGFloat(buttonTitles.count) * CGFloat(index)
+        
         UIView.animate(withDuration: 0.2) {
             self.selectorView.frame.origin.x = selectorPosition
-        }
-    }
-    
-    @objc private func buttonAction(_ sender: UIButton) {
-        for (index, button) in buttons.enumerated() {
-            button.setTitleColor(textColor, for: .normal)
-            
-            if button == sender {
-                let selectorPosition = frame.width / CGFloat(buttonTitles.count) * CGFloat(index)
-                selectedIndex = index
-                
-                selectedButtonIndex.accept(index)
-                
-                UIView.animate(withDuration: 0.2) {
-                    self.selectorView.frame.origin.x = selectorPosition
-                }
-                
-                button.setTitleColor(selectorTextColor, for: .normal)
-            }
         }
     }
      
@@ -85,7 +81,7 @@ class UnderlineSegmentedControl: UIView {
             $0.removeFromSuperview()
         }
         
-        for buttonTitle in buttonTitles {
+        for (index, buttonTitle) in buttonTitles.enumerated() {
             let button = UIButton(type: .system).then {
                 $0.setTitle(buttonTitle, for: .normal)
                 $0.setTitleColor(textColor, for: .normal)
@@ -95,13 +91,20 @@ class UnderlineSegmentedControl: UIView {
             
             buttons.append(button)
             
-            button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
+            button.tag = index
             
             buttons[0].setTitleColor(selectorTextColor, for: .normal)
         }
         
-        selectedIndex = 0
-        selectedButtonIndex.accept(0)
+        let obs = buttons
+            .map { ($0.rx.tap, $0.tag) }
+            .map { ob, tag in
+                ob.map { tag }
+            }
+        
+        Observable.merge(obs)
+            .bind(to: selectedButtonIndex)
+            .disposed(by: disposeBag)
     }
     
     private func configureStackView() {

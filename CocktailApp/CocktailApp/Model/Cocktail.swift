@@ -2,7 +2,6 @@
 //  Cocktail.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/09/23.
 //
 
 import Foundation
@@ -75,6 +74,8 @@ struct Cocktail: Codable {
             .filter { $0.0 != nil && $0.1 != nil && $0.0!.count > 0 && $0.1!.count > 0 }
             .compactMap { (name: $0.0!, measure: $0.1!) }
     }
+    
+    // MARK: - CodingKeys
     
     enum CodingKeys: String, CodingKey {
         case id = "idDrink"

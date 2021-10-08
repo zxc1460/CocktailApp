@@ -2,7 +2,6 @@
 //  CocktailDetailViewController.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/09/27.
 //
 
 import UIKit
@@ -15,9 +14,6 @@ import TagListView
 import Then
 
 protocol CocktailDetailPresentableListener: AnyObject {
-    // TODO: Declare properties and methods that the view controller can invoke to perform
-    // business logic, such as signIn(). This protocol is implemented by the corresponding
-    // interactor class.
     var cocktailRelay: BehaviorRelay<Cocktail> { get }
     
     func refreshCocktail()
@@ -123,7 +119,7 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         }
     }
     
-    // MARK: - Methods
+    // MARK: - UI Methods
     
     private func setUI() {
         self.navigationController?.navigationBar.prefersLargeTitles = false
@@ -226,7 +222,7 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         listener.cocktailRelay
             .withUnretained(self)
             .subscribe(onNext: { owner, cocktail in
-                owner.drawUI(by: cocktail)
+                owner.configureUI(by: cocktail)
             })
             .disposed(by: disposeBag)
         
@@ -250,7 +246,7 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
             .disposed(by: disposeBag)
     }
     
-    private func drawUI(by cocktail: Cocktail) {
+    private func configureUI(by cocktail: Cocktail) {
         thumbnailImageView.setCocktailImage(cocktail.thumbnail)
         
         nameLabel.text = cocktail.name

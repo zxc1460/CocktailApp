@@ -2,7 +2,6 @@
 //  CocktailListViewController.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/09/23.
 //
 
 import UIKit
@@ -13,9 +12,6 @@ import SnapKit
 import Then
 
 protocol CocktailListPresentableListener: AnyObject {
-    // TODO: Declare properties and methods that the view controller can invoke to perform
-    // business logic, such as signIn(). This protocol is implemented by the corresponding
-    // interactor class.
     var cocktailListRelay: BehaviorRelay<[Cocktail]> { get }
     
     func didSelectCocktail(of index: Int)
@@ -37,6 +33,7 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
     private lazy var tableView = UITableView().then {
         $0.register(CocktailTableViewCell.self, forCellReuseIdentifier: CocktailTableViewCell.reuseIdentifier)
         $0.tableFooterView = UIView(frame: .zero)
+        $0.separatorStyle = .none
         $0.refreshControl = refreshControl
     }
     
@@ -48,6 +45,8 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
         setUI()
         bindUI()
     }
+    
+    // MARK: - UI Methods
     
     private func setUI() {
         self.navigationItem.title = "칵테일 리스트"
@@ -73,12 +72,8 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
     }
     
     private func bindUI() {
-        guard let listener = listener else {
-            return
-        }
-        
         segmentedControl.selectedButtonIndex
-            .debounce(.milliseconds(200), scheduler: MainScheduler.instance)
+            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
             .map { index -> ListType in
                 return ListType.allCases[index]
             }
@@ -88,7 +83,7 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
             })
             .disposed(by: disposeBag)
         
-        listener.cocktailListRelay
+        listener?.cocktailListRelay
             .asDriver(onErrorJustReturn: [])
             .drive(tableView.rx.items(cellIdentifier: CocktailTableViewCell.reuseIdentifier,
                                       cellType: CocktailTableViewCell.self)) { _, cocktail, cell in
@@ -97,7 +92,7 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
             .disposed(by: disposeBag)
         
         // 칵테일 리스트 리로드 시 최상단으로 이동
-        listener.cocktailListRelay
+        listener?.cocktailListRelay
             .delay(.milliseconds(50), scheduler: MainScheduler.instance)
             .map { $0.count > 0 }
             .withUnretained(self)
@@ -121,8 +116,9 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
         refreshControl.rx.controlEvent(.valueChanged)
             .withUnretained(self)
             .subscribe(onNext: { owner, _ in
-                let type = ListType.allCases[owner.segmentedControl.selectedIndex]
+                let type = ListType.allCases[owner.segmentedControl.selectedButtonIndex.value]
                 owner.listener?.requestCocktailList(type: type)
+                
                 owner.refreshControl.endRefreshing()
             })
             .disposed(by: disposeBag)

@@ -2,8 +2,8 @@
 //  Constant.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/09/24.
 //
+
 import Foundation
 
 struct Constant {
@@ -21,7 +21,7 @@ struct Constant {
         let dict = NSDictionary(contentsOfFile: path)
         
         guard let key = dict?.object(forKey: "apiKey") as? String else {
-            fatalError("couldn't find key 'apiKey' in 'keys.plist'")
+            fatalError("couldn't find 'apiKey' in 'keys.plist'")
         }
         
         self.key = key

@@ -2,32 +2,22 @@
 //  CocktailListBuilder.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/09/23.
 //
 
 import RIBs
 
 protocol CocktailListDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
+    var repository: CommonRepository { get }
 }
 
 final class CocktailListComponent: Component<CocktailListDependency> {
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
-    
-    var repository: CocktailRepository
-    
-    init(dependency: CocktailListDependency, repository: CocktailRepository) {
-        self.repository = repository
-        
-        super.init(dependency: dependency)
+    var repository: CommonRepository {
+        dependency.repository
     }
 }
 
-// MARK: - Builder
-
 protocol CocktailListBuildable: Buildable {
-    func build(withListener listener: CocktailListListener, repository: CocktailRepository) -> CocktailListRouting
+    func build(withListener listener: CocktailListListener) -> CocktailListRouting
 }
 
 final class CocktailListBuilder: Builder<CocktailListDependency>, CocktailListBuildable {
@@ -36,10 +26,10 @@ final class CocktailListBuilder: Builder<CocktailListDependency>, CocktailListBu
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: CocktailListListener, repository: CocktailRepository) -> CocktailListRouting {
-        let component = CocktailListComponent(dependency: dependency, repository: repository)
+    func build(withListener listener: CocktailListListener) -> CocktailListRouting {
+        let component = CocktailListComponent(dependency: dependency)
         let viewController = CocktailListViewController()
-        let interactor = CocktailListInteractor(presenter: viewController, repository: repository)
+        let interactor = CocktailListInteractor(presenter: viewController, repository: component.repository)
         let cocktailDetailBuilder = CocktailDetailBuilder(dependency: component)
         interactor.listener = listener
         return CocktailListRouter(interactor: interactor, viewController: viewController, cocktailDetailBuilder: cocktailDetailBuilder)

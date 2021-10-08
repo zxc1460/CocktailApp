@@ -13,6 +13,11 @@
 		FD2C80C026FC02930030C275 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD2C80BE26FC02930030C275 /* LaunchScreen.storyboard */; };
 		FD2C80CB26FC02930030C275 /* CocktailAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2C80CA26FC02930030C275 /* CocktailAppTests.swift */; };
 		FD2C80D626FC02930030C275 /* CocktailAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2C80D526FC02930030C275 /* CocktailAppUITests.swift */; };
+		FD2E5ABC270FE16C008AF27B /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = FD2E5ABB270FE16C008AF27B /* Realm */; };
+		FD2E5ABE270FE16C008AF27B /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FD2E5ABD270FE16C008AF27B /* RealmSwift */; };
+		FD2E5AC2270FE340008AF27B /* FilterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2E5AC1270FE340008AF27B /* FilterType.swift */; };
+		FD2E5AC5270FE8C6008AF27B /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2E5AC4270FE8C6008AF27B /* RealmManager.swift */; };
+		FD2E5AC727100A37008AF27B /* FilterAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2E5AC627100A37008AF27B /* FilterAPI.swift */; };
 		FD58A9B726FC09B9001E6D4C /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD58A9B326FC09B9001E6D4C /* RootRouter.swift */; };
 		FD58A9B826FC09B9001E6D4C /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD58A9B426FC09B9001E6D4C /* RootViewController.swift */; };
 		FD58A9B926FC09B9001E6D4C /* RootBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD58A9B526FC09B9001E6D4C /* RootBuilder.swift */; };
@@ -35,7 +40,16 @@
 		FD611B232702F77C00B04164 /* TagListView in Frameworks */ = {isa = PBXBuildFile; productRef = FD611B222702F77C00B04164 /* TagListView */; };
 		FD611B292702F86F00B04164 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = FD611B282702F86F00B04164 /* Moya */; };
 		FD611B2B2702F86F00B04164 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = FD611B2A2702F86F00B04164 /* RxMoya */; };
-		FD6AF00B2706A01600C67E66 /* ViewableRoutingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6AF00A2706A01600C67E66 /* ViewableRoutingExtension.swift */; };
+		FD63823A27100C4600698DC6 /* FilterRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD63823927100C4600698DC6 /* FilterRepository.swift */; };
+		FD63823C27100C4D00698DC6 /* CommonRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD63823B27100C4D00698DC6 /* CommonRepository.swift */; };
+		FD63823E271016A400698DC6 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD63823D271016A400698DC6 /* ArrayExtension.swift */; };
+		FD6AF00B2706A01600C67E66 /* RoutingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6AF00A2706A01600C67E66 /* RoutingExtension.swift */; };
+		FD800562270EED80001A3C60 /* FilterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD800561270EED80001A3C60 /* FilterResponse.swift */; };
+		FD800564270EEE56001A3C60 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD800563270EEE56001A3C60 /* Filter.swift */; };
+		FD88EA80270EB33D003D1118 /* SearchFilterRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD88EA7C270EB33D003D1118 /* SearchFilterRouter.swift */; };
+		FD88EA81270EB33D003D1118 /* SearchFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD88EA7D270EB33D003D1118 /* SearchFilterViewController.swift */; };
+		FD88EA82270EB33D003D1118 /* SearchFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD88EA7E270EB33D003D1118 /* SearchFilterBuilder.swift */; };
+		FD88EA83270EB33D003D1118 /* SearchFilterInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD88EA7F270EB33D003D1118 /* SearchFilterInteractor.swift */; };
 		FD8BC21C26FD500500C35BE8 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8BC21B26FD500500C35BE8 /* Constant.swift */; };
 		FD8BC21F26FD508C00C35BE8 /* CocktailAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8BC21E26FD508C00C35BE8 /* CocktailAPI.swift */; };
 		FD8BC22426FD5A3000C35BE8 /* CocktailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8BC22326FD5A3000C35BE8 /* CocktailRepository.swift */; };
@@ -50,6 +64,8 @@
 		FD9787E0270186C50078244F /* ViewControllableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9787DF270186C50078244F /* ViewControllableExtension.swift */; };
 		FD9787E22701A2860078244F /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9787E12701A2860078244F /* UIImageViewExtension.swift */; };
 		FD9787E42701B2DB0078244F /* IngredientTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9787E32701B2DB0078244F /* IngredientTableViewCell.swift */; };
+		FDABDADB270C0D79001EBFD9 /* SearchNameComponent+CocktailDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDABDADA270C0D79001EBFD9 /* SearchNameComponent+CocktailDetail.swift */; };
+		FDABDADF270C3C78001EBFD9 /* UIPageViweControllerDelegate+RxExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDABDADE270C3C78001EBFD9 /* UIPageViweControllerDelegate+RxExtension.swift */; };
 		FDACFB5A26FC0DD900D8C683 /* AppComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDACFB5926FC0DD900D8C683 /* AppComponent.swift */; };
 		FDACFB6C26FC3BE800D8C683 /* CocktailListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDACFB6826FC3BE800D8C683 /* CocktailListRouter.swift */; };
 		FDACFB6D26FC3BE800D8C683 /* CocktailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDACFB6926FC3BE800D8C683 /* CocktailListViewController.swift */; };
@@ -65,13 +81,10 @@
 		FDBE85CE27055973000F8627 /* SearchNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBE85CA27055973000F8627 /* SearchNameViewController.swift */; };
 		FDBE85CF27055973000F8627 /* SearchNameBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBE85CB27055973000F8627 /* SearchNameBuilder.swift */; };
 		FDBE85D027055973000F8627 /* SearchNameInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBE85CC27055973000F8627 /* SearchNameInteractor.swift */; };
-		FDBE85D527055996000F8627 /* SearchConditionRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBE85D127055996000F8627 /* SearchConditionRouter.swift */; };
-		FDBE85D627055996000F8627 /* SearchConditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBE85D227055996000F8627 /* SearchConditionViewController.swift */; };
-		FDBE85D727055996000F8627 /* SearchConditionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBE85D327055996000F8627 /* SearchConditionBuilder.swift */; };
-		FDBE85D827055996000F8627 /* SearchConditionInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBE85D427055996000F8627 /* SearchConditionInteractor.swift */; };
 		FDBE85DA270559A6000F8627 /* SearchPageComponent+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBE85D9270559A6000F8627 /* SearchPageComponent+.swift */; };
 		FDBE85E0270581C2000F8627 /* UnderlineSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBE85DF270581C2000F8627 /* UnderlineSegmentedControl.swift */; };
-		FDBE85E32705B32E000F8627 /* BuglessPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBE85E22705B32E000F8627 /* BuglessPageViewController.swift */; };
+		FDCCB192270FD51100D98D5E /* FilterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCCB191270FD51100D98D5E /* FilterData.swift */; };
+		FDCCB194270FD55E00D98D5E /* FilterDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCCB193270FD55E00D98D5E /* FilterDAO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +117,9 @@
 		FD2C80D126FC02930030C275 /* CocktailAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CocktailAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD2C80D526FC02930030C275 /* CocktailAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailAppUITests.swift; sourceTree = "<group>"; };
 		FD2C80D726FC02930030C275 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FD2E5AC1270FE340008AF27B /* FilterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterType.swift; sourceTree = "<group>"; };
+		FD2E5AC4270FE8C6008AF27B /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		FD2E5AC627100A37008AF27B /* FilterAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAPI.swift; sourceTree = "<group>"; };
 		FD58A9B326FC09B9001E6D4C /* RootRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
 		FD58A9B426FC09B9001E6D4C /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		FD58A9B526FC09B9001E6D4C /* RootBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootBuilder.swift; sourceTree = "<group>"; };
@@ -116,7 +132,16 @@
 		FD5E8B3D27040A0300BEF943 /* MainComponent+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainComponent+.swift"; sourceTree = "<group>"; };
 		FD5E8B3F27043FEB00BEF943 /* CocktailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailTableViewCell.swift; sourceTree = "<group>"; };
 		FD611B052702C08000B04164 /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
-		FD6AF00A2706A01600C67E66 /* ViewableRoutingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewableRoutingExtension.swift; sourceTree = "<group>"; };
+		FD63823927100C4600698DC6 /* FilterRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterRepository.swift; sourceTree = "<group>"; };
+		FD63823B27100C4D00698DC6 /* CommonRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonRepository.swift; sourceTree = "<group>"; };
+		FD63823D271016A400698DC6 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
+		FD6AF00A2706A01600C67E66 /* RoutingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingExtension.swift; sourceTree = "<group>"; };
+		FD800561270EED80001A3C60 /* FilterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterResponse.swift; sourceTree = "<group>"; };
+		FD800563270EEE56001A3C60 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
+		FD88EA7C270EB33D003D1118 /* SearchFilterRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterRouter.swift; sourceTree = "<group>"; };
+		FD88EA7D270EB33D003D1118 /* SearchFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterViewController.swift; sourceTree = "<group>"; };
+		FD88EA7E270EB33D003D1118 /* SearchFilterBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterBuilder.swift; sourceTree = "<group>"; };
+		FD88EA7F270EB33D003D1118 /* SearchFilterInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterInteractor.swift; sourceTree = "<group>"; };
 		FD8BC21B26FD500500C35BE8 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		FD8BC21E26FD508C00C35BE8 /* CocktailAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailAPI.swift; sourceTree = "<group>"; };
 		FD8BC22326FD5A3000C35BE8 /* CocktailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailRepository.swift; sourceTree = "<group>"; };
@@ -131,6 +156,8 @@
 		FD9787DF270186C50078244F /* ViewControllableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllableExtension.swift; sourceTree = "<group>"; };
 		FD9787E12701A2860078244F /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		FD9787E32701B2DB0078244F /* IngredientTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientTableViewCell.swift; sourceTree = "<group>"; };
+		FDABDADA270C0D79001EBFD9 /* SearchNameComponent+CocktailDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchNameComponent+CocktailDetail.swift"; sourceTree = "<group>"; };
+		FDABDADE270C3C78001EBFD9 /* UIPageViweControllerDelegate+RxExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPageViweControllerDelegate+RxExtension.swift"; sourceTree = "<group>"; };
 		FDACFB5926FC0DD900D8C683 /* AppComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppComponent.swift; sourceTree = "<group>"; };
 		FDACFB6826FC3BE800D8C683 /* CocktailListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailListRouter.swift; sourceTree = "<group>"; };
 		FDACFB6926FC3BE800D8C683 /* CocktailListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailListViewController.swift; sourceTree = "<group>"; };
@@ -146,13 +173,10 @@
 		FDBE85CA27055973000F8627 /* SearchNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNameViewController.swift; sourceTree = "<group>"; };
 		FDBE85CB27055973000F8627 /* SearchNameBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNameBuilder.swift; sourceTree = "<group>"; };
 		FDBE85CC27055973000F8627 /* SearchNameInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNameInteractor.swift; sourceTree = "<group>"; };
-		FDBE85D127055996000F8627 /* SearchConditionRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchConditionRouter.swift; sourceTree = "<group>"; };
-		FDBE85D227055996000F8627 /* SearchConditionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchConditionViewController.swift; sourceTree = "<group>"; };
-		FDBE85D327055996000F8627 /* SearchConditionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchConditionBuilder.swift; sourceTree = "<group>"; };
-		FDBE85D427055996000F8627 /* SearchConditionInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchConditionInteractor.swift; sourceTree = "<group>"; };
 		FDBE85D9270559A6000F8627 /* SearchPageComponent+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchPageComponent+.swift"; sourceTree = "<group>"; };
 		FDBE85DF270581C2000F8627 /* UnderlineSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineSegmentedControl.swift; sourceTree = "<group>"; };
-		FDBE85E22705B32E000F8627 /* BuglessPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuglessPageViewController.swift; sourceTree = "<group>"; };
+		FDCCB191270FD51100D98D5E /* FilterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterData.swift; sourceTree = "<group>"; };
+		FDCCB193270FD55E00D98D5E /* FilterDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDAO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +184,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD2E5ABE270FE16C008AF27B /* RealmSwift in Frameworks */,
+				FD2E5ABC270FE16C008AF27B /* Realm in Frameworks */,
 				FD611B2B2702F86F00B04164 /* RxMoya in Frameworks */,
 				FD611B0E2702F65800B04164 /* RxCocoa in Frameworks */,
 				FD611B0C2702F65800B04164 /* RxSwift in Frameworks */,
@@ -216,14 +242,15 @@
 				FD2C80E326FC029A0030C275 /* App */,
 				FD2C80BE26FC02930030C275 /* LaunchScreen.storyboard */,
 				FD8BC21A26FD4FAC00C35BE8 /* Common */,
+				FDCCB18E270FD47E00D98D5E /* DB */,
 				FD8BC22E26FD9E9200C35BE8 /* Extension */,
+				FD2E5AC3270FE8B6008AF27B /* Manager */,
 				FDACFB7226FC580400D8C683 /* Model */,
 				FD8BC21926FD4F7000C35BE8 /* Network */,
 				FD8BC22226FD5A0D00C35BE8 /* Repository */,
 				FD2C80E426FC02E10030C275 /* Resources */,
 				FD58A9B126FC05B3001E6D4C /* RIBs */,
 				FD8BC22826FD852800C35BE8 /* View */,
-				FDBE85E12705B30D000F8627 /* ViewController */,
 			);
 			path = CocktailApp;
 			sourceTree = "<group>";
@@ -265,6 +292,22 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		FD2E5ABF270FE32A008AF27B /* Attribute */ = {
+			isa = PBXGroup;
+			children = (
+				FD2E5AC1270FE340008AF27B /* FilterType.swift */,
+			);
+			path = Attribute;
+			sourceTree = "<group>";
+		};
+		FD2E5AC3270FE8B6008AF27B /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				FD2E5AC4270FE8C6008AF27B /* RealmManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		FD58A9B126FC05B3001E6D4C /* RIBs */ = {
 			isa = PBXGroup;
 			children = (
@@ -272,7 +315,7 @@
 				FDACFB6726FC3BC900D8C683 /* CocktailListRIB */,
 				FD5E8B332704067E00BEF943 /* MainRIB */,
 				FD58A9B226FC09AB001E6D4C /* RootRIB */,
-				FDBE85BC27055506000F8627 /* Search */,
+				FDBE85BC27055506000F8627 /* SearchRIBs */,
 			);
 			path = RIBs;
 			sourceTree = "<group>";
@@ -301,6 +344,17 @@
 			path = MainRIB;
 			sourceTree = "<group>";
 		};
+		FD88EA7B270EB328003D1118 /* SearchFilterRIB */ = {
+			isa = PBXGroup;
+			children = (
+				FD88EA7C270EB33D003D1118 /* SearchFilterRouter.swift */,
+				FD88EA7D270EB33D003D1118 /* SearchFilterViewController.swift */,
+				FD88EA7E270EB33D003D1118 /* SearchFilterBuilder.swift */,
+				FD88EA7F270EB33D003D1118 /* SearchFilterInteractor.swift */,
+			);
+			path = SearchFilterRIB;
+			sourceTree = "<group>";
+		};
 		FD8BC21926FD4F7000C35BE8 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -322,6 +376,7 @@
 			isa = PBXGroup;
 			children = (
 				FD8BC21E26FD508C00C35BE8 /* CocktailAPI.swift */,
+				FD2E5AC627100A37008AF27B /* FilterAPI.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -330,6 +385,8 @@
 			isa = PBXGroup;
 			children = (
 				FD8BC22326FD5A3000C35BE8 /* CocktailRepository.swift */,
+				FD63823B27100C4D00698DC6 /* CommonRepository.swift */,
+				FD63823927100C4600698DC6 /* FilterRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -338,6 +395,7 @@
 			isa = PBXGroup;
 			children = (
 				FD8BC22526FD5BD100C35BE8 /* CocktailResponse.swift */,
+				FD800561270EED80001A3C60 /* FilterResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -368,7 +426,9 @@
 				FD9787E12701A2860078244F /* UIImageViewExtension.swift */,
 				FD611B052702C08000B04164 /* UITableViewExtension.swift */,
 				FD9787DF270186C50078244F /* ViewControllableExtension.swift */,
-				FD6AF00A2706A01600C67E66 /* ViewableRoutingExtension.swift */,
+				FD6AF00A2706A01600C67E66 /* RoutingExtension.swift */,
+				FDABDADE270C3C78001EBFD9 /* UIPageViweControllerDelegate+RxExtension.swift */,
+				FD63823D271016A400698DC6 /* ArrayExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -401,18 +461,19 @@
 			children = (
 				FD8BC22726FD5DFB00C35BE8 /* Response */,
 				FDACFB7326FC59D100D8C683 /* Cocktail.swift */,
+				FD800563270EEE56001A3C60 /* Filter.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		FDBE85BC27055506000F8627 /* Search */ = {
+		FDBE85BC27055506000F8627 /* SearchRIBs */ = {
 			isa = PBXGroup;
 			children = (
-				FDBE85C727055956000F8627 /* SearchConditionRIB */,
+				FD88EA7B270EB328003D1118 /* SearchFilterRIB */,
 				FDBE85C62705594A000F8627 /* SearchNameRIB */,
 				FDBE85BD27055525000F8627 /* SearchPageRIB */,
 			);
-			path = Search;
+			path = SearchRIBs;
 			sourceTree = "<group>";
 		};
 		FDBE85BD27055525000F8627 /* SearchPageRIB */ = {
@@ -434,27 +495,35 @@
 				FDBE85CA27055973000F8627 /* SearchNameViewController.swift */,
 				FDBE85CB27055973000F8627 /* SearchNameBuilder.swift */,
 				FDBE85CC27055973000F8627 /* SearchNameInteractor.swift */,
+				FDABDADA270C0D79001EBFD9 /* SearchNameComponent+CocktailDetail.swift */,
 			);
 			path = SearchNameRIB;
 			sourceTree = "<group>";
 		};
-		FDBE85C727055956000F8627 /* SearchConditionRIB */ = {
+		FDCCB18E270FD47E00D98D5E /* DB */ = {
 			isa = PBXGroup;
 			children = (
-				FDBE85D127055996000F8627 /* SearchConditionRouter.swift */,
-				FDBE85D227055996000F8627 /* SearchConditionViewController.swift */,
-				FDBE85D327055996000F8627 /* SearchConditionBuilder.swift */,
-				FDBE85D427055996000F8627 /* SearchConditionInteractor.swift */,
+				FDCCB18F270FD49500D98D5E /* DAO */,
+				FDCCB190270FD49900D98D5E /* Enitty */,
+				FD2E5ABF270FE32A008AF27B /* Attribute */,
 			);
-			path = SearchConditionRIB;
+			path = DB;
 			sourceTree = "<group>";
 		};
-		FDBE85E12705B30D000F8627 /* ViewController */ = {
+		FDCCB18F270FD49500D98D5E /* DAO */ = {
 			isa = PBXGroup;
 			children = (
-				FDBE85E22705B32E000F8627 /* BuglessPageViewController.swift */,
+				FDCCB193270FD55E00D98D5E /* FilterDAO.swift */,
 			);
-			path = ViewController;
+			path = DAO;
+			sourceTree = "<group>";
+		};
+		FDCCB190270FD49900D98D5E /* Enitty */ = {
+			isa = PBXGroup;
+			children = (
+				FDCCB191270FD51100D98D5E /* FilterData.swift */,
+			);
+			path = Enitty;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -484,6 +553,8 @@
 				FD611B222702F77C00B04164 /* TagListView */,
 				FD611B282702F86F00B04164 /* Moya */,
 				FD611B2A2702F86F00B04164 /* RxMoya */,
+				FD2E5ABB270FE16C008AF27B /* Realm */,
+				FD2E5ABD270FE16C008AF27B /* RealmSwift */,
 			);
 			productName = CocktailApp;
 			productReference = FD2C80B026FC02910030C275 /* CocktailApp.app */;
@@ -564,6 +635,7 @@
 				FD611B1E2702F76A00B04164 /* XCRemoteSwiftPackageReference "Then" */,
 				FD611B212702F77C00B04164 /* XCRemoteSwiftPackageReference "TagListView" */,
 				FD611B272702F86F00B04164 /* XCRemoteSwiftPackageReference "Moya" */,
+				FD2E5ABA270FE16C008AF27B /* XCRemoteSwiftPackageReference "realm-cocoa" */,
 			);
 			productRefGroup = FD2C80B126FC02910030C275 /* Products */;
 			projectDirPath = "";
@@ -608,50 +680,61 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD88EA80270EB33D003D1118 /* SearchFilterRouter.swift in Sources */,
 				FD5E8B4027043FEB00BEF943 /* CocktailTableViewCell.swift in Sources */,
-				FDBE85D727055996000F8627 /* SearchConditionBuilder.swift in Sources */,
 				FD58A9B826FC09B9001E6D4C /* RootViewController.swift in Sources */,
+				FDCCB194270FD55E00D98D5E /* FilterDAO.swift in Sources */,
+				FD2E5AC727100A37008AF27B /* FilterAPI.swift in Sources */,
 				FD9787E22701A2860078244F /* UIImageViewExtension.swift in Sources */,
 				FD9787DC270153DF0078244F /* CocktailDetailInteractor.swift in Sources */,
 				FDBE85CD27055973000F8627 /* SearchNameRouter.swift in Sources */,
 				FDBE85DA270559A6000F8627 /* SearchPageComponent+.swift in Sources */,
-				FDBE85D527055996000F8627 /* SearchConditionRouter.swift in Sources */,
 				FD5E8B392704069900BEF943 /* MainRouter.swift in Sources */,
 				FDBE85C227055624000F8627 /* SearchPageRouter.swift in Sources */,
 				FD9787DA270153DF0078244F /* CocktailDetailViewController.swift in Sources */,
+				FD2E5AC5270FE8C6008AF27B /* RealmManager.swift in Sources */,
 				FD8BC21F26FD508C00C35BE8 /* CocktailAPI.swift in Sources */,
-				FDBE85D627055996000F8627 /* SearchConditionViewController.swift in Sources */,
 				FDBE85E0270581C2000F8627 /* UnderlineSegmentedControl.swift in Sources */,
 				FDBE85D027055973000F8627 /* SearchNameInteractor.swift in Sources */,
-				FD6AF00B2706A01600C67E66 /* ViewableRoutingExtension.swift in Sources */,
+				FD6AF00B2706A01600C67E66 /* RoutingExtension.swift in Sources */,
 				FD9787DB270153DF0078244F /* CocktailDetailBuilder.swift in Sources */,
+				FD63823C27100C4D00698DC6 /* CommonRepository.swift in Sources */,
 				FDBE85CF27055973000F8627 /* SearchNameBuilder.swift in Sources */,
+				FD800562270EED80001A3C60 /* FilterResponse.swift in Sources */,
+				FD88EA83270EB33D003D1118 /* SearchFilterInteractor.swift in Sources */,
 				FDACFB6E26FC3BE800D8C683 /* CocktailListBuilder.swift in Sources */,
-				FDBE85D827055996000F8627 /* SearchConditionInteractor.swift in Sources */,
+				FDCCB192270FD51100D98D5E /* FilterData.swift in Sources */,
 				FD58A9B726FC09B9001E6D4C /* RootRouter.swift in Sources */,
 				FD611B062702C08000B04164 /* UITableViewExtension.swift in Sources */,
 				FDACFB6D26FC3BE800D8C683 /* CocktailListViewController.swift in Sources */,
 				FD8BC22626FD5BD100C35BE8 /* CocktailResponse.swift in Sources */,
 				FD5E8B3A2704069900BEF943 /* MainViewController.swift in Sources */,
 				FDBE85C327055624000F8627 /* SearchPageViewController.swift in Sources */,
+				FD88EA82270EB33D003D1118 /* SearchFilterBuilder.swift in Sources */,
+				FD63823E271016A400698DC6 /* ArrayExtension.swift in Sources */,
 				FDACFB6C26FC3BE800D8C683 /* CocktailListRouter.swift in Sources */,
+				FDABDADF270C3C78001EBFD9 /* UIPageViweControllerDelegate+RxExtension.swift in Sources */,
+				FD88EA81270EB33D003D1118 /* SearchFilterViewController.swift in Sources */,
 				FDACFB5A26FC0DD900D8C683 /* AppComponent.swift in Sources */,
 				FD9787DE270165800078244F /* CocktailListComponent+CocktailDetail.swift in Sources */,
 				FDACFB7426FC59D100D8C683 /* Cocktail.swift in Sources */,
 				FD9787E0270186C50078244F /* ViewControllableExtension.swift in Sources */,
+				FD2E5AC2270FE340008AF27B /* FilterType.swift in Sources */,
 				FD8BC23826FDBBCE00C35BE8 /* UIColorExtension.swift in Sources */,
 				FD9787E42701B2DB0078244F /* IngredientTableViewCell.swift in Sources */,
 				FD8BC21C26FD500500C35BE8 /* Constant.swift in Sources */,
 				FD58A9BA26FC09B9001E6D4C /* RootInteractor.swift in Sources */,
 				FD8BC23026FD9EC300C35BE8 /* IndexPathExtension.swift in Sources */,
 				FDBE85C427055624000F8627 /* SearchPageBuilder.swift in Sources */,
+				FDABDADB270C0D79001EBFD9 /* SearchNameComponent+CocktailDetail.swift in Sources */,
 				FD9787D9270153DF0078244F /* CocktailDetailRouter.swift in Sources */,
+				FD63823A27100C4600698DC6 /* FilterRepository.swift in Sources */,
 				FD2C80B426FC02910030C275 /* AppDelegate.swift in Sources */,
+				FD800564270EEE56001A3C60 /* Filter.swift in Sources */,
 				FDACFB6F26FC3BE800D8C683 /* CocktailListInteractor.swift in Sources */,
 				FD2C80B626FC02910030C275 /* SceneDelegate.swift in Sources */,
 				FDBE85C527055624000F8627 /* SearchPageInteractor.swift in Sources */,
 				FD5E8B3E27040A0300BEF943 /* MainComponent+.swift in Sources */,
-				FDBE85E32705B32E000F8627 /* BuglessPageViewController.swift in Sources */,
 				FD8BC22426FD5A3000C35BE8 /* CocktailRepository.swift in Sources */,
 				FD5E8B3C2704069900BEF943 /* MainInteractor.swift in Sources */,
 				FD5E8B3B2704069900BEF943 /* MainBuilder.swift in Sources */,
@@ -984,6 +1067,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		FD2E5ABA270FE16C008AF27B /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.17.0;
+			};
+		};
 		FD611B072702F5F400B04164 /* XCRemoteSwiftPackageReference "RIBs" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/uber/RIBs.git";
@@ -1043,6 +1134,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		FD2E5ABB270FE16C008AF27B /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD2E5ABA270FE16C008AF27B /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		FD2E5ABD270FE16C008AF27B /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD2E5ABA270FE16C008AF27B /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
+		};
 		FD611B082702F5F400B04164 /* RIBs */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FD611B072702F5F400B04164 /* XCRemoteSwiftPackageReference "RIBs" */;

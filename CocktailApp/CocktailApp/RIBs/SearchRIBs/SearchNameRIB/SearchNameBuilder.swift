@@ -2,21 +2,16 @@
 //  SearchNameBuilder.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/09/30.
 //
 
 import RIBs
 
 protocol SearchNameDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
-    var repository: CocktailRepository { get }
+    var repository: CommonRepository { get }
 }
 
 final class SearchNameComponent: Component<SearchNameDependency> {
-
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
-    var repository: CocktailRepository {
+    var repository: CommonRepository {
         dependency.repository
     }
 }
@@ -28,7 +23,7 @@ protocol SearchNameBuildable: Buildable {
 }
 
 final class SearchNameBuilder: Builder<SearchNameDependency>, SearchNameBuildable {
-
+    
     override init(dependency: SearchNameDependency) {
         super.init(dependency: dependency)
     }
@@ -37,7 +32,10 @@ final class SearchNameBuilder: Builder<SearchNameDependency>, SearchNameBuildabl
         let component = SearchNameComponent(dependency: dependency)
         let viewController = SearchNameViewController()
         let interactor = SearchNameInteractor(presenter: viewController, repository: component.repository)
+        let cocktailDetailBuilder = CocktailDetailBuilder(dependency: component)
         interactor.listener = listener
-        return SearchNameRouter(interactor: interactor, viewController: viewController)
+        return SearchNameRouter(interactor: interactor,
+                                viewController: viewController,
+                                cocktailDetailBuilder: cocktailDetailBuilder)
     }
 }

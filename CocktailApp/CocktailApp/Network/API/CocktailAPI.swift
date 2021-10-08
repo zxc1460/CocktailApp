@@ -2,8 +2,7 @@
 //  APIService.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/09/24.
-//
+//  
 
 import Foundation
 import Moya
@@ -17,6 +16,8 @@ enum ListType: String, CaseIterable {
 enum CocktailAPI {
     case cocktailList(type: ListType)
     case detail(id: String)
+    case search(name: String)
+    case filter(type: FilterType, keyword: String)
 }
 
 extension CocktailAPI: TargetType {
@@ -35,6 +36,10 @@ extension CocktailAPI: TargetType {
             return "/\(type.rawValue).php"
         case .detail:
             return "lookup.php"
+        case .search:
+            return "search.php"
+        case .filter:
+            return "filter.php"
         }
     }
     
@@ -52,6 +57,17 @@ extension CocktailAPI: TargetType {
             return .requestPlain
         case .detail(let id):
             return .requestParameters(parameters: ["i": id], encoding: URLEncoding.queryString)
+        case .search(let name):
+            return .requestParameters(parameters: ["s": name], encoding: URLEncoding.queryString)
+        case .filter(let type, let keyword):
+            switch type {
+            case .ingredient:
+                return .requestParameters(parameters: ["i": keyword], encoding: URLEncoding.queryString)
+            case .glass:
+                return .requestParameters(parameters: ["g": keyword], encoding: URLEncoding.queryString)
+            case .category:
+                return .requestParameters(parameters: ["c": keyword], encoding: URLEncoding.queryString)
+            }
         }
     }
     

@@ -2,21 +2,16 @@
 //  CocktailDetailBuilder.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/09/27.
 //
 
 import RIBs
 
 protocol CocktailDetailDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
-    var repository: CocktailRepository { get }
-    
+    var repository: CommonRepository { get }
 }
 
 final class CocktailDetailComponent: Component<CocktailDetailDependency> {
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
-    var repository: CocktailRepository {
+    var repository: CommonRepository {
         dependency.repository
     }
     
@@ -28,8 +23,6 @@ final class CocktailDetailComponent: Component<CocktailDetailDependency> {
         super.init(dependency: dependency)
     }
 }
-
-// MARK: - Builder
 
 protocol CocktailDetailBuildable: Buildable {
     func build(withListener listener: CocktailDetailListener, cocktail: Cocktail) -> CocktailDetailRouting

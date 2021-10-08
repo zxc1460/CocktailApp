@@ -2,7 +2,6 @@
 //  RootRouter.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/09/23.
 //
 
 import RIBs
@@ -13,14 +12,12 @@ protocol RootInteractable: Interactable, MainListener {
 }
 
 protocol RootViewControllable: ViewControllable {
-    // TODO: Declare methods the router invokes to manipulate the view hierarchy.
 }
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
     private let mainBuilder: MainBuildable
     private var mainRouting: MainRouting?
 
-    // TODO: Constructor inject child builder protocols to allow building children.
     init(interactor: RootInteractable,
         viewController: RootViewControllable,
         mainBuilder: MainBuildable) {
@@ -37,7 +34,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
     }
     
     func routeToMain() {
-        let mainRouting = mainBuilder.build(withListener: interactor)
+        let mainRouting = mainBuilder.build(withListener: interactor, repository: CommonRepository())
         
         self.mainRouting = mainRouting
         
