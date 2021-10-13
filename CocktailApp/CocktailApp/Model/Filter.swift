@@ -4,7 +4,7 @@
 //
 //
 
-struct Filter: Decodable {
+struct Filter: Codable {
     let ingredient: String?
     let glass: String?
     let category: String?

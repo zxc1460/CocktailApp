@@ -31,7 +31,7 @@ final class FilterRepository {
         return false
     }
     
-    func saveFilterContentsFromAPI() -> Completable {
+    func saveFilterKeywordsFromAPI() -> Completable {
         let requests = FilterType.allCases
             .map { service.rx.request(.list(type: $0))
                         .asObservable()
@@ -41,7 +41,6 @@ final class FilterRepository {
         
         return Completable.create { completable in
             let disposable = Observable.combineLatest(requests)
-                .debug()
                 .subscribe(with: self,
                            onNext: { owner, datas in
                     for (index, data) in datas.enumerated() {
@@ -75,12 +74,12 @@ final class FilterRepository {
         }
     }
     
-    func fetchFilterContents(type: FilterType) -> [String] {
+    func fetchFilterKeywords(type: FilterType) -> Observable<[String]> {
         guard let data = dao.read(type: type).first else {
-            return []
+            return Observable.just([])
         }
         
-        return Array(data.contents).sorted()
+        return Observable.just(Array(data.contents).sorted())
     }
     
 }

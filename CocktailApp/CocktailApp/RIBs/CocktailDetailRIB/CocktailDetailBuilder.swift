@@ -15,17 +15,14 @@ final class CocktailDetailComponent: Component<CocktailDetailDependency> {
         dependency.repository
     }
     
-    fileprivate var cocktail: Cocktail
-    
-    init(dependency: CocktailDetailDependency, cocktail: Cocktail) {
-        self.cocktail = cocktail
-        
+    override init(dependency: CocktailDetailDependency) {
         super.init(dependency: dependency)
     }
 }
 
 protocol CocktailDetailBuildable: Buildable {
     func build(withListener listener: CocktailDetailListener, cocktail: Cocktail) -> CocktailDetailRouting
+    func build(withListener listener: CocktailDetailListener, id: String) -> CocktailDetailRouting
 }
 
 final class CocktailDetailBuilder: Builder<CocktailDetailDependency>, CocktailDetailBuildable {
@@ -35,11 +32,21 @@ final class CocktailDetailBuilder: Builder<CocktailDetailDependency>, CocktailDe
     }
 
     func build(withListener listener: CocktailDetailListener, cocktail: Cocktail) -> CocktailDetailRouting {
-        let component = CocktailDetailComponent(dependency: dependency, cocktail: cocktail)
+        let component = CocktailDetailComponent(dependency: dependency)
         let viewController = CocktailDetailViewController()
         let interactor = CocktailDetailInteractor(presenter: viewController,
                                                   repository: component.repository,
-                                                  cocktail: component.cocktail)
+                                                  cocktail: cocktail)
+        interactor.listener = listener
+        return CocktailDetailRouter(interactor: interactor, viewController: viewController)
+    }
+    
+    func build(withListener listener: CocktailDetailListener, id: String) -> CocktailDetailRouting {
+        let component = CocktailDetailComponent(dependency: dependency)
+        let viewController = CocktailDetailViewController()
+        let interactor = CocktailDetailInteractor(presenter: viewController,
+                                                  repository: component.repository,
+                                                  id: id)
         interactor.listener = listener
         return CocktailDetailRouter(interactor: interactor, viewController: viewController)
     }

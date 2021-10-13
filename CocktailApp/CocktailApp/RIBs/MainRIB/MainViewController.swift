@@ -32,6 +32,13 @@ final class MainViewController: UITabBarController, MainPresentable {
     
     private func setUI() {
         view.backgroundColor = .white
+        
+        if #available(iOS 15.0, *) {
+            let appearance = UITabBarAppearance()
+            
+            self.tabBar.standardAppearance = appearance
+            self.tabBar.scrollEdgeAppearance = appearance
+        }
     }
     
     private func bindUI() {

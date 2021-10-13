@@ -14,7 +14,8 @@ import TagListView
 import Then
 
 protocol CocktailDetailPresentableListener: AnyObject {
-    var cocktailRelay: BehaviorRelay<Cocktail> { get }
+    var cocktailRelay: BehaviorRelay<Cocktail?> { get }
+    var isLoadingRelay: BehaviorRelay<Bool> { get }
     
     func refreshCocktail()
     func didPopViewController()
@@ -95,6 +96,10 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         $0.font = .systemFont(ofSize: 18)
     }
     
+    private let loadingView = UIActivityIndicatorView().then {
+        $0.style = .large
+    }
+    
     // MARK: - Override Methods
     
     override func viewDidLoad() {
@@ -140,6 +145,7 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         contentView.addSubview(ingredientTableView)
         contentView.addSubview(instructionTitleLabel)
         contentView.addSubview(instructionDetailLabel)
+        contentView.addSubview(loadingView)
         
         setConstraints()
     }
@@ -203,6 +209,10 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
             $0.leading.trailing.equalTo(nameLabel)
             $0.bottom.equalToSuperview().inset(20)
         }
+        
+        loadingView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
     }
     
     private func bindUI() {
@@ -211,7 +221,7 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         }
         
         listener.cocktailRelay
-            .map { $0.ingredients }
+            .map { $0?.ingredients ?? [] }
             .asDriver(onErrorJustReturn: [])
             .drive(ingredientTableView.rx.items(cellIdentifier: IngredientTableViewCell.reuseIdentifier,
                                       cellType: IngredientTableViewCell.self)) { _, data, cell in
@@ -220,6 +230,7 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
             .disposed(by: disposeBag)
         
         listener.cocktailRelay
+            .compactMap { $0 }
             .withUnretained(self)
             .subscribe(onNext: { owner, cocktail in
                 owner.configureUI(by: cocktail)
@@ -242,6 +253,17 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { owner, height in
                 owner.ingredientTableView.height = height
+            })
+            .disposed(by: disposeBag)
+        
+        listener.isLoadingRelay
+            .subscribe(with: self, onNext: { owner, value in
+                if value {
+                    owner.loadingView.startAnimating()
+                } else {
+                    owner.loadingView.stopAnimating()
+                }
+                owner.loadingView.isHidden = !value
             })
             .disposed(by: disposeBag)
     }

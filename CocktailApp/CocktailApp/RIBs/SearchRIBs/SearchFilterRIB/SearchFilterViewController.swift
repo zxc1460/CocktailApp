@@ -12,10 +12,14 @@ import SnapKit
 import Then
 
 protocol SearchFilterPresentableListener: AnyObject {
-    var filterInputRelay: PublishRelay<FilterType> { get }
-//    var keywordDataRelay: BehaviorRelay<[String]> { get }
-//    var keywordInputRelay: PublishRelay<String> { get }
-//    var cocktailListRelay: BehaviorRelay<[Cocktail]> { get }
+    var filterTypeRelay: PublishRelay<FilterType> { get }
+    var isLoadingRelay: BehaviorRelay<Bool> { get }
+    var filterKeywordsRelay: BehaviorRelay<[String]> { get }
+    var cocktailListRelay: BehaviorRelay<[CocktailSnippet]> { get }
+    
+    
+    func searchCocktail(type: FilterType, keyword: String)
+    func didSelectCocktail(of index: Int)
 }
 
 final class SearchFilterViewController: UIViewController, SearchFilterPresentable, SearchFilterViewControllable {
@@ -27,6 +31,10 @@ final class SearchFilterViewController: UIViewController, SearchFilterPresentabl
     let disposeBag = DisposeBag()
     
     // MARK: - UI Properties
+    
+    private let loadingView = UIActivityIndicatorView().then {
+        $0.style = .large
+    }
     
     private lazy var filterSegmentedControl = UISegmentedControl().then {
         for (index, filter) in filterDatas.enumerated() {
@@ -41,9 +49,6 @@ final class SearchFilterViewController: UIViewController, SearchFilterPresentabl
             }
             $0.insertSegment(withTitle: title, at: index, animated: false)
         }
-        
-        
-        $0.selectedSegmentIndex = 0
     }
     
     private let keywordTextField = UITextField().then {
@@ -51,6 +56,18 @@ final class SearchFilterViewController: UIViewController, SearchFilterPresentabl
         $0.borderStyle = .roundedRect
         $0.tintColor = .clear
         $0.textAlignment = .center
+    }
+    
+    private let tableView = UITableView().then {
+        $0.register(CocktailSnippetTableViewCell.self, forCellReuseIdentifier: CocktailSnippetTableViewCell.reuseIdentifier)
+        $0.tableFooterView = UIView(frame: .zero)
+        $0.separatorStyle = .none
+    }
+    
+    private let emptyLabel = UILabel().then {
+        $0.text = "검색 결과가 없습니다."
+        $0.font = .systemFont(ofSize: 20, weight: .medium)
+        $0.textColor = .systemGray
     }
     
     private let pickerView = UIPickerView()
@@ -72,6 +89,9 @@ final class SearchFilterViewController: UIViewController, SearchFilterPresentabl
         
         view.addSubview(filterSegmentedControl)
         view.addSubview(keywordTextField)
+        view.addSubview(tableView)
+        view.addSubview(loadingView)
+        view.addSubview(emptyLabel)
         
         pickerToolBar.sizeToFit()
         pickerToolBar.items = [cancelButton, spacer, doneButton]
@@ -92,24 +112,91 @@ final class SearchFilterViewController: UIViewController, SearchFilterPresentabl
             $0.top.equalTo(filterSegmentedControl.snp.bottom).offset(10)
             $0.leading.trailing.equalTo(filterSegmentedControl)
         }
+        
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(keywordTextField.snp.bottom).offset(10)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        loadingView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+        
+        emptyLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
     }
     
     private func bindUI() {
-        guard let listener = listener else {
-            return
-        }
-        
         filterSegmentedControl.rx.selectedSegmentIndex
+            .filter { $0 >= 0 && $0 < self.filterDatas.count }
             .map { self.filterDatas[$0] }
-            .debug()
-            .bind(to: listener.filterInputRelay)
+            .subscribe(with: self, onNext: { owner, data in
+                owner.listener?.filterTypeRelay.accept(data)
+                owner.keywordTextField.text = ""
+                owner.view.endEditing(true)
+                owner.pickerView.selectRow(0, inComponent: 0, animated: false)
+            })
             .disposed(by: disposeBag)
         
         cancelButton.rx.tap
-            .withUnretained(self)
-            .subscribe(onNext: { owner, _ in
+            .subscribe(with: self, onNext: { owner, _ in
                 owner.keywordTextField.resignFirstResponder()
+            })
+            .disposed(by: disposeBag)
+        
+        listener?.isLoadingRelay
+            .bind(to: loadingView.rx.isAnimating)
+            .disposed(by: disposeBag)
+        
+        listener?.isLoadingRelay
+            .map { !$0 }
+            .bind(to: loadingView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        listener?.filterKeywordsRelay
+            .bind(to: pickerView.rx.itemTitles) { _, element in
+                return element
+            }
+            .disposed(by: disposeBag)
+        
+        doneButton.rx.tap
+            .withLatestFrom(pickerView.rx.modelSelected(String.self)) { $1 }
+            .compactMap { $0.first }
+            .subscribe(with: self, onNext: { owner, keyword in
+                let index = owner.filterSegmentedControl.selectedSegmentIndex
+                let type = FilterType.allCases[index]
+                owner.keywordTextField.resignFirstResponder()
+                owner.keywordTextField.text = keyword
+                owner.listener?.searchCocktail(type: type, keyword: keyword)
+            })
+            .disposed(by: disposeBag)
+        
+        listener?.cocktailListRelay
+            .asDriver(onErrorJustReturn: [])
+            .drive(tableView.rx.items(cellIdentifier: CocktailSnippetTableViewCell.reuseIdentifier,
+                                      cellType: CocktailSnippetTableViewCell.self)) { _, cocktail, cell in
+                cell.configure(cocktail)
+            }
+            .disposed(by: disposeBag)
+        
+        listener?.cocktailListRelay
+            .asDriver()
+            .map { $0.count > 0 }
+            .drive(emptyLabel.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        tableView.rx.itemSelected
+            .withUnretained(self)
+            .subscribe(onNext: { owner, indexPath in
+                owner.tableView.deselectRow(at: indexPath, animated: true)
+                
+                owner.listener?.didSelectCocktail(of: indexPath.row)
             })
             .disposed(by: disposeBag)
     }
 }
+
+// MARK: - Extension
+
+extension SearchFilterViewController: FilterViewControllable {}

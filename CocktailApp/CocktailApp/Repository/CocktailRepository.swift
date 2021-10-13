@@ -42,4 +42,12 @@ final class CocktailRepository {
             .map(CocktailResponse.self)
             .compactMap { $0.data }
     }
+    
+    func searchCocktail(type: FilterType, keyword: String) -> Observable<[CocktailSnippet]> {
+        return cocktailService.rx.request(.filter(type: type, keyword: keyword))
+            .asObservable()
+            .map { try JSONDecoder().decode(CocktailSnippetResponse.self, from: $0.data) }
+            .catchAndReturn(CocktailSnippetResponse(data: []))
+            .compactMap { $0.data }
+    }
 }

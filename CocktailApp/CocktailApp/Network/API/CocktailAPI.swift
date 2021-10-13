@@ -60,14 +60,7 @@ extension CocktailAPI: TargetType {
         case .search(let name):
             return .requestParameters(parameters: ["s": name], encoding: URLEncoding.queryString)
         case .filter(let type, let keyword):
-            switch type {
-            case .ingredient:
-                return .requestParameters(parameters: ["i": keyword], encoding: URLEncoding.queryString)
-            case .glass:
-                return .requestParameters(parameters: ["g": keyword], encoding: URLEncoding.queryString)
-            case .category:
-                return .requestParameters(parameters: ["c": keyword], encoding: URLEncoding.queryString)
-            }
+            return .requestParameters(parameters: [type.rawValue: keyword], encoding: URLEncoding.queryString)
         }
     }
     

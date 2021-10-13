@@ -9,6 +9,9 @@ import RxCocoa
 import RxSwift
 
 protocol SearchFilterRouting: ViewableRouting {
+    func attachFilter()
+    func routeToDetail(id: String)
+    func detachDetail()
 }
 
 protocol SearchFilterPresentable: Presentable {
@@ -18,14 +21,19 @@ protocol SearchFilterPresentable: Presentable {
 protocol SearchFilterListener: AnyObject {
 }
 
-final class SearchFilterInteractor: PresentableInteractor<SearchFilterPresentable>, SearchFilterInteractable, SearchFilterPresentableListener {
+final class SearchFilterInteractor: PresentableInteractor<SearchFilterPresentable>, SearchFilterInteractable {
 
     weak var router: SearchFilterRouting?
     weak var listener: SearchFilterListener?
     
     private let repository: CommonRepository
     
-    var filterInputRelay: PublishRelay<FilterType> = PublishRelay<FilterType>()
+    // MARK: - Relays
+    
+    var isLoadingRelay: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: false)
+    var filterTypeRelay: PublishRelay<FilterType> = PublishRelay<FilterType>()
+    var filterKeywordsRelay: BehaviorRelay<[String]> = BehaviorRelay<[String]>(value: [])
+    var cocktailListRelay: BehaviorRelay<[CocktailSnippet]> = BehaviorRelay<[CocktailSnippet]>(value: [])
 
     init(presenter: SearchFilterPresentable, repository: CommonRepository) {
         self.repository = repository
@@ -36,22 +44,33 @@ final class SearchFilterInteractor: PresentableInteractor<SearchFilterPresentabl
     override func didBecomeActive() {
         super.didBecomeActive()
         
-        repository.filter.saveFilterContentsFromAPI()
-            .subscribe(onCompleted: {
-                print("saveFiltercompleted")
-            })
-            .disposeOnDeactivate(interactor: self)
-
-        let ings = repository.filter.fetchFilterContents(type: .ingredient)
-//        let glasses = repository.filter.fetchFilterContents(type: .glass)
-//        let categories = repository.filter.fetchFilterContents(type: .category)
-//
-//        print(ings)
-//        print(glasses)
-//        print(categories)
+        router?.attachFilter()
     }
 
     override func willResignActive() {
         super.willResignActive()
+    }
+}
+
+// MARK: - PresentableListener
+
+extension SearchFilterInteractor: SearchFilterPresentableListener {
+    func searchCocktail(type: FilterType, keyword: String) {
+        repository.cocktail.searchCocktail(type: type, keyword: keyword)
+            .bind(to: cocktailListRelay)
+            .disposeOnDeactivate(interactor: self)
+    }
+    
+    func didSelectCocktail(of index: Int) {
+        let id = cocktailListRelay.value[index].id
+        router?.routeToDetail(id: id)
+    }
+}
+
+// MARK: - CocktailDetailListener
+
+extension SearchFilterInteractor: CocktailDetailListener {
+    func detachDetail() {
+        router?.detachDetail()
     }
 }
