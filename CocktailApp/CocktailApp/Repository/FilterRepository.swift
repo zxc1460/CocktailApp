@@ -45,20 +45,9 @@ final class FilterRepository {
                            onNext: { owner, datas in
                     for (index, data) in datas.enumerated() {
                         let contents = data.map { value -> String in
-                            var result = String()
-                            if let ingredient = value.ingredient {
-                                result = ingredient
-                            } else if let category = value.category {
-                                result = category
-                            } else if let glass = value.glass {
-                                result = glass
-                            }
-                            
-                            return result
+                            return value.ingredient ?? value.category ?? value.glass ?? String()
                         }
-                        
                         let sortedContents = contents.sorted().toList()
-                        
                         let filterData = FilterData(type: FilterType.allCases[index], contents: sortedContents)
                         
                         owner.dao.insert(filterData)

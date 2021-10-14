@@ -12,7 +12,7 @@ import SnapKit
 import Then
 
 protocol CocktailListPresentableListener: AnyObject {
-    var cocktailListRelay: BehaviorRelay<[Cocktail]> { get }
+    var cocktailListRelay: BehaviorRelay<[CocktailData]> { get }
     
     func didSelectCocktail(of index: Int)
     func requestCocktailList(type: ListType)
@@ -73,7 +73,7 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
     
     private func bindUI() {
         segmentedControl.selectedButtonIndex
-            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+            .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
             .map { index -> ListType in
                 return ListType.allCases[index]
             }

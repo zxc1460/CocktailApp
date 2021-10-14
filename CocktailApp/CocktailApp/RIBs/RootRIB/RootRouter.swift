@@ -40,7 +40,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
         
         attachChild(mainRouting)
         
-        viewController.presentViewController(viewController: mainRouting.viewControllable,
+        viewController.presentViewController(viewControllable: mainRouting.viewControllable,
                                              modalPresentationStyle: .fullScreen)
     }
    

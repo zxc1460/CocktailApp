@@ -8,7 +8,7 @@ import UIKit
 import SnapKit
 
 extension UITableView {
-    var height: CGFloat {
+    var contentsHeight: CGFloat {
         get {
             return self.contentSize.height
         }

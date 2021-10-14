@@ -21,7 +21,7 @@ final class CocktailDetailComponent: Component<CocktailDetailDependency> {
 }
 
 protocol CocktailDetailBuildable: Buildable {
-    func build(withListener listener: CocktailDetailListener, cocktail: Cocktail) -> CocktailDetailRouting
+    func build(withListener listener: CocktailDetailListener, cocktail: CocktailData) -> CocktailDetailRouting
     func build(withListener listener: CocktailDetailListener, id: String) -> CocktailDetailRouting
 }
 
@@ -31,7 +31,7 @@ final class CocktailDetailBuilder: Builder<CocktailDetailDependency>, CocktailDe
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: CocktailDetailListener, cocktail: Cocktail) -> CocktailDetailRouting {
+    func build(withListener listener: CocktailDetailListener, cocktail: CocktailData) -> CocktailDetailRouting {
         let component = CocktailDetailComponent(dependency: dependency)
         let viewController = CocktailDetailViewController()
         let interactor = CocktailDetailInteractor(presenter: viewController,

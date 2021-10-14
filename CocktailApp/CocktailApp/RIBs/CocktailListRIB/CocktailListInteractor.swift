@@ -9,7 +9,7 @@ import RxRelay
 import RxSwift
 
 protocol CocktailListRouting: ViewableRouting {
-    func routeToDetail(cocktail: Cocktail)
+    func routeToDetail(cocktail: CocktailData)
     func detachChildRIB()
     
 }
@@ -30,7 +30,7 @@ final class CocktailListInteractor: PresentableInteractor<CocktailListPresentabl
     
     private let repostiory: CommonRepository
     
-    var cocktailListRelay: BehaviorRelay<[Cocktail]> = BehaviorRelay<[Cocktail]>(value: [])
+    var cocktailListRelay: BehaviorRelay<[CocktailData]> = BehaviorRelay<[CocktailData]>(value: [])
 
     init(presenter: CocktailListPresentable, repository: CommonRepository) {
         self.repostiory = repository
@@ -49,7 +49,8 @@ extension CocktailListInteractor: CocktailListPresentableListener {
     }
     
     func requestCocktailList(type: ListType) {
-        repostiory.cocktail.fetchCocktailList(of: type)
+        repostiory.cocktail.loadCocktailList(of: type)
+            .asObservable()
             .debug()
             .bind(to: cocktailListRelay)
             .disposeOnDeactivate(interactor: self)

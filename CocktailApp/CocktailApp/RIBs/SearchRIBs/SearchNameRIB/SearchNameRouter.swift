@@ -30,17 +30,17 @@ final class SearchNameRouter: ViewableRouter<SearchNameInteractable, SearchNameV
 // MARK: - Routing
 
 extension SearchNameRouter: SearchNameRouting {
-    func routeToDetail(cocktail: Cocktail) {
+    func routeToDetail(cocktail: CocktailData) {
         let cocktailDetailRouting = cocktailDetailBuilder.build(withListener: interactor, cocktail: cocktail)
         self.cocktailDetailRouting = cocktailDetailRouting
         attachChild(cocktailDetailRouting)
-        viewController.pushViewController(viewController: cocktailDetailRouting.viewControllable)
+        viewController.pushViewController(viewControllable: cocktailDetailRouting.viewControllable)
     }
     
     func detachDetail() {
         if let routing = cocktailDetailRouting {
             detachChild(routing)
-            viewControllable.popViewController(viewController: routing.viewControllable)
+            viewControllable.popViewController(viewControllable: routing.viewControllable)
             cocktailDetailRouting = nil
         }
     }

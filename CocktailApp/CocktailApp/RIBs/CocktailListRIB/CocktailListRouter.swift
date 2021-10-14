@@ -29,19 +29,19 @@ final class CocktailListRouter: ViewableRouter<CocktailListInteractable, Cocktai
 }
 
 extension CocktailListRouter: CocktailListRouting {
-    func routeToDetail(cocktail: Cocktail) {
+    func routeToDetail(cocktail: CocktailData) {
         let cocktailDetailRouting = cocktailDetailBuilder.build(withListener: interactor, cocktail: cocktail)
         
         self.cocktailDetailRouting = cocktailDetailRouting
         
         attachChild(cocktailDetailRouting)
-        viewController.pushViewController(viewController: cocktailDetailRouting.viewControllable)
+        viewController.pushViewController(viewControllable: cocktailDetailRouting.viewControllable)
     }
     
     func detachChildRIB() {
         if let routing = cocktailDetailRouting {
             detachChild(routing)
-            viewController.popViewController(viewController: routing.viewControllable)
+            viewController.popViewController(viewControllable: routing.viewControllable)
             cocktailDetailRouting = nil
         }
     }

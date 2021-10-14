@@ -46,13 +46,13 @@ extension SearchFilterRouter: SearchFilterRouting {
         let cocktailDetailRouting = cocktailDetailBuilder.build(withListener: interactor, id: id)
         attachChild(cocktailDetailRouting)
         self.cocktailDetailRouting = cocktailDetailRouting
-        viewController.pushViewController(viewController: cocktailDetailRouting.viewControllable)
+        viewController.pushViewController(viewControllable: cocktailDetailRouting.viewControllable)
     }
     
     func detachDetail() {
         if let routing = cocktailDetailRouting {
             detachChild(routing)
-            viewControllable.popViewController(viewController: routing.viewControllable)
+            viewControllable.popViewController(viewControllable: routing.viewControllable)
         }
     }
 }

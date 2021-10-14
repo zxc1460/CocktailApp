@@ -94,6 +94,8 @@
 		FDBE85D027055973000F8627 /* SearchNameInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBE85CC27055973000F8627 /* SearchNameInteractor.swift */; };
 		FDBE85DA270559A6000F8627 /* SearchPageComponent+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBE85D9270559A6000F8627 /* SearchPageComponent+.swift */; };
 		FDBE85E0270581C2000F8627 /* UnderlineSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBE85DF270581C2000F8627 /* UnderlineSegmentedControl.swift */; };
+		FDC10ADD2717F319003FF96D /* CocktailData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC10ADC2717F319003FF96D /* CocktailData.swift */; };
+		FDC10ADF2717F799003FF96D /* CocktailDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC10ADE2717F799003FF96D /* CocktailDAO.swift */; };
 		FDCCB192270FD51100D98D5E /* FilterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCCB191270FD51100D98D5E /* FilterData.swift */; };
 		FDCCB194270FD55E00D98D5E /* FilterDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCCB193270FD55E00D98D5E /* FilterDAO.swift */; };
 /* End PBXBuildFile section */
@@ -196,6 +198,8 @@
 		FDBE85CC27055973000F8627 /* SearchNameInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNameInteractor.swift; sourceTree = "<group>"; };
 		FDBE85D9270559A6000F8627 /* SearchPageComponent+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchPageComponent+.swift"; sourceTree = "<group>"; };
 		FDBE85DF270581C2000F8627 /* UnderlineSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineSegmentedControl.swift; sourceTree = "<group>"; };
+		FDC10ADC2717F319003FF96D /* CocktailData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailData.swift; sourceTree = "<group>"; };
+		FDC10ADE2717F799003FF96D /* CocktailDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailDAO.swift; sourceTree = "<group>"; };
 		FDCCB191270FD51100D98D5E /* FilterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterData.swift; sourceTree = "<group>"; };
 		FDCCB193270FD55E00D98D5E /* FilterDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDAO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -391,9 +395,9 @@
 			isa = PBXGroup;
 			children = (
 				FD8BC21B26FD500500C35BE8 /* Constant.swift */,
-				FD5E8B312703F3CB00BEF943 /* keys.plist */,
 				FDB103F827151CC50040D35E /* UserDefaultWrapper.swift */,
 				FDB103FA27151F250040D35E /* UserShared.swift */,
+				FD5E8B312703F3CB00BEF943 /* keys.plist */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -543,9 +547,9 @@
 		FDCCB18E270FD47E00D98D5E /* DB */ = {
 			isa = PBXGroup;
 			children = (
+				FD2E5ABF270FE32A008AF27B /* Attribute */,
 				FDCCB18F270FD49500D98D5E /* DAO */,
 				FDCCB190270FD49900D98D5E /* Enitty */,
-				FD2E5ABF270FE32A008AF27B /* Attribute */,
 			);
 			path = DB;
 			sourceTree = "<group>";
@@ -554,6 +558,7 @@
 			isa = PBXGroup;
 			children = (
 				FDCCB193270FD55E00D98D5E /* FilterDAO.swift */,
+				FDC10ADE2717F799003FF96D /* CocktailDAO.swift */,
 			);
 			path = DAO;
 			sourceTree = "<group>";
@@ -562,6 +567,7 @@
 			isa = PBXGroup;
 			children = (
 				FDCCB191270FD51100D98D5E /* FilterData.swift */,
+				FDC10ADC2717F319003FF96D /* CocktailData.swift */,
 			);
 			path = Enitty;
 			sourceTree = "<group>";
@@ -732,6 +738,7 @@
 				FD2E5AC727100A37008AF27B /* FilterAPI.swift in Sources */,
 				FD9787E22701A2860078244F /* UIImageViewExtension.swift in Sources */,
 				FD9787DC270153DF0078244F /* CocktailDetailInteractor.swift in Sources */,
+				FDC10ADF2717F799003FF96D /* CocktailDAO.swift in Sources */,
 				FDBE85CD27055973000F8627 /* SearchNameRouter.swift in Sources */,
 				FDBE85DA270559A6000F8627 /* SearchPageComponent+.swift in Sources */,
 				FD5E8B392704069900BEF943 /* MainRouter.swift in Sources */,
@@ -787,6 +794,7 @@
 				FDBE85C527055624000F8627 /* SearchPageInteractor.swift in Sources */,
 				FD5E8B3E27040A0300BEF943 /* MainComponent+.swift in Sources */,
 				FD8BC22426FD5A3000C35BE8 /* CocktailRepository.swift in Sources */,
+				FDC10ADD2717F319003FF96D /* CocktailData.swift in Sources */,
 				FD5E8B3C2704069900BEF943 /* MainInteractor.swift in Sources */,
 				FDB104042715571C0040D35E /* CocktailSnippetResponse.swift in Sources */,
 				FD5E8B3B2704069900BEF943 /* MainBuilder.swift in Sources */,

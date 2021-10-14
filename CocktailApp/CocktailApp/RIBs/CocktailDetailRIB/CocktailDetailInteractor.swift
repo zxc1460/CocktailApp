@@ -31,7 +31,7 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
     private var id: String?
     
     var isLoadingRelay: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: false)
-    var cocktailRelay: BehaviorRelay<Cocktail?> = BehaviorRelay<Cocktail?>(value: nil)
+    var cocktailRelay: BehaviorRelay<CocktailData?> = BehaviorRelay<CocktailData?>(value: nil)
     
     init(presenter: CocktailDetailPresentable,
          repository: CommonRepository) {
@@ -42,7 +42,7 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
     
     convenience init(presenter: CocktailDetailPresentable,
                      repository: CommonRepository,
-                     cocktail: Cocktail) {
+                     cocktail: CocktailData) {
         self.init(presenter: presenter, repository: repository)
         self.cocktailRelay.accept(cocktail)
     }
@@ -70,7 +70,7 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
         }
         
         self.isLoadingRelay.accept(true)
-        repository.cocktail.fetchCocktailDetail(from: id)
+        repository.cocktail.loadCocktailDetail(from: id)
             .subscribe(with: self,
                        onNext: { owner, cocktail in
                 owner.cocktailRelay.accept(cocktail)
@@ -88,7 +88,7 @@ extension CocktailDetailInteractor: CocktailDetailPresentableListener {
         guard let cocktail = cocktailRelay.value else {
             return
         }
-        repository.cocktail.fetchCocktailDetail(from: cocktail.id)
+        repository.cocktail.loadCocktailDetail(from: cocktail.id)
             .compactMap { $0 }
             .bind(to: cocktailRelay)
             .disposeOnDeactivate(interactor: self)

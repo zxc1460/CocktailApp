@@ -12,7 +12,7 @@ import SnapKit
 import Then
 
 protocol SearchNamePresentableListener: AnyObject {
-    var searchResultRelay: BehaviorRelay<[Cocktail]> { get }
+    var searchResultRelay: BehaviorRelay<[CocktailData]> { get }
     
     func searchCocktailList(name: String)
     func didSelectCocktail(of index: Int)

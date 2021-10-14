@@ -8,15 +8,15 @@ import UIKit
 import RIBs
 
 extension ViewControllable {
-    func presentViewController(viewController: ViewControllable,
+    func presentViewController(viewControllable: ViewControllable,
                                modalPresentationStyle: UIModalPresentationStyle = .automatic) {
-        viewController.uiviewController.modalPresentationStyle = modalPresentationStyle
+        viewControllable.uiviewController.modalPresentationStyle = modalPresentationStyle
         
-        uiviewController.present(viewController.uiviewController, animated: true)
+        uiviewController.present(viewControllable.uiviewController, animated: true)
     }
     
-    func dismissViewController(viewController: ViewControllable) {
-        viewController.uiviewController.dismiss(animated: true)
+    func dismissViewController(viewControllable: ViewControllable) {
+        viewControllable.uiviewController.dismiss(animated: true)
     }
     
     func presentNavigationViewController(root: ViewControllable) {
@@ -24,13 +24,13 @@ extension ViewControllable {
         uiviewController.present(navigationController, animated: true)
     }
     
-    func pushViewController(viewController: ViewControllable) {
-        uiviewController.navigationController?.pushViewController(viewController.uiviewController, animated: true)
+    func pushViewController(viewControllable: ViewControllable) {
+        uiviewController.navigationController?.pushViewController(viewControllable.uiviewController, animated: true)
     }
     
-    func popViewController(viewController: ViewControllable) {
+    func popViewController(viewControllable: ViewControllable) {
         if let topViewController = uiviewController.navigationController?.topViewController,
-           topViewController === viewController.uiviewController {
+           topViewController === viewControllable.uiviewController {
             uiviewController.navigationController?.popViewController(animated: true)
         }
     }

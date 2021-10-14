@@ -9,7 +9,7 @@ import RxRelay
 import RxSwift
 
 protocol SearchNameRouting: ViewableRouting {
-    func routeToDetail(cocktail: Cocktail)
+    func routeToDetail(cocktail: CocktailData)
     func detachDetail()
 }
 
@@ -29,7 +29,7 @@ final class SearchNameInteractor: PresentableInteractor<SearchNamePresentable>, 
     
     private let repository: CommonRepository
     
-    var searchResultRelay: BehaviorRelay<[Cocktail]> = BehaviorRelay<[Cocktail]>(value: [])
+    var searchResultRelay: BehaviorRelay<[CocktailData]> = BehaviorRelay<[CocktailData]>(value: [])
     
     // MARK: - init Method
     

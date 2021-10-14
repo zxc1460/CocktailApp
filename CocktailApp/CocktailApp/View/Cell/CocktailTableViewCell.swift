@@ -118,7 +118,7 @@ class CocktailTableViewCell: UITableViewCell {
         }
     }
     
-    func configure(_ cocktail: Cocktail) {
+    func configure(_ cocktail: CocktailData) {
         thumbnailImageView.setCocktailImage(cocktail.thumbnail)
         nameLabel.text = cocktail.name
         categoryLabel.text = cocktail.category

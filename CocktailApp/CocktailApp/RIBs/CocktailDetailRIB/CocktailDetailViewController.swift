@@ -14,7 +14,7 @@ import TagListView
 import Then
 
 protocol CocktailDetailPresentableListener: AnyObject {
-    var cocktailRelay: BehaviorRelay<Cocktail?> { get }
+    var cocktailRelay: BehaviorRelay<CocktailData?> { get }
     var isLoadingRelay: BehaviorRelay<Bool> { get }
     
     func refreshCocktail()
@@ -221,7 +221,8 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         }
         
         listener.cocktailRelay
-            .map { $0?.ingredients ?? [] }
+            .compactMap { $0 }
+            .map { Array($0.ingredients) }
             .asDriver(onErrorJustReturn: [])
             .drive(ingredientTableView.rx.items(cellIdentifier: IngredientTableViewCell.reuseIdentifier,
                                       cellType: IngredientTableViewCell.self)) { _, data, cell in
@@ -252,7 +253,7 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { owner, height in
-                owner.ingredientTableView.height = height
+                owner.ingredientTableView.contentsHeight = height
             })
             .disposed(by: disposeBag)
         
@@ -268,7 +269,7 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
             .disposed(by: disposeBag)
     }
     
-    private func configureUI(by cocktail: Cocktail) {
+    private func configureUI(by cocktail: CocktailData) {
         thumbnailImageView.setCocktailImage(cocktail.thumbnail)
         
         nameLabel.text = cocktail.name
@@ -276,6 +277,6 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         ingredientTitleLabel.text = cocktail.ingredients.count > 0 ? "재료" : "재료 알 수 없음"
         instructionDetailLabel.text = cocktail.instruction
         tagListView.removeAllTags()
-        tagListView.addTags(cocktail.tags)
+        tagListView.addTags(Array(cocktail.tags))
     }
 }
