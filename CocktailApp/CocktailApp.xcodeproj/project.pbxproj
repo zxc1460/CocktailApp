@@ -96,6 +96,10 @@
 		FDBE85E0270581C2000F8627 /* UnderlineSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBE85DF270581C2000F8627 /* UnderlineSegmentedControl.swift */; };
 		FDC10ADD2717F319003FF96D /* CocktailData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC10ADC2717F319003FF96D /* CocktailData.swift */; };
 		FDC10ADF2717F799003FF96D /* CocktailDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC10ADE2717F799003FF96D /* CocktailDAO.swift */; };
+		FDC83211271974D40074582A /* FavoriteRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC8320D271974D40074582A /* FavoriteRouter.swift */; };
+		FDC83212271974D40074582A /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC8320E271974D40074582A /* FavoriteViewController.swift */; };
+		FDC83213271974D40074582A /* FavoriteBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC8320F271974D40074582A /* FavoriteBuilder.swift */; };
+		FDC83214271974D40074582A /* FavoriteInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC83210271974D40074582A /* FavoriteInteractor.swift */; };
 		FDCCB192270FD51100D98D5E /* FilterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCCB191270FD51100D98D5E /* FilterData.swift */; };
 		FDCCB194270FD55E00D98D5E /* FilterDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCCB193270FD55E00D98D5E /* FilterDAO.swift */; };
 /* End PBXBuildFile section */
@@ -200,6 +204,10 @@
 		FDBE85DF270581C2000F8627 /* UnderlineSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineSegmentedControl.swift; sourceTree = "<group>"; };
 		FDC10ADC2717F319003FF96D /* CocktailData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailData.swift; sourceTree = "<group>"; };
 		FDC10ADE2717F799003FF96D /* CocktailDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailDAO.swift; sourceTree = "<group>"; };
+		FDC8320D271974D40074582A /* FavoriteRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteRouter.swift; sourceTree = "<group>"; };
+		FDC8320E271974D40074582A /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
+		FDC8320F271974D40074582A /* FavoriteBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteBuilder.swift; sourceTree = "<group>"; };
+		FDC83210271974D40074582A /* FavoriteInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteInteractor.swift; sourceTree = "<group>"; };
 		FDCCB191270FD51100D98D5E /* FilterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterData.swift; sourceTree = "<group>"; };
 		FDCCB193270FD55E00D98D5E /* FilterDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDAO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -339,6 +347,7 @@
 			children = (
 				FD9787D4270153C10078244F /* CocktailDetailRIB */,
 				FDACFB6726FC3BC900D8C683 /* CocktailListRIB */,
+				FDC8320C271970680074582A /* FavoriteRIB */,
 				FDB103EF27150B690040D35E /* FilterRIB */,
 				FD5E8B332704067E00BEF943 /* MainRIB */,
 				FD58A9B226FC09AB001E6D4C /* RootRIB */,
@@ -544,6 +553,17 @@
 			path = SearchNameRIB;
 			sourceTree = "<group>";
 		};
+		FDC8320C271970680074582A /* FavoriteRIB */ = {
+			isa = PBXGroup;
+			children = (
+				FDC8320D271974D40074582A /* FavoriteRouter.swift */,
+				FDC8320E271974D40074582A /* FavoriteViewController.swift */,
+				FDC8320F271974D40074582A /* FavoriteBuilder.swift */,
+				FDC83210271974D40074582A /* FavoriteInteractor.swift */,
+			);
+			path = FavoriteRIB;
+			sourceTree = "<group>";
+		};
 		FDCCB18E270FD47E00D98D5E /* DB */ = {
 			isa = PBXGroup;
 			children = (
@@ -747,6 +767,7 @@
 				FD2E5AC5270FE8C6008AF27B /* RealmManager.swift in Sources */,
 				FD8BC21F26FD508C00C35BE8 /* CocktailAPI.swift in Sources */,
 				FDB103F327150BAD0040D35E /* FilterRouter.swift in Sources */,
+				FDC83213271974D40074582A /* FavoriteBuilder.swift in Sources */,
 				FDBE85E0270581C2000F8627 /* UnderlineSegmentedControl.swift in Sources */,
 				FDBE85D027055973000F8627 /* SearchNameInteractor.swift in Sources */,
 				FD6AF00B2706A01600C67E66 /* RoutingExtension.swift in Sources */,
@@ -760,6 +781,7 @@
 				FD58A9B726FC09B9001E6D4C /* RootRouter.swift in Sources */,
 				FD611B062702C08000B04164 /* UITableViewExtension.swift in Sources */,
 				FDACFB6D26FC3BE800D8C683 /* CocktailListViewController.swift in Sources */,
+				FDC83211271974D40074582A /* FavoriteRouter.swift in Sources */,
 				FD8BC22626FD5BD100C35BE8 /* CocktailResponse.swift in Sources */,
 				FD5E8B3A2704069900BEF943 /* MainViewController.swift in Sources */,
 				FDBE85C327055624000F8627 /* SearchPageViewController.swift in Sources */,
@@ -786,11 +808,13 @@
 				FD9787D9270153DF0078244F /* CocktailDetailRouter.swift in Sources */,
 				FDB103F527150BAD0040D35E /* FilterInteractor.swift in Sources */,
 				FD63823A27100C4600698DC6 /* FilterRepository.swift in Sources */,
+				FDC83214271974D40074582A /* FavoriteInteractor.swift in Sources */,
 				FDB103F7271510650040D35E /* SearchFilterComponent+.swift in Sources */,
 				FD2C80B426FC02910030C275 /* AppDelegate.swift in Sources */,
 				FD800564270EEE56001A3C60 /* Filter.swift in Sources */,
 				FDACFB6F26FC3BE800D8C683 /* CocktailListInteractor.swift in Sources */,
 				FD2C80B626FC02910030C275 /* SceneDelegate.swift in Sources */,
+				FDC83212271974D40074582A /* FavoriteViewController.swift in Sources */,
 				FDBE85C527055624000F8627 /* SearchPageInteractor.swift in Sources */,
 				FD5E8B3E27040A0300BEF943 /* MainComponent+.swift in Sources */,
 				FD8BC22426FD5A3000C35BE8 /* CocktailRepository.swift in Sources */,

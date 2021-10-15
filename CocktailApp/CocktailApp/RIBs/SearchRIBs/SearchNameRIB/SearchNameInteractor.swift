@@ -52,6 +52,10 @@ extension SearchNameInteractor: SearchNamePresentableListener {
     func didSelectCocktail(of index: Int) {
         router?.routeToDetail(cocktail: searchResultRelay.value[index])
     }
+    
+    func favoriteValueChanged(of cocktail: CocktailData, value: Bool) {
+        repository.cocktail.updateCocktailData(data: cocktail, isFavorite: value)
+    }
 }
 
 // MARK: - CocktailDetailListener

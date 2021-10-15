@@ -27,7 +27,7 @@ final class CocktailRepository {
             .compactMap { $0.data }
     }
     
-    private func getSavedCocktailList(from list: [Cocktail]) -> [CocktailData] {
+    private func readAndWriteCocktailList(from list: [Cocktail]) -> [CocktailData] {
         var result = [CocktailData]()
         
         for data in list {
@@ -51,9 +51,11 @@ final class CocktailRepository {
             .map { CocktailData($0) }
     }
     
-    private func saveCocktailDetail(data: CocktailData) {
+    private func writeCocktailDetail(data: CocktailData) {
         self.cocktailDAO.insert(data: data)
     }
+    
+    // MARK: - Public
     
     func loadCocktailList(of type: ListType) -> Single<[CocktailData]> {
         return Single<[CocktailData]>.create { [weak self] single in
@@ -63,7 +65,7 @@ final class CocktailRepository {
             
             let disposable = self.getCocktailList(of: type)
                 .subscribe(onNext: { list in
-                    single(.success(self.getSavedCocktailList(from: list)))
+                    single(.success(self.readAndWriteCocktailList(from: list)))
                 })
             
             return Disposables.create { disposable.dispose() }
@@ -82,7 +84,7 @@ final class CocktailRepository {
             
             let disposable = self.getCocktailDetail(from: id)
                 .subscribe(onNext: { cocktail in
-                    self.saveCocktailDetail(data: cocktail)
+                    self.writeCocktailDetail(data: cocktail)
                     observer.onNext(cocktail)
                 }, onCompleted: {
                     observer.onCompleted()
@@ -108,18 +110,7 @@ final class CocktailRepository {
                 .map(CocktailResponse.self)
                 .compactMap { $0.data }
                 .subscribe(onNext: { list in
-                    var result = [CocktailData]()
-                    
-                    for data in list {
-                        if let cocktailData = self.cocktailDAO.read(id: data.id) {
-                            result.append(cocktailData)
-                        } else {
-                            let cocktailData = CocktailData(data)
-                            result.append(cocktailData)
-                            self.cocktailDAO.insert(data: cocktailData)
-                        }
-                    }
-                    
+                    let result = self.readAndWriteCocktailList(from: list)
                     observer.onNext(result)
                 }, onCompleted: {
                     observer.onCompleted()
@@ -136,5 +127,13 @@ final class CocktailRepository {
             .map { try JSONDecoder().decode(CocktailSnippetResponse.self, from: $0.data) }
             .catchAndReturn(CocktailSnippetResponse(data: []))
             .compactMap { $0.data }
+    }
+    
+    func updateCocktailData(data: CocktailData, isFavorite: Bool) {
+        guard data.isFavorite != isFavorite else {
+            return
+        }
+        
+        self.cocktailDAO.update(data: data, isFavorite: isFavorite)
     }
 }

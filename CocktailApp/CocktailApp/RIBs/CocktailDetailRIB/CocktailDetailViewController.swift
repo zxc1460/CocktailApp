@@ -19,6 +19,7 @@ protocol CocktailDetailPresentableListener: AnyObject {
     
     func refreshCocktail()
     func didPopViewController()
+    func toggleFavorite()
 }
 
 final class CocktailDetailViewController: UIViewController, CocktailDetailPresentable, CocktailDetailViewControllable {
@@ -100,6 +101,15 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         $0.style = .large
     }
     
+    private let favoriteButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "heart"), for: .normal)
+        $0.setImage(UIImage(systemName: "heart.fill"), for: .selected)
+        $0.tintColor = .systemRed
+        $0.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
+    }
+    
+    private lazy var rightBarButton = UIBarButtonItem(customView: favoriteButton)
+    
     // MARK: - Override Methods
     
     override func viewDidLoad() {
@@ -128,6 +138,7 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
     
     private func setUI() {
         self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.navigationItem.rightBarButtonItem = rightBarButton
         self.tabBarController?.tabBar.isHidden = true
         
         view.backgroundColor = .white
@@ -267,6 +278,12 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
                 owner.loadingView.isHidden = !value
             })
             .disposed(by: disposeBag)
+        
+        favoriteButton.rx.tap
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.listener?.toggleFavorite()
+            })
+            .disposed(by: disposeBag)
     }
     
     private func configureUI(by cocktail: CocktailData) {
@@ -278,5 +295,6 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         instructionDetailLabel.text = cocktail.instruction
         tagListView.removeAllTags()
         tagListView.addTags(Array(cocktail.tags))
+        favoriteButton.isSelected = cocktail.isFavorite
     }
 }

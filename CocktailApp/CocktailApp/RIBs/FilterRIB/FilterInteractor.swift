@@ -60,7 +60,7 @@ final class FilterInteractor: Interactor, FilterInteractable {
     private func saveFilterKeywords() {
         listener?.isLoadingRelay.accept(true)
         
-        repository.filter.saveFilterKeywordsFromAPI()
+        repository.filter.saveFilterKeywords()
             .subscribe(with: self, onCompleted: { owner in
                 owner.listener?.isLoadingRelay.accept(false)
             })

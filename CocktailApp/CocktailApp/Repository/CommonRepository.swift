@@ -2,7 +2,6 @@
 //  CommonRepository.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/10/08.
 //
 
 import Foundation

@@ -43,17 +43,18 @@ final class CocktailListInteractor: PresentableInteractor<CocktailListPresentabl
 
 extension CocktailListInteractor: CocktailListPresentableListener {
     func didSelectCocktail(of index: Int) {
-        print("cocktail is selected: \(cocktailListRelay.value[index].name)")
-        
         router?.routeToDetail(cocktail: cocktailListRelay.value[index])
     }
     
     func requestCocktailList(type: ListType) {
         repostiory.cocktail.loadCocktailList(of: type)
             .asObservable()
-            .debug()
             .bind(to: cocktailListRelay)
             .disposeOnDeactivate(interactor: self)
+    }
+    
+    func favoriteValueChanged(of cocktail: CocktailData, value: Bool) {
+        repostiory.cocktail.updateCocktailData(data: cocktail, isFavorite: value)
     }
     
 }

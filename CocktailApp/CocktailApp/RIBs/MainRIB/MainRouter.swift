@@ -6,7 +6,7 @@
 
 import RIBs
 
-protocol MainInteractable: Interactable, CocktailListListener, SearchPageListener {
+protocol MainInteractable: Interactable, CocktailListListener, SearchPageListener, FavoriteListener {
     var router: MainRouting? { get set }
     var listener: MainListener? { get set }
 }
@@ -22,13 +22,17 @@ final class MainRouter: ViewableRouter<MainInteractable, MainViewControllable> {
     private let searchPageBuilder: SearchPageBuildable
     private var searchPageRouting: SearchPageRouting?
     
+    private let favoriteBuilder: FavoriteBuildable
+    private var favoriteRouting: FavoriteRouting?
+    
     init(interactor: MainInteractable,
         viewController: MainViewControllable,
         cocktailListBuilder: CocktailListBuildable,
-        searchPageBuilder: SearchPageBuildable) {
+        searchPageBuilder: SearchPageBuildable,
+         favoriteBuilder: FavoriteBuildable) {
         self.cocktailListBuilder = cocktailListBuilder
         self.searchPageBuilder = searchPageBuilder
-        
+        self.favoriteBuilder = favoriteBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }

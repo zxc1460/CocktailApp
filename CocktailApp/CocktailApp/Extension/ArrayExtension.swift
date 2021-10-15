@@ -10,12 +10,9 @@ import RealmSwift
 
 extension Array where Element: RealmCollectionValue {
     func toList() -> List<Element> {
-        let list = List<Element>()
-        
-        for value in self {
-            list.append(value)
+        return self.reduce(List<Element>()) { list, nextObject in
+            list.append(nextObject)
+            return list
         }
-        
-        return list
     }
 }

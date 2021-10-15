@@ -5,11 +5,20 @@
 //  
 
 import UIKit
+import RxCocoa
+import RxRealm
+import RxSwift
 import SnapKit
 import Then
 
 class CocktailTableViewCell: UITableViewCell {
+    
+    // MARK: - Properties
+    
     static let reuseIdentifier = "CocktailTableViewCell"
+    
+    var disposeBag = DisposeBag()
+    var favoriteValueChanged = BehaviorRelay<Bool>(value: false)
     
     // MARK: - View Properites
     
@@ -56,6 +65,12 @@ class CocktailTableViewCell: UITableViewCell {
         $0.layer.cornerRadius = 10
     }
     
+    private let favoriteButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "heart"), for: .normal)
+        $0.setImage(UIImage(systemName: "heart.fill"), for: .selected)
+        $0.tintColor = .systemRed
+    }
+    
     // MARK: - init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -80,12 +95,18 @@ class CocktailTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
 
     private func setUI() {
         contentView.addSubview(baseView)
         
         baseView.addSubview(thumbnailImageView)
         baseView.addSubview(stackView)
+        baseView.addSubview(favoriteButton)
         
         stackView.addArrangedSubview(nameLabel)
         stackView.addArrangedSubview(categoryLabel)
@@ -106,8 +127,14 @@ class CocktailTableViewCell: UITableViewCell {
             $0.height.equalTo(300)
         }
         
-        stackView.snp.makeConstraints {
+        favoriteButton.snp.makeConstraints {
             $0.top.equalTo(thumbnailImageView.snp.bottom).offset(10)
+            $0.trailing.equalTo(thumbnailImageView).inset(10)
+            $0.width.height.equalTo(20)
+        }
+        
+        stackView.snp.makeConstraints {
+            $0.top.equalTo(favoriteButton.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview().inset(10)
             $0.bottom.equalToSuperview().inset(10)
         }
@@ -124,5 +151,25 @@ class CocktailTableViewCell: UITableViewCell {
         categoryLabel.text = cocktail.category
         glassLabel.text = cocktail.glass
         isAlcoholLabel.isHidden = !cocktail.isAlcohol
+        
+        /// Observe isFavorite Property
+        /// isFavorite -> favoriteValueChanged -> isSelected -> Button Image
+        Observable.from(object: cocktail, properties: ["isFavorite"])
+            .map { $0.isFavorite }
+            .bind(to: favoriteValueChanged)
+            .disposed(by: disposeBag)
+        
+        favoriteValueChanged
+            .bind(to: favoriteButton.rx.isSelected)
+            .disposed(by: disposeBag)
+        
+        
+        // Tap -> favoriteValueChanged -> isSelected -> cocktail Data Update(in View Controller)
+        
+        favoriteButton.rx.tap
+            .subscribe(with: self, onNext: { owner, _ in
+                owner.favoriteValueChanged.accept(!owner.favoriteValueChanged.value)
+            })
+            .disposed(by: disposeBag)
     }
 }

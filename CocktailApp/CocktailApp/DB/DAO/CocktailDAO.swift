@@ -20,7 +20,7 @@ struct CocktailDAO {
     }
 
     func read(id: String) -> CocktailData? {
-        return read().filter([.equal], \CocktailData.id, id).first?.freeze()
+        return read().filter([.equal], \CocktailData.id, id).first
     }
     
     // MARK: - Write
@@ -29,8 +29,10 @@ struct CocktailDAO {
         RealmManager.add(data)
     }
     
-    func update(data: CocktailData) {
-        RealmManager.add(data, policy: .all)
+    func update(data: CocktailData, isFavorite: Bool) {
+        RealmManager.update(data) { data in
+            data.isFavorite = isFavorite
+        }
     }
     
     // MARK: - Delete

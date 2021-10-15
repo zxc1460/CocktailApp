@@ -43,10 +43,11 @@ class RealmManager {
     }
     
     public static func update<T>(_ data: T, block: @escaping ((T) -> Void)) where T: Object {
-        guard let realmObject = data.realm else { return }
+        guard let thawed = data.thaw() else { return }
+        guard let realmObject = thawed.realm else { return }
         
         try? realmObject.write {
-            block(data)
+            block(thawed)
         }
     }
     

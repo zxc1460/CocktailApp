@@ -58,6 +58,7 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
         super.didBecomeActive()
         
         fetchCocktailDetail()
+        bind()
     }
     
     override func willResignActive() {
@@ -78,6 +79,20 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
                 owner.isLoadingRelay.accept(false)
             })
             .disposeOnDeactivate(interactor: self)
+    }
+    
+    private func bind() {
+        guard let cocktail = cocktailRelay.value else { return }
+        
+        Observable.from(object: cocktail, properties: ["isFavorite"])
+            .bind(to: cocktailRelay)
+            .disposeOnDeactivate(interactor: self)
+    }
+    
+    func toggleFavorite() {
+        guard let cocktail = cocktailRelay.value else { return }
+        
+        repository.cocktail.updateCocktailData(data: cocktail, isFavorite: !cocktail.isFavorite)
     }
 }
 

@@ -2,8 +2,7 @@
 //  FilterAPI.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/10/08.
-//
+// 
 
 import Foundation
 import Moya
@@ -42,12 +41,6 @@ extension FilterAPI: TargetType {
         case .list(let type):
             return .requestParameters(parameters: [type.rawValue: "list"], encoding: URLEncoding.queryString)
         }
-    }
-    
-    // MARK: - Data
-    
-    var sampleData: Data {
-        return Data()
     }
     
     // MARK: - Headers

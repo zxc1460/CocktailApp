@@ -2,7 +2,6 @@
 //  FilterRepository.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/10/08.
 //
 
 import Foundation
@@ -10,7 +9,6 @@ import Moya
 import RealmSwift
 import RxMoya
 import RxSwift
-
 
 final class FilterRepository {
     private let service: MoyaProvider<FilterAPI>
@@ -21,17 +19,7 @@ final class FilterRepository {
         self.dao = FilterDAO()
     }
     
-    var isEmptyFilters: Bool {
-        for type in FilterType.allCases {
-            if dao.read(type: type).count > 0 {
-                return true
-            }
-        }
-        
-        return false
-    }
-    
-    func saveFilterKeywordsFromAPI() -> Completable {
+    func saveFilterKeywords() -> Completable {
         let requests = FilterType.allCases
             .map { service.rx.request(.list(type: $0))
                         .asObservable()
@@ -44,9 +32,8 @@ final class FilterRepository {
                 .subscribe(with: self,
                            onNext: { owner, datas in
                     for (index, data) in datas.enumerated() {
-                        let contents = data.map { value -> String in
-                            return value.ingredient ?? value.category ?? value.glass ?? String()
-                        }
+                        let contents = data.map {
+                            return $0.ingredient ?? $0.category ?? $0.glass ?? String() }
                         let sortedContents = contents.sorted().toList()
                         let filterData = FilterData(type: FilterType.allCases[index], contents: sortedContents)
                         
@@ -68,7 +55,9 @@ final class FilterRepository {
             return Observable.just([])
         }
         
-        return Observable.just(Array(data.contents).sorted())
+        let keywords = Array(data.contents).sorted()
+        
+        return Observable.just(keywords)
     }
     
 }

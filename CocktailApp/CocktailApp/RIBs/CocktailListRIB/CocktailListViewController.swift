@@ -16,6 +16,7 @@ protocol CocktailListPresentableListener: AnyObject {
     
     func didSelectCocktail(of index: Int)
     func requestCocktailList(type: ListType)
+    func favoriteValueChanged(of cocktail: CocktailData, value: Bool)
 }
 
 final class CocktailListViewController: UIViewController, CocktailListPresentable, CocktailListViewControllable {
@@ -86,8 +87,14 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
         listener?.cocktailListRelay
             .asDriver(onErrorJustReturn: [])
             .drive(tableView.rx.items(cellIdentifier: CocktailTableViewCell.reuseIdentifier,
-                                      cellType: CocktailTableViewCell.self)) { _, cocktail, cell in
+                                      cellType: CocktailTableViewCell.self)) { row, cocktail, cell in
                 cell.configure(cocktail)
+                
+                cell.favoriteValueChanged
+                    .subscribe(with: self, onNext: { owner, value in
+                        owner.listener?.favoriteValueChanged(of: cocktail, value: value)
+                    })
+                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         

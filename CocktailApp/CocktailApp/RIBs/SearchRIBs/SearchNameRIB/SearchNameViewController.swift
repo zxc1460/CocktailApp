@@ -16,6 +16,7 @@ protocol SearchNamePresentableListener: AnyObject {
     
     func searchCocktailList(name: String)
     func didSelectCocktail(of index: Int)
+    func favoriteValueChanged(of cocktail: CocktailData, value: Bool)
 }
 
 final class SearchNameViewController: UIViewController, SearchNamePresentable, SearchNameViewControllable {
@@ -86,6 +87,12 @@ final class SearchNameViewController: UIViewController, SearchNamePresentable, S
             .drive(tableView.rx.items(cellIdentifier: CocktailTableViewCell.reuseIdentifier,
                                       cellType: CocktailTableViewCell.self)) { _, cocktail, cell in
                 cell.configure(cocktail)
+                
+                cell.favoriteValueChanged
+                    .subscribe(with: self, onNext: { owner, value in
+                        owner.listener?.favoriteValueChanged(of: cocktail, value: value)
+                    })
+                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         

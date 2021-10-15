@@ -64,12 +64,6 @@ extension CocktailAPI: TargetType {
         }
     }
     
-    // MARK: - Data
-    
-    var sampleData: Data {
-        return Data()
-    }
-    
     // MARK: - Headers
     
     var headers: [String: String]? {
