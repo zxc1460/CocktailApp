@@ -31,8 +31,13 @@ final class FavoriteBuilder: Builder<FavoriteDependency>, FavoriteBuildable {
     func build(withListener listener: FavoriteListener) -> FavoriteRouting {
         let component = FavoriteComponent(dependency: dependency)
         let viewController = FavoriteViewController()
-        let interactor = FavoriteInteractor(presenter: viewController)
+        let interactor = FavoriteInteractor(presenter: viewController, repository: component.repository)
+        let cocktailDetailBuilder = CocktailDetailBuilder(dependency: component)
+        
         interactor.listener = listener
-        return FavoriteRouter(interactor: interactor, viewController: viewController)
+        
+        return FavoriteRouter(interactor: interactor,
+                              viewController: viewController,
+                              cocktailDetailBuilder: cocktailDetailBuilder)
     }
 }

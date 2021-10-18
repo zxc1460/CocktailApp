@@ -51,6 +51,10 @@ final class MainRouter: ViewableRouter<MainInteractable, MainViewControllable> {
         let searchPageRouting = searchPageBuilder.build(withListener: interactor)
         self.searchPageRouting = searchPageRouting
         viewController.addViewController(searchPageRouting.viewControllable, type: .search)
+        
+        let favoriteRouting = favoriteBuilder.build(withListener: interactor)
+        self.favoriteRouting = favoriteRouting
+        viewController.addViewController(favoriteRouting.viewControllable, type: .favorite)
     }
 }
 
@@ -58,7 +62,7 @@ extension MainRouter: MainRouting {
     func routeToChild(type: TabItemType) {
         detachChildren()
         
-        let routings = [cocktailListRouting, searchPageRouting]
+        let routings = [cocktailListRouting, searchPageRouting, favoriteRouting]
         
         if let routing = routings[type.rawValue] {
             attachChild(routing)

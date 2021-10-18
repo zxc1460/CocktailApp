@@ -54,7 +54,7 @@ extension SearchNameInteractor: SearchNamePresentableListener {
     }
     
     func favoriteValueChanged(of cocktail: CocktailData, value: Bool) {
-        repository.cocktail.updateCocktailData(data: cocktail, isFavorite: value)
+        repository.cocktail.updateCocktail(data: cocktail, isFavorite: value)
     }
 }
 

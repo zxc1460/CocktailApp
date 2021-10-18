@@ -13,7 +13,7 @@ protocol MainPresentableListener: AnyObject {
     func didSelectTab(type: TabItemType)
 }
 
-final class MainViewController: UITabBarController, MainPresentable {
+final class MainViewController: UITabBarController {
 
     weak var listener: MainPresentableListener?
     
@@ -65,6 +65,9 @@ extension MainViewController: MainViewControllable {
         case .search:
             item.title = "검색"
             item.image = UIImage(systemName: "magnifyingglass")
+        case .favorite:
+            item.title = "즐겨찾기"
+            item.image = UIImage(systemName: "star.fill")
         }
         
         item.tag = type.rawValue
@@ -81,7 +84,16 @@ extension MainViewController: MainViewControllable {
     }
 }
 
+extension MainViewController: MainPresentable {
+    func showFavoriteChangeAlert(name: String, isFavorite: Bool) {
+        let message = isFavorite ? "\(name)이(가) 즐겨찾기에 추가되었습니다." : "\(name)이(가) 즐겨찾기에서 삭제되었습니다."
+        
+        showToast(message: message)
+    }
+}
+
 enum TabItemType: Int {
     case list
     case search
+    case favorite
 }

@@ -6,7 +6,9 @@
 
 import Foundation
 import Moya
+import Realm
 import RxMoya
+import RxRealm
 import RxSwift
 
 final class CocktailRepository {
@@ -94,6 +96,26 @@ final class CocktailRepository {
         }
     }
     
+    func loadFavoriteList() -> Observable<[CocktailData]> {
+        let favorites = cocktailDAO.readFavorites()
+        
+        return Observable.array(from: favorites)
+    }
+    
+    func notifyFavoriteChanges() -> Observable<CocktailData> {
+        let cocktails = cocktailDAO.read()
+        
+        return Observable.changeset(from: cocktails)
+            .map { results, changes in
+                guard let index = changes?.updated.first else {
+                    return nil
+                }
+                
+                return results[index]
+            }
+            .compactMap { $0 }
+    }
+    
     func searchCocktail(name: String) -> Observable<[CocktailData]> {
         guard name.count > 0 else {
             return Observable.just([])
@@ -129,7 +151,7 @@ final class CocktailRepository {
             .compactMap { $0.data }
     }
     
-    func updateCocktailData(data: CocktailData, isFavorite: Bool) {
+    func updateCocktail(data: CocktailData, isFavorite: Bool) {
         guard data.isFavorite != isFavorite else {
             return
         }

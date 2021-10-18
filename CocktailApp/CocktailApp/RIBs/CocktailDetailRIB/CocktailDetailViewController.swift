@@ -296,5 +296,6 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         tagListView.removeAllTags()
         tagListView.addTags(Array(cocktail.tags))
         favoriteButton.isSelected = cocktail.isFavorite
+        isAlcoholLabel.isHidden = !cocktail.isAlcohol
     }
 }

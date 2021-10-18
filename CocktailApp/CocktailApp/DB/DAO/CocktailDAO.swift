@@ -6,6 +6,7 @@
 
 import Foundation
 import RealmSwift
+import RxRealm
 
 struct CocktailDAO {
     
@@ -18,9 +19,13 @@ struct CocktailDAO {
     func read(id: String) -> Results<CocktailData> {
         return read().filter([.equal], \CocktailData.id, id)
     }
-
+    
     func read(id: String) -> CocktailData? {
         return read().filter([.equal], \CocktailData.id, id).first
+    }
+    
+    func readFavorites() -> Results<CocktailData> {
+        return read().filter([.equal], \CocktailData.isFavorite, true)
     }
     
     // MARK: - Write

@@ -33,7 +33,7 @@ final class MainBuilder: Builder<MainDependency>, MainBuildable {
     func build(withListener listener: MainListener, repository: CommonRepository) -> MainRouting {
         let component = MainComponent(dependency: dependency, repository: repository)
         let viewController = MainViewController()
-        let interactor = MainInteractor(presenter: viewController)
+        let interactor = MainInteractor(presenter: viewController, repository: repository)
         let cocktailListBuilder = CocktailListBuilder(dependency: component)
         let searchPageBuilder = SearchPageBuilder(dependency: component)
         let favoriteBuilder = FavoriteBuilder(dependency: component)

@@ -89,6 +89,7 @@ final class SearchNameViewController: UIViewController, SearchNamePresentable, S
                 cell.configure(cocktail)
                 
                 cell.favoriteValueChanged
+                    .skip(1)
                     .subscribe(with: self, onNext: { owner, value in
                         owner.listener?.favoriteValueChanged(of: cocktail, value: value)
                     })

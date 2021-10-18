@@ -75,6 +75,7 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
             .subscribe(with: self,
                        onNext: { owner, cocktail in
                 owner.cocktailRelay.accept(cocktail)
+                owner.bind()
             }, onCompleted: { owner in
                 owner.isLoadingRelay.accept(false)
             })
@@ -83,7 +84,7 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
     
     private func bind() {
         guard let cocktail = cocktailRelay.value else { return }
-        
+
         Observable.from(object: cocktail, properties: ["isFavorite"])
             .bind(to: cocktailRelay)
             .disposeOnDeactivate(interactor: self)
@@ -92,7 +93,7 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
     func toggleFavorite() {
         guard let cocktail = cocktailRelay.value else { return }
         
-        repository.cocktail.updateCocktailData(data: cocktail, isFavorite: !cocktail.isFavorite)
+        repository.cocktail.updateCocktail(data: cocktail, isFavorite: !cocktail.isFavorite)
     }
 }
 

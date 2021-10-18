@@ -28,12 +28,12 @@ final class CocktailListInteractor: PresentableInteractor<CocktailListPresentabl
     weak var router: CocktailListRouting?
     weak var listener: CocktailListListener?
     
-    private let repostiory: CommonRepository
+    private let repository: CommonRepository
     
     var cocktailListRelay: BehaviorRelay<[CocktailData]> = BehaviorRelay<[CocktailData]>(value: [])
 
     init(presenter: CocktailListPresentable, repository: CommonRepository) {
-        self.repostiory = repository
+        self.repository = repository
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -47,14 +47,14 @@ extension CocktailListInteractor: CocktailListPresentableListener {
     }
     
     func requestCocktailList(type: ListType) {
-        repostiory.cocktail.loadCocktailList(of: type)
+        repository.cocktail.loadCocktailList(of: type)
             .asObservable()
             .bind(to: cocktailListRelay)
             .disposeOnDeactivate(interactor: self)
     }
     
     func favoriteValueChanged(of cocktail: CocktailData, value: Bool) {
-        repostiory.cocktail.updateCocktailData(data: cocktail, isFavorite: value)
+        repository.cocktail.updateCocktail(data: cocktail, isFavorite: value)
     }
     
 }
