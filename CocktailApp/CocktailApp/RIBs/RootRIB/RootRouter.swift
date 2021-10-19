@@ -18,9 +18,11 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
     private let mainBuilder: MainBuildable
     private var mainRouting: MainRouting?
 
-    init(interactor: RootInteractable,
+    init(
+        interactor: RootInteractable,
         viewController: RootViewControllable,
-        mainBuilder: MainBuildable) {
+        mainBuilder: MainBuildable
+    ) {
         self.mainBuilder = mainBuilder
         
         super.init(interactor: interactor, viewController: viewController)
@@ -40,8 +42,10 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
         
         attachChild(mainRouting)
         
-        viewController.presentViewController(viewControllable: mainRouting.viewControllable,
-                                             modalPresentationStyle: .fullScreen)
+        viewController.presentViewController(
+            viewControllable: mainRouting.viewControllable,
+            modalPresentationStyle: .fullScreen
+        )
     }
    
 }

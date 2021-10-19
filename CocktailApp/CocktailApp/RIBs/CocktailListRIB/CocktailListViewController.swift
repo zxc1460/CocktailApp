@@ -19,11 +19,9 @@ protocol CocktailListPresentableListener: AnyObject {
     func favoriteValueChanged(of cocktail: CocktailData, value: Bool)
 }
 
-final class CocktailListViewController: UIViewController, CocktailListPresentable, CocktailListViewControllable {
+final class CocktailListViewController: BaseViewController, CocktailListPresentable, CocktailListViewControllable {
 
     weak var listener: CocktailListPresentableListener?
-    
-    let disposeBag = DisposeBag()
     
     // MARK: - View Properties
     
@@ -42,14 +40,11 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setUI()
-        bindUI()
     }
     
     // MARK: - UI Methods
     
-    private func setUI() {
+    override func setUI() {
         self.navigationItem.title = "칵테일 리스트"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
@@ -59,7 +54,7 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
         setConstraints()
     }
     
-    private func setConstraints() {
+    override func setConstraints() {
         segmentedControl.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
@@ -72,49 +67,29 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
         }
     }
     
-    private func bindUI() {
-        segmentedControl.selectedButtonIndex
-            .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
-            .map { index -> ListType in
-                return ListType.allCases[index]
-            }
-            .withUnretained(self)
-            .subscribe(onNext: { owner, type in
-                owner.listener?.requestCocktailList(type: type)
-            })
-            .disposed(by: disposeBag)
-        
+    // MARK: - Rx Method
+    
+    override func bind() {
         listener?.cocktailListRelay
             .asDriver(onErrorJustReturn: [])
             .drive(tableView.rx.items(cellIdentifier: CocktailTableViewCell.reuseIdentifier,
-                                      cellType: CocktailTableViewCell.self)) { row, cocktail, cell in
-                cell.configure(cocktail)
-                
-                cell.favoriteValueChanged
-                    .skip(1)
-                    .subscribe(with: self, onNext: { owner, value in
-                        owner.listener?.favoriteValueChanged(of: cocktail, value: value)
-                    })
-                    .disposed(by: cell.disposeBag)
-            }
-            .disposed(by: disposeBag)
-        
-        // 칵테일 리스트 리로드 시 최상단으로 이동
-        listener?.cocktailListRelay
-            .delay(.milliseconds(50), scheduler: MainScheduler.instance)
-            .map { $0.count > 0 }
-            .withUnretained(self)
-            .subscribe(onNext: { owner, flag in
-                if flag {
-                    owner.tableView.scrollToRow(at: IndexPath.zero, at: .top, animated: true)
+                                      cellType: CocktailTableViewCell.self)) { [weak self] row, cocktail, cell in
+                cell.configure(cocktail) {
+                    self?.listener?.favoriteValueChanged(of: cocktail, value: !cocktail.isFavorite)
                 }
-            })
+                
+//                cell.favoriteValueChanged
+//                    .skip(1)
+//                    .subscribe(with: self, onNext: { owner, value in
+//                        owner.listener?.favoriteValueChanged(of: cocktail, value: value)
+//                    })
+//                    .disposed(by: cell.disposeBag)
+            }
             .disposed(by: disposeBag)
         
         // 칵테일 클릭 시 디테일 뷰로 이동
         tableView.rx.itemSelected
-            .withUnretained(self)
-            .subscribe(onNext: { owner, indexPath in
+            .bind(with: self, onNext: { owner, indexPath in
                 owner.tableView.deselectRow(at: indexPath, animated: true)
                 
                 owner.listener?.didSelectCocktail(of: indexPath.row)
@@ -122,12 +97,29 @@ final class CocktailListViewController: UIViewController, CocktailListPresentabl
             .disposed(by: disposeBag)
         
         refreshControl.rx.controlEvent(.valueChanged)
-            .withUnretained(self)
-            .subscribe(onNext: { owner, _ in
+            .bind(with: self, onNext: { owner, _ in
                 let type = ListType.allCases[owner.segmentedControl.selectedButtonIndex.value]
                 owner.listener?.requestCocktailList(type: type)
                 
                 owner.refreshControl.endRefreshing()
+            })
+            .disposed(by: disposeBag)
+        
+        segmentedControl.selectedButtonIndex
+            .asDriver()
+            .debounce(.milliseconds(300))
+            .map { ListType.allCases[$0] }
+            .drive(with: self, onNext: { owner, type in
+                owner.listener?.requestCocktailList(type: type)
+            })
+            .disposed(by: disposeBag)
+        
+        listener?.cocktailListRelay
+            .asDriver()
+            .debounce(.milliseconds(50))
+            .filter { $0.count > 0 }
+            .drive(with: self, onNext: { owner, _ in
+                owner.tableView.scrollToRow(at: IndexPath.zero, at: .top, animated: true)
             })
             .disposed(by: disposeBag)
     }

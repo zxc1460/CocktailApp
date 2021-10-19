@@ -47,7 +47,7 @@ extension CocktailListInteractor: CocktailListPresentableListener {
     }
     
     func requestCocktailList(type: ListType) {
-        repository.cocktail.loadCocktailList(of: type)
+        repository.cocktail.loadCocktailList(type: type)
             .asObservable()
             .bind(to: cocktailListRelay)
             .disposeOnDeactivate(interactor: self)

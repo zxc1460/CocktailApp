@@ -45,13 +45,17 @@ extension UIViewController {
         }
     }
     
-    func showAlert(title: String?,
-                   message: String?,
-                   actionHandler: @escaping () -> Void,
-                   cancelHandler: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: title,
-                                      message: message,
-                                      preferredStyle: .alert).then {
+    func showAlert(
+        title: String?,
+        message: String?,
+        actionHandler: @escaping () -> Void,
+        cancelHandler: (() -> Void)? = nil
+    ) {
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        ).then {
             let okAction = UIAlertAction(title: "확인", style: .default) { _ in
                 actionHandler()
             }

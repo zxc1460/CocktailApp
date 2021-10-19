@@ -19,7 +19,7 @@ final class FilterRepository {
         self.dao = FilterDAO()
     }
     
-    func saveFilterKeywords() -> Completable {
+    func writeFilterKeywords() -> Completable {
         let requests = FilterType.allCases
             .map { service.rx.request(.list(type: $0))
                         .asObservable()
@@ -32,10 +32,11 @@ final class FilterRepository {
                 .subscribe(with: self,
                            onNext: { owner, datas in
                     for (index, data) in datas.enumerated() {
-                        let contents = data.map {
-                            return $0.ingredient ?? $0.category ?? $0.glass ?? String() }
-                        let sortedContents = contents.sorted().toList()
-                        let filterData = FilterData(type: FilterType.allCases[index], contents: sortedContents)
+                        let keywords = data.map {
+                            return $0.ingredient ?? $0.category ?? $0.glass ?? String()
+                        }.sorted().toList()
+                        
+                        let filterData = FilterData(type: FilterType.allCases[index], keywords: keywords)
                         
                         owner.dao.insert(filterData)
                     }
@@ -55,7 +56,7 @@ final class FilterRepository {
             return Observable.just([])
         }
         
-        let keywords = Array(data.contents).sorted()
+        let keywords = Array(data.keywords).sorted()
         
         return Observable.just(keywords)
     }

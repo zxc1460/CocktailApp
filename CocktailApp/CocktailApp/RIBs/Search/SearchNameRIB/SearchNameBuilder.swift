@@ -34,8 +34,10 @@ final class SearchNameBuilder: Builder<SearchNameDependency>, SearchNameBuildabl
         let interactor = SearchNameInteractor(presenter: viewController, repository: component.repository)
         let cocktailDetailBuilder = CocktailDetailBuilder(dependency: component)
         interactor.listener = listener
-        return SearchNameRouter(interactor: interactor,
-                                viewController: viewController,
-                                cocktailDetailBuilder: cocktailDetailBuilder)
+        return SearchNameRouter(
+            interactor: interactor,
+            viewController: viewController,
+            cocktailDetailBuilder: cocktailDetailBuilder
+        )
     }
 }

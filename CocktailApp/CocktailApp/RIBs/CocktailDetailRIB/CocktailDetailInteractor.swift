@@ -33,6 +33,8 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
     var isLoadingRelay: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: false)
     var cocktailRelay: BehaviorRelay<CocktailData?> = BehaviorRelay<CocktailData?>(value: nil)
     
+    // MARK: - init Methods
+    
     init(presenter: CocktailDetailPresentable,
          repository: CommonRepository) {
         self.repository = repository
@@ -54,46 +56,28 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
         self.id = id
     }
     
+    // MARK: - Life Cycle Methods
+    
     override func didBecomeActive() {
         super.didBecomeActive()
         
         fetchCocktailDetail()
-        bind()
     }
     
-    override func willResignActive() {
-        super.willResignActive()
-    }
+    // MARK: - private Methods
     
     private func fetchCocktailDetail() {
-        guard let id = id else {
-            return
-        }
+        guard let id = id else { return }
         
         self.isLoadingRelay.accept(true)
-        repository.cocktail.loadCocktailDetail(from: id)
+        repository.cocktail.loadCocktail(id: id)
             .subscribe(with: self,
                        onNext: { owner, cocktail in
                 owner.cocktailRelay.accept(cocktail)
-                owner.bind()
             }, onCompleted: { owner in
                 owner.isLoadingRelay.accept(false)
             })
             .disposeOnDeactivate(interactor: self)
-    }
-    
-    private func bind() {
-        guard let cocktail = cocktailRelay.value else { return }
-
-        Observable.from(object: cocktail, properties: ["isFavorite"])
-            .bind(to: cocktailRelay)
-            .disposeOnDeactivate(interactor: self)
-    }
-    
-    func toggleFavorite() {
-        guard let cocktail = cocktailRelay.value else { return }
-        
-        repository.cocktail.updateCocktail(data: cocktail, isFavorite: !cocktail.isFavorite)
     }
 }
 
@@ -101,10 +85,8 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
 
 extension CocktailDetailInteractor: CocktailDetailPresentableListener {
     func refreshCocktail() {
-        guard let cocktail = cocktailRelay.value else {
-            return
-        }
-        repository.cocktail.loadCocktailDetail(from: cocktail.id)
+        guard let cocktail = cocktailRelay.value else { return }
+        repository.cocktail.loadCocktail(id: cocktail.id)
             .compactMap { $0 }
             .bind(to: cocktailRelay)
             .disposeOnDeactivate(interactor: self)
@@ -112,5 +94,11 @@ extension CocktailDetailInteractor: CocktailDetailPresentableListener {
     
     func didPopViewController() {
         listener?.detachDetail()
+    }
+    
+    func toggleFavorite() {
+        guard let cocktail = cocktailRelay.value else { return }
+        
+        repository.cocktail.updateCocktail(data: cocktail, isFavorite: !cocktail.isFavorite)
     }
 }

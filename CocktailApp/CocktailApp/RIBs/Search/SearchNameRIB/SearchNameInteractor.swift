@@ -44,7 +44,7 @@ final class SearchNameInteractor: PresentableInteractor<SearchNamePresentable>, 
 
 extension SearchNameInteractor: SearchNamePresentableListener {
     func searchCocktailList(name: String) {
-        repository.cocktail.searchCocktail(name: name)
+        repository.cocktail.searchCocktailList(name: name)
             .bind(to: searchResultRelay)
             .disposeOnDeactivate(interactor: self)
     }

@@ -9,14 +9,14 @@ import RealmSwift
 
 class FilterData: Object {
     @Persisted(primaryKey: true) var type: FilterType
-    @Persisted var contents = List<String>()
+    @Persisted var keywords = List<String>()
     
     override init() {}
     
-    init(type: FilterType, contents: List<String>) {
+    init(type: FilterType, keywords: List<String>) {
         super.init()
         
         self.type = type
-        self.contents = contents
+        self.keywords = keywords
     }
 }

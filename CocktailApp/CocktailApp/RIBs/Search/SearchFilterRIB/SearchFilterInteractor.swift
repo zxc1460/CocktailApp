@@ -46,10 +46,6 @@ final class SearchFilterInteractor: PresentableInteractor<SearchFilterPresentabl
         
         router?.attachFilter()
     }
-
-    override func willResignActive() {
-        super.willResignActive()
-    }
 }
 
 // MARK: - PresentableListener

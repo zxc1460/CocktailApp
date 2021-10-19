@@ -40,10 +40,12 @@ final class MainBuilder: Builder<MainDependency>, MainBuildable {
         
         interactor.listener = listener
         
-        return MainRouter(interactor: interactor,
-                          viewController: viewController,
-                          cocktailListBuilder: cocktailListBuilder,
-                          searchPageBuilder: searchPageBuilder,
-                          favoriteBuilder: favoriteBuilder)
+        return MainRouter(
+            interactor: interactor,
+            viewController: viewController,
+            cocktailListBuilder: cocktailListBuilder,
+            searchPageBuilder: searchPageBuilder,
+            favoriteBuilder: favoriteBuilder
+        )
     }
 }

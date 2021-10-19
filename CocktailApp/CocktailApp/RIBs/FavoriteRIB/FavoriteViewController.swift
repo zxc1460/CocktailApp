@@ -18,15 +18,13 @@ protocol FavoritePresentableListener: AnyObject {
     func didSelectCocktail(of index: Int)
 }
 
-final class FavoriteViewController: UIViewController, FavoritePresentable, FavoriteViewControllable {
+final class FavoriteViewController: BaseViewController, FavoritePresentable, FavoriteViewControllable {
 
     // MARK: - Properties
     
     weak var listener: FavoritePresentableListener?
     
-    let disposeBag = DisposeBag()
-    
-    // MARK: - View Properties
+    // MARK: - Views
     
     private let tableView = UITableView().then {
         $0.register(FavoriteTableViewCell.self, forCellReuseIdentifier: FavoriteTableViewCell.reuseIdentifier)
@@ -44,25 +42,20 @@ final class FavoriteViewController: UIViewController, FavoritePresentable, Favor
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setUI()
-        bindUI()
     }
     
-    // MARK: - Private
+    // MARK: - UI Methods
     
-    private func setUI() {
+    override func setUI() {
         view.backgroundColor = .white
         self.navigationItem.title = "즐겨찾기"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
         view.addSubview(tableView)
         view.addSubview(emptyLabel)
-        
-        setConstraints()
     }
     
-    private func setConstraints() {
+    override func setConstraints() {
         tableView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.bottom.equalToSuperview()
@@ -73,7 +66,7 @@ final class FavoriteViewController: UIViewController, FavoritePresentable, Favor
         }
     }
     
-    private func bindUI() {
+    override func bind() {
         listener?.favoriteListRelay
             .asDriver(onErrorJustReturn: [])
             .drive(tableView.rx.items(cellIdentifier: FavoriteTableViewCell.reuseIdentifier,
@@ -85,8 +78,8 @@ final class FavoriteViewController: UIViewController, FavoritePresentable, Favor
             .disposed(by: disposeBag)
         
         tableView.rx.itemSelected
-            .withUnretained(self)
-            .subscribe(onNext: { owner, indexPath in
+            .asDriver()
+            .drive(with: self, onNext: { owner, indexPath in
                 owner.tableView.deselectRow(at: indexPath, animated: true)
                 
                 owner.listener?.didSelectCocktail(of: indexPath.row)
@@ -94,7 +87,7 @@ final class FavoriteViewController: UIViewController, FavoritePresentable, Favor
             .disposed(by: disposeBag)
         
         listener?.favoriteListRelay
-            .asDriver(onErrorJustReturn: [])
+            .asDriver()
             .map { $0.count > 0 }
             .drive(emptyLabel.rx.isHidden)
             .disposed(by: disposeBag)

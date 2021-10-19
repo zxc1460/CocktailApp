@@ -18,9 +18,11 @@ final class SearchNameRouter: ViewableRouter<SearchNameInteractable, SearchNameV
     private let cocktailDetailBuilder: CocktailDetailBuildable
     private var cocktailDetailRouting: CocktailDetailRouting?
 
-    init(interactor: SearchNameInteractable,
-         viewController: SearchNameViewControllable,
-         cocktailDetailBuilder: CocktailDetailBuildable) {
+    init(
+        interactor: SearchNameInteractable,
+        viewController: SearchNameViewControllable,
+        cocktailDetailBuilder: CocktailDetailBuildable
+    ) {
         self.cocktailDetailBuilder = cocktailDetailBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self

@@ -23,10 +23,12 @@ final class SearchPageRouter: ViewableRouter<SearchPageInteractable, SearchPageV
     private let searchFilterBuilder: SearchFilterBuildable
     private var searchFilterRouting: SearchFilterRouting?
 
-    init(interactor: SearchPageInteractable,
-         viewController: SearchPageViewControllable,
-         searchNameBuilder: SearchNameBuildable,
-         searchFilterBuilder: SearchFilterBuilder) {
+    init(
+        interactor: SearchPageInteractable,
+        viewController: SearchPageViewControllable,
+        searchNameBuilder: SearchNameBuildable,
+        searchFilterBuilder: SearchFilterBuilder
+    ) {
         self.searchNameBuilder = searchNameBuilder
         self.searchFilterBuilder = searchFilterBuilder
         

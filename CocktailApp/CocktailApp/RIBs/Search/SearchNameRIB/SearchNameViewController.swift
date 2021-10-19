@@ -19,11 +19,11 @@ protocol SearchNamePresentableListener: AnyObject {
     func favoriteValueChanged(of cocktail: CocktailData, value: Bool)
 }
 
-final class SearchNameViewController: UIViewController, SearchNamePresentable, SearchNameViewControllable {
+final class SearchNameViewController: BaseViewController, SearchNamePresentable, SearchNameViewControllable {
 
     weak var listener: SearchNamePresentableListener?
     
-    let disposeBag = DisposeBag()
+    // MARK: - Views
     
     private let searchBar = UISearchBar().then {
         $0.placeholder = "이름을 입력하세요"
@@ -41,24 +41,23 @@ final class SearchNameViewController: UIViewController, SearchNamePresentable, S
         $0.textColor = .systemGray
     }
     
+    // MARK: - Life Cycle Method
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-     
-        setUI()
-        bindUI()
     }
     
-    private func setUI() {
+    // MARK: - UI Methods
+    
+    override func setUI() {
         view.backgroundColor = .white
         
         view.addSubview(searchBar)
         view.addSubview(tableView)
         view.addSubview(emptyLabel)
-        
-        setConstraints()
     }
     
-    private func setConstraints() {
+    override func setConstraints() {
         searchBar.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
         }
@@ -73,11 +72,15 @@ final class SearchNameViewController: UIViewController, SearchNamePresentable, S
         }
     }
     
-    private func bindUI() {
-        searchBar.rx.text.orEmpty
-            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
-            .withUnretained(self)
-            .subscribe(onNext: { owner, text in
+    // MARK: - Rx Method
+    
+    override func bind() {
+        searchBar.rx.searchButtonClicked
+            .withLatestFrom(searchBar.rx.text.orEmpty)
+            .asDriver(onErrorJustReturn: String())
+            .filter { !$0.isEmpty }
+            .drive(with: self, onNext: { owner, text in
+                owner.searchBar.resignFirstResponder()
                 owner.listener?.searchCocktailList(name: text)
             })
             .disposed(by: disposeBag)
@@ -85,15 +88,17 @@ final class SearchNameViewController: UIViewController, SearchNamePresentable, S
         listener?.searchResultRelay
             .asDriver(onErrorJustReturn: [])
             .drive(tableView.rx.items(cellIdentifier: CocktailTableViewCell.reuseIdentifier,
-                                      cellType: CocktailTableViewCell.self)) { _, cocktail, cell in
-                cell.configure(cocktail)
+                                      cellType: CocktailTableViewCell.self)) { [weak self] _, cocktail, cell in
+                cell.configure(cocktail) {
+                    self?.listener?.favoriteValueChanged(of: cocktail, value: !cocktail.isFavorite)
+                }
                 
-                cell.favoriteValueChanged
-                    .skip(1)
-                    .subscribe(with: self, onNext: { owner, value in
-                        owner.listener?.favoriteValueChanged(of: cocktail, value: value)
-                    })
-                    .disposed(by: cell.disposeBag)
+//                cell.favoriteValueChanged
+//                    .skip(1)
+//                    .subscribe(with: self, onNext: { owner, value in
+//                        owner.listener?.favoriteValueChanged(of: cocktail, value: value)
+//                    })
+//                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         
@@ -104,8 +109,7 @@ final class SearchNameViewController: UIViewController, SearchNamePresentable, S
             .disposed(by: disposeBag)
         
         tableView.rx.itemSelected
-            .withUnretained(self)
-            .subscribe(onNext: { owner, indexPath in
+            .bind(with: self, onNext: { owner, indexPath in
                 owner.tableView.deselectRow(at: indexPath, animated: true)
                 
                 owner.listener?.didSelectCocktail(of: indexPath.row)

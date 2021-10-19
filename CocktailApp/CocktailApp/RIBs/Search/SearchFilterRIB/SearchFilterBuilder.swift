@@ -17,8 +17,10 @@ final class SearchFilterComponent: Component<SearchFilterDependency> {
     
     let searchFilterViewController: SearchFilterViewController
     
-    init(dependency: SearchFilterDependency,
-         searchFilterViewController: SearchFilterViewController) {
+    init(
+        dependency: SearchFilterDependency,
+        searchFilterViewController: SearchFilterViewController
+    ) {
         self.searchFilterViewController = searchFilterViewController
         super.init(dependency: dependency)
     }
@@ -43,9 +45,11 @@ final class SearchFilterBuilder: Builder<SearchFilterDependency>, SearchFilterBu
         let filterBuilder = FilterBuilder(dependency: component)
         let cocktailDetailBuilder = CocktailDetailBuilder(dependency: component)
         interactor.listener = listener
-        return SearchFilterRouter(interactor: interactor,
-                                  viewController: viewController,
-                                  filterBuilder: filterBuilder,
-                                  cocktailDetailBuilder: cocktailDetailBuilder)
+        return SearchFilterRouter(
+            interactor: interactor,
+            viewController: viewController,
+            filterBuilder: filterBuilder,
+            cocktailDetailBuilder: cocktailDetailBuilder
+        )
     }
 }

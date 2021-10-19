@@ -19,9 +19,11 @@ final class FavoriteRouter: ViewableRouter<FavoriteInteractable, FavoriteViewCon
     private let cocktailDetailBuilder: CocktailDetailBuildable
     private var cocktailDetailRouting: CocktailDetailRouting?
 
-    init(interactor: FavoriteInteractable,
-         viewController: FavoriteViewControllable,
-         cocktailDetailBuilder: CocktailDetailBuildable) {
+    init(
+        interactor: FavoriteInteractable,
+        viewController: FavoriteViewControllable,
+        cocktailDetailBuilder: CocktailDetailBuildable
+    ) {
         self.cocktailDetailBuilder = cocktailDetailBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self

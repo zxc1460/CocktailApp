@@ -36,8 +36,10 @@ final class FavoriteBuilder: Builder<FavoriteDependency>, FavoriteBuildable {
         
         interactor.listener = listener
         
-        return FavoriteRouter(interactor: interactor,
-                              viewController: viewController,
-                              cocktailDetailBuilder: cocktailDetailBuilder)
+        return FavoriteRouter(
+            interactor: interactor,
+            viewController: viewController,
+            cocktailDetailBuilder: cocktailDetailBuilder
+        )
     }
 }

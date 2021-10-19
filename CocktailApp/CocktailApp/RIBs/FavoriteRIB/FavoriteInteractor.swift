@@ -42,13 +42,9 @@ final class FavoriteInteractor: PresentableInteractor<FavoritePresentable>, Favo
         
         bind()
     }
-
-    override func willResignActive() {
-        super.willResignActive()
-    }
     
     private func bind() {
-        repository.cocktail.loadFavoriteList()
+        repository.cocktail.loadFavoriteCocktailList()
             .bind(to: favoriteListRelay)
             .disposeOnDeactivate(interactor: self)
     }

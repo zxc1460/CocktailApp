@@ -17,7 +17,7 @@ final class MainViewController: UITabBarController {
 
     weak var listener: MainPresentableListener?
     
-    var currentTag = 0
+    private var currentTab = 0
     
     let disposeBag = DisposeBag()
     
@@ -27,7 +27,7 @@ final class MainViewController: UITabBarController {
         super.viewDidLoad()
         
         setUI()
-        bindUI()
+        bind()
     }
     
     private func setUI() {
@@ -41,15 +41,15 @@ final class MainViewController: UITabBarController {
         }
     }
     
-    private func bindUI() {
+    private func bind() {
         self.rx.didSelect
             .asDriver()
-            .filter { self.currentTag != $0.tabBarItem.tag }
+            .filter { self.currentTab != $0.tabBarItem.tag }
             .compactMap { TabItemType(rawValue: $0.tabBarItem.tag) }
-            .drive { [weak self] type in
-                self?.currentTag = type.rawValue
-                self?.listener?.didSelectTab(type: type)
-            }
+            .drive(with: self, onNext: { owner, type in
+                owner.currentTab = type.rawValue
+                owner.listener?.didSelectTab(type: type)
+            })
             .disposed(by: disposeBag)
     }
 }

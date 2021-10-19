@@ -145,31 +145,23 @@ class CocktailTableViewCell: UITableViewCell {
         }
     }
     
-    func configure(_ cocktail: CocktailData) {
+    func configure(_ cocktail: CocktailData, favoriteButtonAction: @escaping () -> Void) {
         thumbnailImageView.setCocktailImage(cocktail.thumbnail)
         nameLabel.text = cocktail.name
         categoryLabel.text = cocktail.category
         glassLabel.text = cocktail.glass
         isAlcoholLabel.isHidden = !cocktail.isAlcohol
         
-        /// Observe isFavorite Property
-        /// isFavorite -> favoriteValueChanged -> isSelected -> Button Image
+        favoriteButton.rx.tap
+            .bind(onNext: {
+                favoriteButtonAction()
+            })
+            .disposed(by: disposeBag)
+        
         Observable.from(object: cocktail, properties: ["isFavorite"])
             .map { $0.isFavorite }
-            .bind(to: favoriteValueChanged)
-            .disposed(by: disposeBag)
-        
-        favoriteValueChanged
-            .bind(to: favoriteButton.rx.isSelected)
-            .disposed(by: disposeBag)
-        
-        
-        // Tap -> favoriteValueChanged -> isSelected -> cocktail Data Update(in View Controller)
-        
-        favoriteButton.rx.tap
-            .subscribe(with: self, onNext: { owner, _ in
-                owner.favoriteValueChanged.accept(!owner.favoriteValueChanged.value)
-            })
+            .asDriver(onErrorJustReturn: false)
+            .drive(favoriteButton.rx.isSelected)
             .disposed(by: disposeBag)
     }
 }

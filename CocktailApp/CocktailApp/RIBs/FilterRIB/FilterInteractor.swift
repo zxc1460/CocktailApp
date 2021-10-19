@@ -36,7 +36,7 @@ final class FilterInteractor: Interactor, FilterInteractable {
     override func didBecomeActive() {
         super.didBecomeActive()
         saveFilterKeywords()
-        subscribe()
+        bind()
     }
 
     override func willResignActive() {
@@ -60,27 +60,24 @@ final class FilterInteractor: Interactor, FilterInteractable {
     private func saveFilterKeywords() {
         listener?.isLoadingRelay.accept(true)
         
-        repository.filter.saveFilterKeywords()
+        repository.filter.writeFilterKeywords()
             .subscribe(with: self, onCompleted: { owner in
                 owner.listener?.isLoadingRelay.accept(false)
             })
             .disposeOnDeactivate(interactor: self)
     }
     
-    private func subscribe() {
+    private func bind() {
         listener?.filterTypeRelay
-            .subscribe(with: self, onNext: { owner, type in
+            .bind(with: self, onNext: { owner, type in
                 owner.getKeywords(type: type)
             })
             .disposeOnDeactivate(interactor: self)
     }
     
-    
     private func getKeywords(type: FilterType) {
-        guard let listener = listener else {
-            return
-        }
-        
+        guard let listener = listener else { return }
+          
         repository.filter.fetchFilterKeywords(type: type)
             .bind(to: listener.filterKeywordsRelay)
             .disposeOnDeactivate(interactor: self)

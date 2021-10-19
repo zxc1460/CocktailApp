@@ -22,15 +22,13 @@ protocol CocktailDetailPresentableListener: AnyObject {
     func toggleFavorite()
 }
 
-final class CocktailDetailViewController: UIViewController, CocktailDetailPresentable, CocktailDetailViewControllable {
+final class CocktailDetailViewController: BaseViewController, CocktailDetailPresentable, CocktailDetailViewControllable {
 
     // MARK: - Properties
     
     weak var listener: CocktailDetailPresentableListener?
     
-    let disposeBag = DisposeBag()
-    
-    // MARK: - View Properties
+    // MARK: - Views
     
     private let refreshControl = UIRefreshControl()
     private let contentView = UIView()
@@ -110,13 +108,10 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
     
     private lazy var rightBarButton = UIBarButtonItem(customView: favoriteButton)
     
-    // MARK: - Override Methods
+    // MARK: - Life Cycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setUI()
-        bindUI()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -136,7 +131,7 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
     
     // MARK: - UI Methods
     
-    private func setUI() {
+    override func setUI() {
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationItem.rightBarButtonItem = rightBarButton
         self.tabBarController?.tabBar.isHidden = true
@@ -157,11 +152,9 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         contentView.addSubview(instructionTitleLabel)
         contentView.addSubview(instructionDetailLabel)
         contentView.addSubview(loadingView)
-        
-        setConstraints()
     }
     
-    private func setConstraints() {
+    override func setConstraints() {
         scrollView.snp.makeConstraints {
             $0.edges.equalTo(view)
         }
@@ -226,12 +219,10 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         }
     }
     
-    private func bindUI() {
-        guard let listener = listener else {
-            return
-        }
-        
-        listener.cocktailRelay
+    // MARK: - Rx Methods
+    
+    override func bind() {
+        listener?.cocktailRelay
             .compactMap { $0 }
             .map { Array($0.ingredients) }
             .asDriver(onErrorJustReturn: [])
@@ -241,7 +232,30 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
             }
             .disposed(by: disposeBag)
         
-        listener.cocktailRelay
+        refreshControl.rx.controlEvent(.valueChanged)
+            .bind(with: self, onNext: { owner, _ in
+                owner.listener?.refreshCocktail()
+                owner.refreshControl.endRefreshing()
+            })
+            .disposed(by: disposeBag)
+        
+        favoriteButton.rx.tap
+            .bind(with: self, onNext: { owner, _ in
+                owner.listener?.toggleFavorite()
+            })
+            .disposed(by: disposeBag)
+        
+        ingredientTableView.rx.observe(CGSize.self, #keyPath(UITableView.contentSize))
+            .compactMap { $0?.height }
+            .asDriver(onErrorJustReturn: CGFloat.zero)
+            .drive(with: self, onNext: { owner, height in
+                owner.ingredientTableView.contentsHeight = height
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    override func subscribe() {
+        listener?.cocktailRelay
             .compactMap { $0 }
             .withUnretained(self)
             .subscribe(onNext: { owner, cocktail in
@@ -249,26 +263,7 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
             })
             .disposed(by: disposeBag)
         
-        refreshControl.rx.controlEvent(.valueChanged)
-            .withUnretained(self)
-            .subscribe(onNext: { owner, _ in
-                owner.listener?.refreshCocktail()
-                owner.refreshControl.endRefreshing()
-            })
-            .disposed(by: disposeBag)
-        
-        
-        // table view height Observable
-        ingredientTableView.rx.observe(CGSize.self, #keyPath(UITableView.contentSize))
-            .compactMap { $0?.height }
-            .withUnretained(self)
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { owner, height in
-                owner.ingredientTableView.contentsHeight = height
-            })
-            .disposed(by: disposeBag)
-        
-        listener.isLoadingRelay
+        listener?.isLoadingRelay
             .subscribe(with: self, onNext: { owner, value in
                 if value {
                     owner.loadingView.startAnimating()
@@ -276,12 +271,6 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
                     owner.loadingView.stopAnimating()
                 }
                 owner.loadingView.isHidden = !value
-            })
-            .disposed(by: disposeBag)
-        
-        favoriteButton.rx.tap
-            .subscribe(with: self, onNext: { owner, _ in
-                owner.listener?.toggleFavorite()
             })
             .disposed(by: disposeBag)
     }
@@ -295,7 +284,12 @@ final class CocktailDetailViewController: UIViewController, CocktailDetailPresen
         instructionDetailLabel.text = cocktail.instruction
         tagListView.removeAllTags()
         tagListView.addTags(Array(cocktail.tags))
-        favoriteButton.isSelected = cocktail.isFavorite
         isAlcoholLabel.isHidden = !cocktail.isAlcohol
+        
+        Observable.from(object: cocktail, properties: ["isFavorite"])
+            .map { $0.isFavorite }
+            .asDriver(onErrorJustReturn: false)
+            .drive(favoriteButton.rx.isSelected)
+            .disposed(by: disposeBag)
     }
 }

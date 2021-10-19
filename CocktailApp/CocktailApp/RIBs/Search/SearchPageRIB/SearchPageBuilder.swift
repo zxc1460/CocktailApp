@@ -36,9 +36,11 @@ final class SearchPageBuilder: Builder<SearchPageDependency>, SearchPageBuildabl
         let searchFilterBuilder = SearchFilterBuilder(dependency: component)
         
         interactor.listener = listener
-        return SearchPageRouter(interactor: interactor,
-                                viewController: viewController,
-                                searchNameBuilder: searchNameBuilder,
-                                searchFilterBuilder: searchFilterBuilder)
+        return SearchPageRouter(
+            interactor: interactor,
+            viewController: viewController,
+            searchNameBuilder: searchNameBuilder,
+            searchFilterBuilder: searchFilterBuilder
+        )
     }
 }

@@ -25,11 +25,13 @@ final class MainRouter: ViewableRouter<MainInteractable, MainViewControllable> {
     private let favoriteBuilder: FavoriteBuildable
     private var favoriteRouting: FavoriteRouting?
     
-    init(interactor: MainInteractable,
+    init(
+        interactor: MainInteractable,
         viewController: MainViewControllable,
         cocktailListBuilder: CocktailListBuildable,
         searchPageBuilder: SearchPageBuildable,
-         favoriteBuilder: FavoriteBuildable) {
+        favoriteBuilder: FavoriteBuildable
+    ) {
         self.cocktailListBuilder = cocktailListBuilder
         self.searchPageBuilder = searchPageBuilder
         self.favoriteBuilder = favoriteBuilder

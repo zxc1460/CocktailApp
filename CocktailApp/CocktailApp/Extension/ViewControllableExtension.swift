@@ -8,8 +8,10 @@ import UIKit
 import RIBs
 
 extension ViewControllable {
-    func presentViewController(viewControllable: ViewControllable,
-                               modalPresentationStyle: UIModalPresentationStyle = .automatic) {
+    func presentViewController(
+        viewControllable: ViewControllable,
+        modalPresentationStyle: UIModalPresentationStyle = .automatic)
+    {
         viewControllable.uiviewController.modalPresentationStyle = modalPresentationStyle
         
         uiviewController.present(viewControllable.uiviewController, animated: true)

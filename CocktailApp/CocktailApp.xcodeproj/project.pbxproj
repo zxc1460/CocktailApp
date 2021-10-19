@@ -46,6 +46,7 @@
 		FD6AF00B2706A01600C67E66 /* RoutingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6AF00A2706A01600C67E66 /* RoutingExtension.swift */; };
 		FD800562270EED80001A3C60 /* FilterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD800561270EED80001A3C60 /* FilterResponse.swift */; };
 		FD800564270EEE56001A3C60 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD800563270EEE56001A3C60 /* Filter.swift */; };
+		FD82F121271E617900070E66 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD82F120271E617900070E66 /* BaseViewController.swift */; };
 		FD88EA80270EB33D003D1118 /* SearchFilterRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD88EA7C270EB33D003D1118 /* SearchFilterRouter.swift */; };
 		FD88EA81270EB33D003D1118 /* SearchFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD88EA7D270EB33D003D1118 /* SearchFilterViewController.swift */; };
 		FD88EA82270EB33D003D1118 /* SearchFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD88EA7E270EB33D003D1118 /* SearchFilterBuilder.swift */; };
@@ -159,6 +160,7 @@
 		FD6AF00A2706A01600C67E66 /* RoutingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingExtension.swift; sourceTree = "<group>"; };
 		FD800561270EED80001A3C60 /* FilterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterResponse.swift; sourceTree = "<group>"; };
 		FD800563270EEE56001A3C60 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
+		FD82F120271E617900070E66 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		FD88EA7C270EB33D003D1118 /* SearchFilterRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterRouter.swift; sourceTree = "<group>"; };
 		FD88EA7D270EB33D003D1118 /* SearchFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterViewController.swift; sourceTree = "<group>"; };
 		FD88EA7E270EB33D003D1118 /* SearchFilterBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterBuilder.swift; sourceTree = "<group>"; };
@@ -388,6 +390,14 @@
 			path = MainRIB;
 			sourceTree = "<group>";
 		};
+		FD82F11F271E616000070E66 /* BaseViewController */ = {
+			isa = PBXGroup;
+			children = (
+				FD82F120271E617900070E66 /* BaseViewController.swift */,
+			);
+			path = BaseViewController;
+			sourceTree = "<group>";
+		};
 		FD88EA7B270EB328003D1118 /* SearchFilterRIB */ = {
 			isa = PBXGroup;
 			children = (
@@ -451,6 +461,7 @@
 		FD8BC22826FD852800C35BE8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				FD82F11F271E616000070E66 /* BaseViewController */,
 				FD8BC22926FD855900C35BE8 /* Cell */,
 				FDBE85DF270581C2000F8627 /* UnderlineSegmentedControl.swift */,
 				FDE3679A271D5636004B8063 /* ToastLabel.swift */,
@@ -769,6 +780,7 @@
 				FDCCB194270FD55E00D98D5E /* FilterDAO.swift in Sources */,
 				FDE36797271D1C3C004B8063 /* FavoriteTableViewCell.swift in Sources */,
 				FD2E5AC727100A37008AF27B /* FilterAPI.swift in Sources */,
+				FD82F121271E617900070E66 /* BaseViewController.swift in Sources */,
 				FD9787E22701A2860078244F /* UIImageViewExtension.swift in Sources */,
 				FD9787DC270153DF0078244F /* CocktailDetailInteractor.swift in Sources */,
 				FDC10ADF2717F799003FF96D /* CocktailDAO.swift in Sources */,

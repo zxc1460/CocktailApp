@@ -18,9 +18,11 @@ final class CocktailListRouter: ViewableRouter<CocktailListInteractable, Cocktai
     private let cocktailDetailBuilder: CocktailDetailBuildable
     private var cocktailDetailRouting: CocktailDetailRouting?
 
-    init(interactor: CocktailListInteractable,
-         viewController: CocktailListViewControllable,
-         cocktailDetailBuilder: CocktailDetailBuildable) {
+    init(
+        interactor: CocktailListInteractable,
+        viewController: CocktailListViewControllable,
+        cocktailDetailBuilder: CocktailDetailBuildable
+    ) {
         self.cocktailDetailBuilder = cocktailDetailBuilder
         
         super.init(interactor: interactor, viewController: viewController)

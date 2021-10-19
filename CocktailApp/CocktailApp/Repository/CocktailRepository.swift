@@ -22,14 +22,16 @@ final class CocktailRepository {
     
     // MARK: - Private
     
-    private func getCocktailList(of type: ListType) -> Observable<[Cocktail]> {
+    // API 호출(칵테일 리스트)
+    private func fetchCocktailList(type: ListType) -> Observable<[Cocktail]> {
         return cocktailService.rx.request(.cocktailList(type: type))
             .asObservable()
             .map(CocktailResponse.self)
             .compactMap { $0.data }
     }
     
-    private func readAndWriteCocktailList(from list: [Cocktail]) -> [CocktailData] {
+    // API 호출로 가져온 칵테일 값들이 DB에 저장된지 확인하고 저장이 안 되어 있으면 저장 후 DB 모델 배열로 반환
+    private func readAndWriteCocktailList(list: [Cocktail]) -> [CocktailData] {
         var result = [CocktailData]()
         
         for data in list {
@@ -45,7 +47,8 @@ final class CocktailRepository {
         return result
     }
     
-    private func getCocktailDetail(from id: String) -> Observable<CocktailData> {
+    // API 호출(칵테일 디테일)
+    private func fetchCocktail(id: String) -> Observable<CocktailData> {
         self.cocktailService.rx.request(.detail(id: id))
             .asObservable()
             .map(CocktailResponse.self)
@@ -53,28 +56,24 @@ final class CocktailRepository {
             .map { CocktailData($0) }
     }
     
-    private func writeCocktailDetail(data: CocktailData) {
-        self.cocktailDAO.insert(data: data)
-    }
-    
     // MARK: - Public
     
-    func loadCocktailList(of type: ListType) -> Single<[CocktailData]> {
+    func loadCocktailList(type: ListType) -> Single<[CocktailData]> {
         return Single<[CocktailData]>.create { [weak self] single in
             guard let self = self else {
                 fatalError("reference of CocktailRepository already released is used.")
             }
             
-            let disposable = self.getCocktailList(of: type)
+            let disposable = self.fetchCocktailList(type: type)
                 .subscribe(onNext: { list in
-                    single(.success(self.readAndWriteCocktailList(from: list)))
+                    single(.success(self.readAndWriteCocktailList(list: list)))
                 })
             
             return Disposables.create { disposable.dispose() }
         }
     }
     
-    func loadCocktailDetail(from id: String) -> Observable<CocktailData?> {
+    func loadCocktail(id: String) -> Observable<CocktailData?> {
         if let data = self.cocktailDAO.read(id: id) {
             return Observable.just(data)
         }
@@ -84,9 +83,9 @@ final class CocktailRepository {
                 fatalError("reference of CocktailRepository already released is used.")
             }
             
-            let disposable = self.getCocktailDetail(from: id)
+            let disposable = self.fetchCocktail(id: id)
                 .subscribe(onNext: { cocktail in
-                    self.writeCocktailDetail(data: cocktail)
+                    self.cocktailDAO.insert(data: cocktail)
                     observer.onNext(cocktail)
                 }, onCompleted: {
                     observer.onCompleted()
@@ -96,8 +95,8 @@ final class CocktailRepository {
         }
     }
     
-    func loadFavoriteList() -> Observable<[CocktailData]> {
-        let favorites = cocktailDAO.readFavorites()
+    func loadFavoriteCocktailList() -> Observable<[CocktailData]> {
+        let favorites = cocktailDAO.read(isFavorite: true)
         
         return Observable.array(from: favorites)
     }
@@ -116,7 +115,7 @@ final class CocktailRepository {
             .compactMap { $0 }
     }
     
-    func searchCocktail(name: String) -> Observable<[CocktailData]> {
+    func searchCocktailList(name: String) -> Observable<[CocktailData]> {
         guard name.count > 0 else {
             return Observable.just([])
                 .asObservable()
@@ -132,7 +131,7 @@ final class CocktailRepository {
                 .map(CocktailResponse.self)
                 .compactMap { $0.data }
                 .subscribe(onNext: { list in
-                    let result = self.readAndWriteCocktailList(from: list)
+                    let result = self.readAndWriteCocktailList(list: list)
                     observer.onNext(result)
                 }, onCompleted: {
                     observer.onCompleted()

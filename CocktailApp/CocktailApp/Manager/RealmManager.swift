@@ -8,7 +8,7 @@ import Foundation
 import RealmSwift
 
 class RealmManager {
-    internal static let queueLabel  = "Realm"
+    private static let queueLabel  = "Realm"
     private static let schemaVersion: UInt64 = 1
     
     private static let config = Realm.Configuration(schemaVersion: schemaVersion)

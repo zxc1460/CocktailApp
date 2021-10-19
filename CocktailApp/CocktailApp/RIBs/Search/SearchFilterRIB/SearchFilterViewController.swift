@@ -22,15 +22,13 @@ protocol SearchFilterPresentableListener: AnyObject {
     func didSelectCocktail(of index: Int)
 }
 
-final class SearchFilterViewController: UIViewController, SearchFilterPresentable, SearchFilterViewControllable {
+final class SearchFilterViewController: BaseViewController, SearchFilterPresentable, SearchFilterViewControllable {
     
     weak var listener: SearchFilterPresentableListener?
     
     let filterDatas = FilterType.allCases
-    
-    let disposeBag = DisposeBag()
-    
-    // MARK: - UI Properties
+
+    // MARK: - Views
     
     private let loadingView = UIActivityIndicatorView().then {
         $0.style = .large
@@ -76,15 +74,15 @@ final class SearchFilterViewController: UIViewController, SearchFilterPresentabl
     private let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     private let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
     
+    // MARK: - Life Cycle Method
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setUI()
-        bindUI()
     }
     
-    private func setUI() {
+    // MARK: - UI Methods
+    
+    override func setUI() {
         view.backgroundColor = .white
         
         view.addSubview(filterSegmentedControl)
@@ -102,7 +100,7 @@ final class SearchFilterViewController: UIViewController, SearchFilterPresentabl
         setConstraints()
     }
     
-    private func setConstraints() {
+    override func setConstraints() {
         filterSegmentedControl.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(10)
             $0.leading.trailing.equalToSuperview().inset(20)
@@ -127,20 +125,11 @@ final class SearchFilterViewController: UIViewController, SearchFilterPresentabl
         }
     }
     
-    private func bindUI() {
-        filterSegmentedControl.rx.selectedSegmentIndex
-            .filter { $0 >= 0 && $0 < self.filterDatas.count }
-            .map { self.filterDatas[$0] }
-            .subscribe(with: self, onNext: { owner, data in
-                owner.listener?.filterTypeRelay.accept(data)
-                owner.keywordTextField.text = ""
-                owner.view.endEditing(true)
-                owner.pickerView.selectRow(0, inComponent: 0, animated: false)
-            })
-            .disposed(by: disposeBag)
-        
+    // MARK: - Rx Methods
+    
+    override func bind() {
         cancelButton.rx.tap
-            .subscribe(with: self, onNext: { owner, _ in
+            .bind(with: self, onNext: { owner, _ in
                 owner.keywordTextField.resignFirstResponder()
             })
             .disposed(by: disposeBag)
@@ -163,7 +152,7 @@ final class SearchFilterViewController: UIViewController, SearchFilterPresentabl
         doneButton.rx.tap
             .withLatestFrom(pickerView.rx.modelSelected(String.self)) { $1 }
             .compactMap { $0.first }
-            .subscribe(with: self, onNext: { owner, keyword in
+            .bind(with: self, onNext: { owner, keyword in
                 let index = owner.filterSegmentedControl.selectedSegmentIndex
                 let type = FilterType.allCases[index]
                 owner.keywordTextField.resignFirstResponder()
@@ -187,11 +176,23 @@ final class SearchFilterViewController: UIViewController, SearchFilterPresentabl
             .disposed(by: disposeBag)
         
         tableView.rx.itemSelected
-            .withUnretained(self)
-            .subscribe(onNext: { owner, indexPath in
+            .bind(with: self, onNext: { owner, indexPath in
                 owner.tableView.deselectRow(at: indexPath, animated: true)
                 
                 owner.listener?.didSelectCocktail(of: indexPath.row)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    override func subscribe() {
+        filterSegmentedControl.rx.selectedSegmentIndex
+            .filter { $0 >= 0 && $0 < self.filterDatas.count }
+            .map { self.filterDatas[$0] }
+            .subscribe(with: self, onNext: { owner, data in
+                owner.listener?.filterTypeRelay.accept(data)
+                owner.keywordTextField.text = ""
+                owner.view.endEditing(true)
+                owner.pickerView.selectRow(0, inComponent: 0, animated: false)
             })
             .disposed(by: disposeBag)
     }

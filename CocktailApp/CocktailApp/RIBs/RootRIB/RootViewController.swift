@@ -12,7 +12,7 @@ import RxSwift
 protocol RootPresentableListener: AnyObject {
 }
 
-final class RootViewController: UITabBarController, RootPresentable {
+final class RootViewController: BaseViewController, RootViewControllable, RootPresentable {
 
     weak var listener: RootPresentableListener?
 
@@ -20,11 +20,9 @@ final class RootViewController: UITabBarController, RootPresentable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.backgroundColor = .white
     }
     
-}
-
-extension RootViewController: RootViewControllable {
+    override func setUI() {
+        view.backgroundColor = .white
+    }
 }

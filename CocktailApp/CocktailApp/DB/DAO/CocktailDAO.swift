@@ -24,8 +24,8 @@ struct CocktailDAO {
         return read().filter([.equal], \CocktailData.id, id).first
     }
     
-    func readFavorites() -> Results<CocktailData> {
-        return read().filter([.equal], \CocktailData.isFavorite, true)
+    func read(isFavorite: Bool) -> Results<CocktailData> {
+        return read().filter([.equal], \CocktailData.isFavorite, isFavorite)
     }
     
     // MARK: - Write

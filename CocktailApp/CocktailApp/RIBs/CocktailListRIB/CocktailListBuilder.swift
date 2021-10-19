@@ -32,6 +32,10 @@ final class CocktailListBuilder: Builder<CocktailListDependency>, CocktailListBu
         let interactor = CocktailListInteractor(presenter: viewController, repository: component.repository)
         let cocktailDetailBuilder = CocktailDetailBuilder(dependency: component)
         interactor.listener = listener
-        return CocktailListRouter(interactor: interactor, viewController: viewController, cocktailDetailBuilder: cocktailDetailBuilder)
+        return CocktailListRouter(
+            interactor: interactor,
+            viewController: viewController,
+            cocktailDetailBuilder: cocktailDetailBuilder
+        )
     }
 }
