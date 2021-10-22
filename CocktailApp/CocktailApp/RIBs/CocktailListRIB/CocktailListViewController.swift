@@ -25,15 +25,12 @@ final class CocktailListViewController: BaseViewController, CocktailListPresenta
     
     // MARK: - View Properties
     
-    private let refreshControl = UIRefreshControl()
-    
     private let segmentedControl = UnderlineSegmentedControl(buttonTitles: ["인기순", "최근순", "랜덤"])
     
-    private lazy var tableView = UITableView().then {
+    private let tableView = UITableView().then {
         $0.register(CocktailTableViewCell.self, forCellReuseIdentifier: CocktailTableViewCell.reuseIdentifier)
         $0.tableFooterView = UIView(frame: .zero)
         $0.separatorStyle = .none
-        $0.refreshControl = refreshControl
     }
     
     // MARK: - Override Methods
@@ -77,13 +74,6 @@ final class CocktailListViewController: BaseViewController, CocktailListPresenta
                 cell.configure(cocktail) {
                     self?.listener?.favoriteValueChanged(of: cocktail, value: !cocktail.isFavorite)
                 }
-                
-//                cell.favoriteValueChanged
-//                    .skip(1)
-//                    .subscribe(with: self, onNext: { owner, value in
-//                        owner.listener?.favoriteValueChanged(of: cocktail, value: value)
-//                    })
-//                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         
@@ -93,15 +83,6 @@ final class CocktailListViewController: BaseViewController, CocktailListPresenta
                 owner.tableView.deselectRow(at: indexPath, animated: true)
                 
                 owner.listener?.didSelectCocktail(of: indexPath.row)
-            })
-            .disposed(by: disposeBag)
-        
-        refreshControl.rx.controlEvent(.valueChanged)
-            .bind(with: self, onNext: { owner, _ in
-                let type = ListType.allCases[owner.segmentedControl.selectedButtonIndex.value]
-                owner.listener?.requestCocktailList(type: type)
-                
-                owner.refreshControl.endRefreshing()
             })
             .disposed(by: disposeBag)
         

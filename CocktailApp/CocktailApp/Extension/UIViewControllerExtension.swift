@@ -9,11 +9,10 @@ import Then
 
 extension UIViewController {
     func showToast(message: String) {
+        // 띄워져 있던 토스트 제거
         view.subviews
             .compactMap { $0 as? ToastLabel }
-            .forEach { label in
-                label.removeFromSuperview()
-            }
+            .forEach { $0.removeFromSuperview() }
                 
         let toastLabel = ToastLabel().then {
             $0.backgroundColor = UIColor.black.withAlphaComponent(0.6)
@@ -34,11 +33,12 @@ extension UIViewController {
                                   y: view.frame.height - 140,
                                   width: width,
                                   height: height)
+        
         toastLabel.center.x = view.center.x
         
         view.addSubview(toastLabel)
         
-        UIView.animate(withDuration: 5.0, delay: 0.1, options: .curveEaseInOut) {
+        UIView.animate(withDuration: 4.0, delay: 0.1, options: .curveEaseInOut) {
             toastLabel.alpha = 0.0
         } completion: { _ in
             toastLabel.removeFromSuperview()

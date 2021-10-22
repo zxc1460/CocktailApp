@@ -2,7 +2,6 @@
 //  CocktailSnippet.swift
 //  CocktailApp
 //
-//  Created by DoHyeong on 2021/10/12.
 //
 
 import Foundation

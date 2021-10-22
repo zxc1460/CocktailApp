@@ -14,7 +14,6 @@ protocol FilterRouting: Routing {
 }
 
 protocol FilterListener: AnyObject {
-    var isLoadingRelay: BehaviorRelay<Bool> { get }
     var filterTypeRelay: PublishRelay<FilterType> { get }
     var filterKeywordsRelay: BehaviorRelay<[String]> { get }
 }
@@ -35,7 +34,7 @@ final class FilterInteractor: Interactor, FilterInteractable {
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        saveFilterKeywords()
+        checkSavedKeywords()
         bind()
     }
 
@@ -58,11 +57,8 @@ final class FilterInteractor: Interactor, FilterInteractable {
     }
     
     private func saveFilterKeywords() {
-        listener?.isLoadingRelay.accept(true)
-        
         repository.filter.writeFilterKeywords()
-            .subscribe(with: self, onCompleted: { owner in
-                owner.listener?.isLoadingRelay.accept(false)
+            .subscribe(onCompleted: {
             })
             .disposeOnDeactivate(interactor: self)
     }
@@ -70,15 +66,15 @@ final class FilterInteractor: Interactor, FilterInteractable {
     private func bind() {
         listener?.filterTypeRelay
             .bind(with: self, onNext: { owner, type in
-                owner.getKeywords(type: type)
+                owner.fetchKeywords(type: type)
             })
             .disposeOnDeactivate(interactor: self)
     }
     
-    private func getKeywords(type: FilterType) {
+    private func fetchKeywords(type: FilterType) {
         guard let listener = listener else { return }
           
-        repository.filter.fetchFilterKeywords(type: type)
+        repository.filter.loadFilterKeywords(type: type)
             .bind(to: listener.filterKeywordsRelay)
             .disposeOnDeactivate(interactor: self)
     }

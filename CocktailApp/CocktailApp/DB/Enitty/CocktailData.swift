@@ -6,6 +6,8 @@
 
 import Foundation
 import RealmSwift
+import RxRealm
+import RxSwift
 
 class CocktailData: Object {
     @Persisted(primaryKey: true) var id: String
@@ -33,6 +35,11 @@ class CocktailData: Object {
         self.isAlcohol = cocktail.isAlcohol
         self.tags = cocktail.tags.toList()
         self.ingredients = cocktail.ingredients.map { CocktailIngredient($0) }.toList()
+    }
+    
+    var isFavoriteChanged: Observable<Bool> {
+        return Observable.from(object: self, properties: ["isFavorite"])
+            .map { $0.isFavorite }
     }
 }
 

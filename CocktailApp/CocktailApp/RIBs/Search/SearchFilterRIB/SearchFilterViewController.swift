@@ -13,7 +13,6 @@ import Then
 
 protocol SearchFilterPresentableListener: AnyObject {
     var filterTypeRelay: PublishRelay<FilterType> { get }
-    var isLoadingRelay: BehaviorRelay<Bool> { get }
     var filterKeywordsRelay: BehaviorRelay<[String]> { get }
     var cocktailListRelay: BehaviorRelay<[CocktailSnippet]> { get }
     
@@ -29,10 +28,6 @@ final class SearchFilterViewController: BaseViewController, SearchFilterPresenta
     let filterDatas = FilterType.allCases
 
     // MARK: - Views
-    
-    private let loadingView = UIActivityIndicatorView().then {
-        $0.style = .large
-    }
     
     private lazy var filterSegmentedControl = UISegmentedControl().then {
         for (index, filter) in filterDatas.enumerated() {
@@ -88,7 +83,6 @@ final class SearchFilterViewController: BaseViewController, SearchFilterPresenta
         view.addSubview(filterSegmentedControl)
         view.addSubview(keywordTextField)
         view.addSubview(tableView)
-        view.addSubview(loadingView)
         view.addSubview(emptyLabel)
         
         pickerToolBar.sizeToFit()
@@ -116,10 +110,6 @@ final class SearchFilterViewController: BaseViewController, SearchFilterPresenta
             $0.leading.trailing.bottom.equalToSuperview()
         }
         
-        loadingView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-        }
-        
         emptyLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
@@ -132,15 +122,6 @@ final class SearchFilterViewController: BaseViewController, SearchFilterPresenta
             .bind(with: self, onNext: { owner, _ in
                 owner.keywordTextField.resignFirstResponder()
             })
-            .disposed(by: disposeBag)
-        
-        listener?.isLoadingRelay
-            .bind(to: loadingView.rx.isAnimating)
-            .disposed(by: disposeBag)
-        
-        listener?.isLoadingRelay
-            .map { !$0 }
-            .bind(to: loadingView.rx.isHidden)
             .disposed(by: disposeBag)
         
         listener?.filterKeywordsRelay

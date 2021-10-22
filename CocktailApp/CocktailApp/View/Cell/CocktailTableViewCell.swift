@@ -158,8 +158,7 @@ class CocktailTableViewCell: UITableViewCell {
             })
             .disposed(by: disposeBag)
         
-        Observable.from(object: cocktail, properties: ["isFavorite"])
-            .map { $0.isFavorite }
+        cocktail.isFavoriteChanged
             .asDriver(onErrorJustReturn: false)
             .drive(favoriteButton.rx.isSelected)
             .disposed(by: disposeBag)

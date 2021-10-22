@@ -44,6 +44,7 @@
 		FD63823C27100C4D00698DC6 /* CommonRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD63823B27100C4D00698DC6 /* CommonRepository.swift */; };
 		FD63823E271016A400698DC6 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD63823D271016A400698DC6 /* ArrayExtension.swift */; };
 		FD6AF00B2706A01600C67E66 /* RoutingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6AF00A2706A01600C67E66 /* RoutingExtension.swift */; };
+		FD6F6494272253A4009DAB10 /* CocktailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6F6493272253A4009DAB10 /* CocktailProvider.swift */; };
 		FD800562270EED80001A3C60 /* FilterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD800561270EED80001A3C60 /* FilterResponse.swift */; };
 		FD800564270EEE56001A3C60 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD800563270EEE56001A3C60 /* Filter.swift */; };
 		FD82F121271E617900070E66 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD82F120271E617900070E66 /* BaseViewController.swift */; };
@@ -67,6 +68,7 @@
 		FD9787E42701B2DB0078244F /* IngredientTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9787E32701B2DB0078244F /* IngredientTableViewCell.swift */; };
 		FDABDADB270C0D79001EBFD9 /* SearchNameComponent+CocktailDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDABDADA270C0D79001EBFD9 /* SearchNameComponent+CocktailDetail.swift */; };
 		FDABDADF270C3C78001EBFD9 /* UIPageViweControllerDelegate+RxExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDABDADE270C3C78001EBFD9 /* UIPageViweControllerDelegate+RxExtension.swift */; };
+		FDAC08C22721414200C85232 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDAC08C12721414200C85232 /* NetworkManager.swift */; };
 		FDACFB5A26FC0DD900D8C683 /* AppComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDACFB5926FC0DD900D8C683 /* AppComponent.swift */; };
 		FDACFB6C26FC3BE800D8C683 /* CocktailListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDACFB6826FC3BE800D8C683 /* CocktailListRouter.swift */; };
 		FDACFB6D26FC3BE800D8C683 /* CocktailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDACFB6926FC3BE800D8C683 /* CocktailListViewController.swift */; };
@@ -158,6 +160,7 @@
 		FD63823B27100C4D00698DC6 /* CommonRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonRepository.swift; sourceTree = "<group>"; };
 		FD63823D271016A400698DC6 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		FD6AF00A2706A01600C67E66 /* RoutingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingExtension.swift; sourceTree = "<group>"; };
+		FD6F6493272253A4009DAB10 /* CocktailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailProvider.swift; sourceTree = "<group>"; };
 		FD800561270EED80001A3C60 /* FilterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterResponse.swift; sourceTree = "<group>"; };
 		FD800563270EEE56001A3C60 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		FD82F120271E617900070E66 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -181,6 +184,7 @@
 		FD9787E32701B2DB0078244F /* IngredientTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientTableViewCell.swift; sourceTree = "<group>"; };
 		FDABDADA270C0D79001EBFD9 /* SearchNameComponent+CocktailDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchNameComponent+CocktailDetail.swift"; sourceTree = "<group>"; };
 		FDABDADE270C3C78001EBFD9 /* UIPageViweControllerDelegate+RxExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPageViweControllerDelegate+RxExtension.swift"; sourceTree = "<group>"; };
+		FDAC08C12721414200C85232 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		FDACFB5926FC0DD900D8C683 /* AppComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppComponent.swift; sourceTree = "<group>"; };
 		FDACFB6826FC3BE800D8C683 /* CocktailListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailListRouter.swift; sourceTree = "<group>"; };
 		FDACFB6926FC3BE800D8C683 /* CocktailListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailListViewController.swift; sourceTree = "<group>"; };
@@ -348,6 +352,7 @@
 			isa = PBXGroup;
 			children = (
 				FD2E5AC4270FE8C6008AF27B /* RealmManager.swift */,
+				FDAC08C12721414200C85232 /* NetworkManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -413,6 +418,7 @@
 		FD8BC21926FD4F7000C35BE8 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				FD6F6493272253A4009DAB10 /* CocktailProvider.swift */,
 				FD8BC21D26FD500C00C35BE8 /* API */,
 			);
 			path = Network;
@@ -783,6 +789,7 @@
 				FD82F121271E617900070E66 /* BaseViewController.swift in Sources */,
 				FD9787E22701A2860078244F /* UIImageViewExtension.swift in Sources */,
 				FD9787DC270153DF0078244F /* CocktailDetailInteractor.swift in Sources */,
+				FD6F6494272253A4009DAB10 /* CocktailProvider.swift in Sources */,
 				FDC10ADF2717F799003FF96D /* CocktailDAO.swift in Sources */,
 				FDBE85CD27055973000F8627 /* SearchNameRouter.swift in Sources */,
 				FDBE85DA270559A6000F8627 /* SearchPageComponent+.swift in Sources */,
@@ -814,6 +821,7 @@
 				FD88EA82270EB33D003D1118 /* SearchFilterBuilder.swift in Sources */,
 				FD63823E271016A400698DC6 /* ArrayExtension.swift in Sources */,
 				FDACFB6C26FC3BE800D8C683 /* CocktailListRouter.swift in Sources */,
+				FDAC08C22721414200C85232 /* NetworkManager.swift in Sources */,
 				FDABDADF270C3C78001EBFD9 /* UIPageViweControllerDelegate+RxExtension.swift in Sources */,
 				FD88EA81270EB33D003D1118 /* SearchFilterViewController.swift in Sources */,
 				FDB103F927151CC50040D35E /* UserDefaultWrapper.swift in Sources */,

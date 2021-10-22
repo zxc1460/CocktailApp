@@ -15,7 +15,6 @@ import Then
 
 protocol CocktailDetailPresentableListener: AnyObject {
     var cocktailRelay: BehaviorRelay<CocktailData?> { get }
-    var isLoadingRelay: BehaviorRelay<Bool> { get }
     
     func refreshCocktail()
     func didPopViewController()
@@ -95,9 +94,6 @@ final class CocktailDetailViewController: BaseViewController, CocktailDetailPres
         $0.font = .systemFont(ofSize: 18)
     }
     
-    private let loadingView = UIActivityIndicatorView().then {
-        $0.style = .large
-    }
     
     private let favoriteButton = UIButton().then {
         $0.setImage(UIImage(systemName: "heart"), for: .normal)
@@ -151,7 +147,6 @@ final class CocktailDetailViewController: BaseViewController, CocktailDetailPres
         contentView.addSubview(ingredientTableView)
         contentView.addSubview(instructionTitleLabel)
         contentView.addSubview(instructionDetailLabel)
-        contentView.addSubview(loadingView)
     }
     
     override func setConstraints() {
@@ -187,8 +182,7 @@ final class CocktailDetailViewController: BaseViewController, CocktailDetailPres
         }
         
         tagListView.snp.makeConstraints {
-            $0.top.equalTo(isAlcoholLabel.snp.bottom)
-                .offset(15)
+            $0.top.equalTo(isAlcoholLabel.snp.bottom).offset(15)
             $0.leading.trailing.equalTo(nameLabel)
         }
         
@@ -212,10 +206,6 @@ final class CocktailDetailViewController: BaseViewController, CocktailDetailPres
             $0.top.equalTo(instructionTitleLabel.snp.bottom).offset(10)
             $0.leading.trailing.equalTo(nameLabel)
             $0.bottom.equalToSuperview().inset(20)
-        }
-        
-        loadingView.snp.makeConstraints {
-            $0.center.equalToSuperview()
         }
     }
     
@@ -262,17 +252,6 @@ final class CocktailDetailViewController: BaseViewController, CocktailDetailPres
                 owner.configureUI(by: cocktail)
             })
             .disposed(by: disposeBag)
-        
-        listener?.isLoadingRelay
-            .subscribe(with: self, onNext: { owner, value in
-                if value {
-                    owner.loadingView.startAnimating()
-                } else {
-                    owner.loadingView.stopAnimating()
-                }
-                owner.loadingView.isHidden = !value
-            })
-            .disposed(by: disposeBag)
     }
     
     private func configureUI(by cocktail: CocktailData) {
@@ -286,8 +265,7 @@ final class CocktailDetailViewController: BaseViewController, CocktailDetailPres
         tagListView.addTags(Array(cocktail.tags))
         isAlcoholLabel.isHidden = !cocktail.isAlcohol
         
-        Observable.from(object: cocktail, properties: ["isFavorite"])
-            .map { $0.isFavorite }
+        cocktail.isFavoriteChanged
             .asDriver(onErrorJustReturn: false)
             .drive(favoriteButton.rx.isSelected)
             .disposed(by: disposeBag)

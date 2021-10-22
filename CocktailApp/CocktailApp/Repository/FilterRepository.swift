@@ -11,12 +11,22 @@ import RxMoya
 import RxSwift
 
 final class FilterRepository {
-    private let service: MoyaProvider<FilterAPI>
+    private let service: CocktailProvider<FilterAPI>
     private let dao: FilterDAO
     
     init() {
-        self.service = MoyaProvider<FilterAPI>()
+        self.service = CocktailProvider<FilterAPI>()
         self.dao = FilterDAO()
+    }
+    
+    private func insertKeyword(type: FilterType, data: [Filter]) {
+        let keywords = data.map {
+            return $0.ingredient ?? $0.category ?? $0.glass ?? String()
+        }.sorted().toList()
+        
+        let filterData = FilterData(type: type, keywords: keywords)
+        
+        dao.insert(filterData)
     }
     
     func writeFilterKeywords() -> Completable {
@@ -27,31 +37,18 @@ final class FilterRepository {
                         .compactMap { $0.data }
             }
         
-        return Completable.create { completable in
-            let disposable = Observable.combineLatest(requests)
-                .subscribe(with: self,
-                           onNext: { owner, datas in
-                    for (index, data) in datas.enumerated() {
-                        let keywords = data.map {
-                            return $0.ingredient ?? $0.category ?? $0.glass ?? String()
-                        }.sorted().toList()
-                        
-                        let filterData = FilterData(type: FilterType.allCases[index], keywords: keywords)
-                        
-                        owner.dao.insert(filterData)
+        return Observable.combineLatest(requests)
+                .withUnretained(self)
+                .map { owner, datas -> Void in
+                    datas.enumerated().forEach { index, data in
+                        owner.insertKeyword(type: FilterType.allCases[index], data: data)
                     }
-                },
-                           onCompleted: { _ in
-                    completable(.completed)
-                })
-            
-            return Disposables.create {
-                disposable.dispose()
-            }
-        }
+                }
+                .ignoreElements()
+                .asCompletable()
     }
     
-    func fetchFilterKeywords(type: FilterType) -> Observable<[String]> {
+    func loadFilterKeywords(type: FilterType) -> Observable<[String]> {
         guard let data = dao.read(type: type).first else {
             return Observable.just([])
         }

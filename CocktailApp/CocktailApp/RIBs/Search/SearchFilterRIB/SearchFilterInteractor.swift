@@ -30,7 +30,6 @@ final class SearchFilterInteractor: PresentableInteractor<SearchFilterPresentabl
     
     // MARK: - Relays
     
-    var isLoadingRelay: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: false)
     var filterTypeRelay: PublishRelay<FilterType> = PublishRelay<FilterType>()
     var filterKeywordsRelay: BehaviorRelay<[String]> = BehaviorRelay<[String]>(value: [])
     var cocktailListRelay: BehaviorRelay<[CocktailSnippet]> = BehaviorRelay<[CocktailSnippet]>(value: [])

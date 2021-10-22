@@ -30,28 +30,30 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
     
     private var id: String?
     
-    var isLoadingRelay: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: false)
     var cocktailRelay: BehaviorRelay<CocktailData?> = BehaviorRelay<CocktailData?>(value: nil)
     
     // MARK: - init Methods
     
-    init(presenter: CocktailDetailPresentable,
-         repository: CommonRepository) {
+    init(presenter: CocktailDetailPresentable, repository: CommonRepository) {
         self.repository = repository
         super.init(presenter: presenter)
         presenter.listener = self
     }
     
-    convenience init(presenter: CocktailDetailPresentable,
-                     repository: CommonRepository,
-                     cocktail: CocktailData) {
+    convenience init(
+        presenter: CocktailDetailPresentable,
+        repository: CommonRepository,
+        cocktail: CocktailData
+    ) {
         self.init(presenter: presenter, repository: repository)
         self.cocktailRelay.accept(cocktail)
     }
     
-    convenience init(presenter: CocktailDetailPresentable,
-                     repository: CommonRepository,
-                     id: String) {
+    convenience init(
+        presenter: CocktailDetailPresentable,
+        repository: CommonRepository,
+        id: String
+    ) {
         self.init(presenter: presenter, repository: repository)
         self.id = id
     }
@@ -69,14 +71,8 @@ final class CocktailDetailInteractor: PresentableInteractor<CocktailDetailPresen
     private func fetchCocktailDetail() {
         guard let id = id else { return }
         
-        self.isLoadingRelay.accept(true)
         repository.cocktail.loadCocktail(id: id)
-            .subscribe(with: self,
-                       onNext: { owner, cocktail in
-                owner.cocktailRelay.accept(cocktail)
-            }, onCompleted: { owner in
-                owner.isLoadingRelay.accept(false)
-            })
+            .bind(to: cocktailRelay)
             .disposeOnDeactivate(interactor: self)
     }
 }

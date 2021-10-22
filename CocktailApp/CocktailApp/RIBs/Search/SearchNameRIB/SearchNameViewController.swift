@@ -78,13 +78,12 @@ final class SearchNameViewController: BaseViewController, SearchNamePresentable,
         searchBar.rx.searchButtonClicked
             .withLatestFrom(searchBar.rx.text.orEmpty)
             .asDriver(onErrorJustReturn: String())
-            .filter { !$0.isEmpty }
             .drive(with: self, onNext: { owner, text in
                 owner.searchBar.resignFirstResponder()
                 owner.listener?.searchCocktailList(name: text)
             })
             .disposed(by: disposeBag)
-                
+    
         listener?.searchResultRelay
             .asDriver(onErrorJustReturn: [])
             .drive(tableView.rx.items(cellIdentifier: CocktailTableViewCell.reuseIdentifier,
@@ -92,13 +91,6 @@ final class SearchNameViewController: BaseViewController, SearchNamePresentable,
                 cell.configure(cocktail) {
                     self?.listener?.favoriteValueChanged(of: cocktail, value: !cocktail.isFavorite)
                 }
-                
-//                cell.favoriteValueChanged
-//                    .skip(1)
-//                    .subscribe(with: self, onNext: { owner, value in
-//                        owner.listener?.favoriteValueChanged(of: cocktail, value: value)
-//                    })
-//                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         

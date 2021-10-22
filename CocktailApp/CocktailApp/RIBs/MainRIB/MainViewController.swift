@@ -8,6 +8,8 @@ import UIKit
 import RIBs
 import RxCocoa
 import RxSwift
+import SnapKit
+import Then
 
 protocol MainPresentableListener: AnyObject {
     func didSelectTab(type: TabItemType)
@@ -21,12 +23,24 @@ final class MainViewController: UITabBarController {
     
     let disposeBag = DisposeBag()
     
+    // MARK: - View
+    
+    private let loadingView = UIActivityIndicatorView().then {
+        $0.style = .large
+        $0.color = .white
+        $0.backgroundColor = .black.withAlphaComponent(0.6)
+        $0.hidesWhenStopped = true
+        $0.clipsToBounds = true
+        $0.layer.cornerRadius = 20
+    }
+    
     // MARK: - Override Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUI()
+        setConstraints()
         bind()
     }
     
@@ -38,6 +52,15 @@ final class MainViewController: UITabBarController {
             
             self.tabBar.standardAppearance = appearance
             self.tabBar.scrollEdgeAppearance = appearance
+        }
+        
+        view.addSubview(loadingView)
+    }
+    
+    private func setConstraints() {
+        loadingView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.width.height.equalTo(100)
         }
     }
     
@@ -89,6 +112,14 @@ extension MainViewController: MainPresentable {
         let message = isFavorite ? "\(name)이(가) 즐겨찾기에 추가되었습니다." : "\(name)이(가) 즐겨찾기에서 삭제되었습니다."
         
         showToast(message: message)
+    }
+    
+    func startLoadingView() {
+        loadingView.startAnimating()
+    }
+    
+    func stopLoadingView() {
+        loadingView.stopAnimating()
     }
 }
 

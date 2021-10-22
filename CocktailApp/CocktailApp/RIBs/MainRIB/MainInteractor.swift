@@ -5,6 +5,7 @@
 //
 
 import RIBs
+import RxRelay
 import RxSwift
 
 protocol MainRouting: ViewableRouting {
@@ -14,6 +15,8 @@ protocol MainRouting: ViewableRouting {
 protocol MainPresentable: Presentable {
     var listener: MainPresentableListener? { get set }
     func showFavoriteChangeAlert(name: String, isFavorite: Bool)
+    func startLoadingView()
+    func stopLoadingView()
 }
 
 protocol MainListener: AnyObject {
@@ -42,6 +45,17 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         repository.cocktail.notifyFavoriteChanges()
             .subscribe(with: self, onNext: { owner, cocktail in
                 owner.presenter.showFavoriteChangeAlert(name: cocktail.name, isFavorite: cocktail.isFavorite)
+            })
+            .disposeOnDeactivate(interactor: self)
+        
+        NetworkManager.shared.loadingStateChanged
+            .observe(on: MainScheduler.instance)
+            .subscribe(with: self, onNext: { owner, value in
+                if value {
+                    owner.presenter.startLoadingView()
+                } else {
+                    owner.presenter.stopLoadingView()
+                }
             })
             .disposeOnDeactivate(interactor: self)
     }

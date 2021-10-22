@@ -34,9 +34,11 @@ final class CocktailDetailBuilder: Builder<CocktailDetailDependency>, CocktailDe
     func build(withListener listener: CocktailDetailListener, cocktail: CocktailData) -> CocktailDetailRouting {
         let component = CocktailDetailComponent(dependency: dependency)
         let viewController = CocktailDetailViewController()
-        let interactor = CocktailDetailInteractor(presenter: viewController,
-                                                  repository: component.repository,
-                                                  cocktail: cocktail)
+        let interactor = CocktailDetailInteractor(
+            presenter: viewController,
+            repository: component.repository,
+            cocktail: cocktail
+        )
         interactor.listener = listener
         return CocktailDetailRouter(interactor: interactor, viewController: viewController)
     }
@@ -44,9 +46,11 @@ final class CocktailDetailBuilder: Builder<CocktailDetailDependency>, CocktailDe
     func build(withListener listener: CocktailDetailListener, id: String) -> CocktailDetailRouting {
         let component = CocktailDetailComponent(dependency: dependency)
         let viewController = CocktailDetailViewController()
-        let interactor = CocktailDetailInteractor(presenter: viewController,
-                                                  repository: component.repository,
-                                                  id: id)
+        let interactor = CocktailDetailInteractor(
+            presenter: viewController,
+            repository: component.repository,
+            id: id
+        )
         interactor.listener = listener
         return CocktailDetailRouter(interactor: interactor, viewController: viewController)
     }
