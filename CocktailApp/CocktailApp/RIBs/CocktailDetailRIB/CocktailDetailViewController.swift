@@ -114,7 +114,6 @@ final class CocktailDetailViewController: BaseViewController, CocktailDetailPres
         super.viewWillDisappear(animated)
         
         self.tabBarController?.tabBar.isHidden = false
-        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -128,7 +127,7 @@ final class CocktailDetailViewController: BaseViewController, CocktailDetailPres
     // MARK: - UI Methods
     
     override func setUI() {
-        self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.navigationItem.largeTitleDisplayMode = .never
         self.navigationItem.rightBarButtonItem = rightBarButton
         self.tabBarController?.tabBar.isHidden = true
         
@@ -229,7 +228,7 @@ final class CocktailDetailViewController: BaseViewController, CocktailDetailPres
             })
             .disposed(by: disposeBag)
         
-        favoriteButton.rx.tap
+        favoriteButton.rx.controlEvent(.touchUpInside)
             .bind(with: self, onNext: { owner, _ in
                 owner.listener?.toggleFavorite()
             })

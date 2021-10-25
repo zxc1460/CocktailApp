@@ -12,11 +12,11 @@ import RxRealm
 import RxSwift
 
 final class CocktailRepository {
-    private let cocktailService: CocktailProvider<CocktailAPI>
+    private let cocktailService: MoyaProvider<CocktailAPI>
     private let cocktailDAO: CocktailDAO
     
     init() {
-        self.cocktailService = CocktailProvider<CocktailAPI>()
+        self.cocktailService = MoyaProvider<CocktailAPI>()
         self.cocktailDAO = CocktailDAO()
     }
     

@@ -97,7 +97,7 @@ class UnderlineSegmentedControl: UIView {
         }
         
         let obs = buttons
-            .map { ($0.rx.tap, $0.tag) }
+            .map { ($0.rx.controlEvent(.touchUpInside), $0.tag) }
             .map { ob, tag in
                 ob.map { tag }
             }

@@ -43,6 +43,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     
     private func subscribe() {
         repository.cocktail.notifyFavoriteChanges()
+            .observe(on: MainScheduler.instance)
             .subscribe(with: self, onNext: { owner, cocktail in
                 owner.presenter.showFavoriteChangeAlert(name: cocktail.name, isFavorite: cocktail.isFavorite)
             })

@@ -14,13 +14,10 @@ struct Constant {
     let key: String
     
     private init() {
-        guard let path = Bundle.main.path(forResource: "keys", ofType: "plist") else {
-            fatalError("couldn't find file named 'keys.plist'")
-        }
-        
-        let dict = NSDictionary(contentsOfFile: path)
-        
-        guard let key = dict?.object(forKey: "apiKey") as? String else {
+        guard let path = Bundle.main.path(forResource: "keys", ofType: "plist"),
+              let dict = NSDictionary(contentsOfFile: path),
+              let key = dict.object(forKey: "apiKey") as? String
+        else {
             fatalError("couldn't find 'apiKey' in 'keys.plist'")
         }
         

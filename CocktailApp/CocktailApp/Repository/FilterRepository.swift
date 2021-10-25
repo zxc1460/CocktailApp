@@ -11,11 +11,11 @@ import RxMoya
 import RxSwift
 
 final class FilterRepository {
-    private let service: CocktailProvider<FilterAPI>
+    private let service: MoyaProvider<FilterAPI>
     private let dao: FilterDAO
     
     init() {
-        self.service = CocktailProvider<FilterAPI>()
+        self.service = MoyaProvider<FilterAPI>()
         self.dao = FilterDAO()
     }
     

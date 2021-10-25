@@ -28,7 +28,7 @@ final class MainViewController: UITabBarController {
     private let loadingView = UIActivityIndicatorView().then {
         $0.style = .large
         $0.color = .white
-        $0.backgroundColor = .black.withAlphaComponent(0.6)
+        $0.backgroundColor = .darkGray.withAlphaComponent(0.6)
         $0.hidesWhenStopped = true
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 20

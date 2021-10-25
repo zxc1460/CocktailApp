@@ -152,7 +152,7 @@ class CocktailTableViewCell: UITableViewCell {
         glassLabel.text = cocktail.glass
         isAlcoholLabel.isHidden = !cocktail.isAlcohol
         
-        favoriteButton.rx.tap
+        favoriteButton.rx.controlEvent(.touchUpInside)
             .bind(onNext: {
                 favoriteButtonAction()
             })

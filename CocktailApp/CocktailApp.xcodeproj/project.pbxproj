@@ -44,7 +44,7 @@
 		FD63823C27100C4D00698DC6 /* CommonRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD63823B27100C4D00698DC6 /* CommonRepository.swift */; };
 		FD63823E271016A400698DC6 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD63823D271016A400698DC6 /* ArrayExtension.swift */; };
 		FD6AF00B2706A01600C67E66 /* RoutingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6AF00A2706A01600C67E66 /* RoutingExtension.swift */; };
-		FD6F6494272253A4009DAB10 /* CocktailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6F6493272253A4009DAB10 /* CocktailProvider.swift */; };
+		FD6F649A27228DD0009DAB10 /* MoyaProviderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6F649927228DD0009DAB10 /* MoyaProviderExtension.swift */; };
 		FD800562270EED80001A3C60 /* FilterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD800561270EED80001A3C60 /* FilterResponse.swift */; };
 		FD800564270EEE56001A3C60 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD800563270EEE56001A3C60 /* Filter.swift */; };
 		FD82F121271E617900070E66 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD82F120271E617900070E66 /* BaseViewController.swift */; };
@@ -160,7 +160,7 @@
 		FD63823B27100C4D00698DC6 /* CommonRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonRepository.swift; sourceTree = "<group>"; };
 		FD63823D271016A400698DC6 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		FD6AF00A2706A01600C67E66 /* RoutingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingExtension.swift; sourceTree = "<group>"; };
-		FD6F6493272253A4009DAB10 /* CocktailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailProvider.swift; sourceTree = "<group>"; };
+		FD6F649927228DD0009DAB10 /* MoyaProviderExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaProviderExtension.swift; sourceTree = "<group>"; };
 		FD800561270EED80001A3C60 /* FilterResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterResponse.swift; sourceTree = "<group>"; };
 		FD800563270EEE56001A3C60 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		FD82F120271E617900070E66 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -418,7 +418,6 @@
 		FD8BC21926FD4F7000C35BE8 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				FD6F6493272253A4009DAB10 /* CocktailProvider.swift */,
 				FD8BC21D26FD500C00C35BE8 /* API */,
 			);
 			path = Network;
@@ -499,6 +498,7 @@
 				FD63823D271016A400698DC6 /* ArrayExtension.swift */,
 				FDB103FC2715260A0040D35E /* DateExtension.swift */,
 				FDE36794271D015A004B8063 /* UIViewControllerExtension.swift */,
+				FD6F649927228DD0009DAB10 /* MoyaProviderExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -789,7 +789,6 @@
 				FD82F121271E617900070E66 /* BaseViewController.swift in Sources */,
 				FD9787E22701A2860078244F /* UIImageViewExtension.swift in Sources */,
 				FD9787DC270153DF0078244F /* CocktailDetailInteractor.swift in Sources */,
-				FD6F6494272253A4009DAB10 /* CocktailProvider.swift in Sources */,
 				FDC10ADF2717F799003FF96D /* CocktailDAO.swift in Sources */,
 				FDBE85CD27055973000F8627 /* SearchNameRouter.swift in Sources */,
 				FDBE85DA270559A6000F8627 /* SearchPageComponent+.swift in Sources */,
@@ -805,6 +804,7 @@
 				FD6AF00B2706A01600C67E66 /* RoutingExtension.swift in Sources */,
 				FD9787DB270153DF0078244F /* CocktailDetailBuilder.swift in Sources */,
 				FD63823C27100C4D00698DC6 /* CommonRepository.swift in Sources */,
+				FD6F649A27228DD0009DAB10 /* MoyaProviderExtension.swift in Sources */,
 				FDBE85CF27055973000F8627 /* SearchNameBuilder.swift in Sources */,
 				FD800562270EED80001A3C60 /* FilterResponse.swift in Sources */,
 				FD88EA83270EB33D003D1118 /* SearchFilterInteractor.swift in Sources */,
@@ -958,7 +958,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1013,7 +1013,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

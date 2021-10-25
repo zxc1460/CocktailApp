@@ -130,7 +130,7 @@ class FavoriteTableViewCell: UITableViewCell {
         glassLabel.text = cocktail.glass
         thumbnailImageView.setCocktailImage(cocktail.thumbnail)
         
-        deleteButton.rx.tap
+        deleteButton.rx.controlEvent(.touchUpInside)
             .bind {
                 deleteAction()
             }
