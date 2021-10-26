@@ -109,6 +109,7 @@
 		FDE36797271D1C3C004B8063 /* FavoriteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE36796271D1C3C004B8063 /* FavoriteTableViewCell.swift */; };
 		FDE36799271D544B004B8063 /* FavoriteComponent+CocktailDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE36798271D544B004B8063 /* FavoriteComponent+CocktailDetail.swift */; };
 		FDE3679B271D5636004B8063 /* ToastLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE3679A271D5636004B8063 /* ToastLabel.swift */; };
+		FDE8731B2727AA9A009B18CF /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE8731A2727AA9A009B18CF /* UIImageExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -224,6 +225,7 @@
 		FDE36796271D1C3C004B8063 /* FavoriteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteTableViewCell.swift; sourceTree = "<group>"; };
 		FDE36798271D544B004B8063 /* FavoriteComponent+CocktailDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavoriteComponent+CocktailDetail.swift"; sourceTree = "<group>"; };
 		FDE3679A271D5636004B8063 /* ToastLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastLabel.swift; sourceTree = "<group>"; };
+		FDE8731A2727AA9A009B18CF /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -499,6 +501,7 @@
 				FDB103FC2715260A0040D35E /* DateExtension.swift */,
 				FDE36794271D015A004B8063 /* UIViewControllerExtension.swift */,
 				FD6F649927228DD0009DAB10 /* MoyaProviderExtension.swift */,
+				FDE8731A2727AA9A009B18CF /* UIImageExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -830,6 +833,7 @@
 				FD9787DE270165800078244F /* CocktailListComponent+CocktailDetail.swift in Sources */,
 				FDACFB7426FC59D100D8C683 /* Cocktail.swift in Sources */,
 				FD9787E0270186C50078244F /* ViewControllableExtension.swift in Sources */,
+				FDE8731B2727AA9A009B18CF /* UIImageExtension.swift in Sources */,
 				FDB103FB27151F250040D35E /* UserShared.swift in Sources */,
 				FD2E5AC2270FE340008AF27B /* FilterType.swift in Sources */,
 				FD8BC23826FDBBCE00C35BE8 /* UIColorExtension.swift in Sources */,

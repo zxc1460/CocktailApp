@@ -12,7 +12,7 @@ extension UIImageView {
         if let urlString = urlString, let url = URL(string: urlString) {
             self.kf.setImage(with: url)
         } else {
-            self.image = UIImage(named: "cocktail")
+            self.image = .baseThumbnailImage
         }
     }
 }

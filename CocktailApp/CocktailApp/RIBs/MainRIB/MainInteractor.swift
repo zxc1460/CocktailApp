@@ -14,6 +14,7 @@ protocol MainRouting: ViewableRouting {
 
 protocol MainPresentable: Presentable {
     var listener: MainPresentableListener? { get set }
+    
     func showFavoriteChangeAlert(name: String, isFavorite: Bool)
     func startLoadingView()
     func stopLoadingView()

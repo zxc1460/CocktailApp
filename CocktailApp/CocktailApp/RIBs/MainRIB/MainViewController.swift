@@ -84,13 +84,13 @@ extension MainViewController: MainViewControllable {
         switch type {
         case .list:
             item.title = "리스트"
-            item.image = UIImage(systemName: "list.bullet.rectangle")
+            item.image = .listTabImage
         case .search:
             item.title = "검색"
-            item.image = UIImage(systemName: "magnifyingglass")
+            item.image = .searchTabImage
         case .favorite:
             item.title = "즐겨찾기"
-            item.image = UIImage(systemName: "star.fill")
+            item.image = .favoriteTabImage
         }
         
         item.tag = type.rawValue

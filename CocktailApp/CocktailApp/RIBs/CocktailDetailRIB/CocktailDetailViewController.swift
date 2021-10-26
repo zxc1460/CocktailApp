@@ -96,8 +96,8 @@ final class CocktailDetailViewController: BaseViewController, CocktailDetailPres
     
     
     private let favoriteButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "heart"), for: .normal)
-        $0.setImage(UIImage(systemName: "heart.fill"), for: .selected)
+        $0.setImage(.favoriteButtonImage, for: .normal)
+        $0.setImage(.favoriteButtonSelectedImage, for: .selected)
         $0.tintColor = .systemRed
         $0.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
     }
@@ -241,13 +241,11 @@ final class CocktailDetailViewController: BaseViewController, CocktailDetailPres
                 owner.ingredientTableView.contentsHeight = height
             })
             .disposed(by: disposeBag)
-    }
-    
-    override func subscribe() {
+        
         listener?.cocktailRelay
+            .asDriver()
             .compactMap { $0 }
-            .withUnretained(self)
-            .subscribe(onNext: { owner, cocktail in
+            .drive(with: self, onNext: { owner, cocktail in
                 owner.configureUI(by: cocktail)
             })
             .disposed(by: disposeBag)

@@ -66,8 +66,8 @@ class CocktailTableViewCell: UITableViewCell {
     }
     
     private let favoriteButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "heart"), for: .normal)
-        $0.setImage(UIImage(systemName: "heart.fill"), for: .selected)
+        $0.setImage(.favoriteButtonImage, for: .normal)
+        $0.setImage(.favoriteButtonSelectedImage, for: .selected)
         $0.tintColor = .systemRed
     }
     

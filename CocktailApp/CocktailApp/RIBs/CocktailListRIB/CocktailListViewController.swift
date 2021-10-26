@@ -59,7 +59,7 @@ final class CocktailListViewController: BaseViewController, CocktailListPresenta
         }
         
         tableView.snp.makeConstraints {
-            $0.top.equalTo(segmentedControl.snp.bottom).offset(10)
+            $0.top.equalTo(segmentedControl.snp.bottom).offset(2)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
