@@ -34,7 +34,7 @@ final class CocktailRepository {
         return cocktailService.rx.request(.search(name: name))
             .asObservable()
             .map(CocktailResponse.self)
-            .compactMap { $0.data }
+            .map { $0.data ?? [] }
     }
     
     // API 호출로 가져온 칵테일 값들이 DB에 저장된지 확인하고 저장이 안 되어 있으면 저장 후 DB 모델 배열로 반환

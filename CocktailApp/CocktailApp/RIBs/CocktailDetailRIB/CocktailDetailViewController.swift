@@ -249,6 +249,14 @@ final class CocktailDetailViewController: BaseViewController, CocktailDetailPres
                 owner.configureUI(by: cocktail)
             })
             .disposed(by: disposeBag)
+        
+        listener?.cocktailRelay
+            .compactMap { $0 }
+            .take(1)
+            .bind(with: self, onNext: { owner, cocktail in
+                owner.driveFavorite(cocktail: cocktail)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func configureUI(by cocktail: CocktailData) {
@@ -261,7 +269,9 @@ final class CocktailDetailViewController: BaseViewController, CocktailDetailPres
         tagListView.removeAllTags()
         tagListView.addTags(Array(cocktail.tags))
         isAlcoholLabel.isHidden = !cocktail.isAlcohol
-        
+    }
+    
+    private func driveFavorite(cocktail: CocktailData) {
         cocktail.isFavoriteChanged
             .asDriver(onErrorJustReturn: false)
             .drive(favoriteButton.rx.isSelected)
